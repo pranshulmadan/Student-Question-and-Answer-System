@@ -5,5 +5,5 @@
 // 4. Create a password
 // 5. Registration window closes
 // 6. Log in using that username/password
-// 7. AdminGUI opens */
+// 7. AdminGUI opens
 

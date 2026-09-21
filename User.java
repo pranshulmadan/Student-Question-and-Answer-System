@@ -1,6 +1,10 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class User {
+public class User implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     private String username;
     private String password;
     private ArrayList<Role> roles;
@@ -8,7 +12,7 @@ public class User {
     public User(String username, String password) {
         this.username = username;
         this.password = password;
-        this.roles = new ArrayList<>();
+        this.roles = new ArrayList<Role>();
     }
 
     public String getUsername() {
@@ -30,6 +34,6 @@ public class User {
     }
 
     public ArrayList<Role> getRoles() {
-        return roles;
+        return new ArrayList<Role>(roles);
     }
 }

@@ -11,8 +11,7 @@ public class UserManager {
 
     private ArrayList<User> users;
 
-    private static final String FILE_NAME =
-        "C:\\Users\\pedro\\Documents\\GitHub\\Student-Question-and-Answer-System\\users.dat";
+    private static final String FILE_NAME = "users.dat";
 
     // Constructor
     public UserManager() {

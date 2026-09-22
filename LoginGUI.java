@@ -197,16 +197,20 @@ public class LoginGUI {
                     return;
                 }
 
-frame.dispose();
+        frame.dispose();
 
-if (selectedRole == Role.ADMIN) {
+        if (selectedRole == Role.ADMIN) {
 
-    new AdminGUI(user, userManager);
+            new AdminGUI(user, userManager);
 
-} else {
+        } else if (selectedRole == Role.STUDENT) {
 
-    showHomeScreen(user, selectedRole, userManager);
-}
+            new StudentGUI(user, userManager);
+
+        } else {
+
+            showHomeScreen(user, selectedRole, userManager);
+        }
             }
         });
 

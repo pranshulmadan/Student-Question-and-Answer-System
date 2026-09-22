@@ -8,3 +8,5 @@
 // 7. AdminGUI opens
 // Login Admin: Miguel
 // Password: Password
+// Login Student: Test
+//Password: Test

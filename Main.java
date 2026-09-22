@@ -4,6 +4,6 @@ public class Main {
 
         UserManager userManager = new UserManager();
 
-        new LoginGUI(userManager);
+        LoginGUI.showLogin(userManager);
     }
 }

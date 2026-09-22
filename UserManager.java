@@ -1,24 +1,111 @@
+
 import java.util.ArrayList;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.IOException;
-import java.io.FileNotFoundException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class UserManager {
 
     private ArrayList<User> users;
 
-    private static final String FILE_NAME = "users.dat";
+    private static final String FILE_NAME = "users.txt";
 
-    // Constructor
+    private static final Path FILE_PATH = findProjectFolder()
+            .resolve(FILE_NAME);
+
     public UserManager() {
 
         users = new ArrayList<User>();
 
+        System.out.println("User database: " + FILE_PATH);
+
         loadUsers();
+    }
+
+    // Find the GitHub project folder
+    private static Path findProjectFolder() {
+
+        // Use an explicit project folder if provided
+        String projectFolder =
+                System.getProperty("studentqa.projectDir");
+
+        if (projectFolder != null && !projectFolder.isEmpty()) {
+            return Paths.get(projectFolder).toAbsolutePath();
+        }
+
+        // Search from the current working directory
+        Path current = Paths.get("")
+                .toAbsolutePath()
+                .normalize();
+
+        Path found = searchForRepository(current);
+
+        if (found != null) {
+            return found;
+        }
+
+        // Search from the compiled class location
+        try {
+
+            Path classLocation = Paths.get(
+                    UserManager.class.getProtectionDomain()
+                            .getCodeSource()
+                            .getLocation()
+                            .toURI()
+            );
+
+            Path directory = Files.isDirectory(classLocation)
+                    ? classLocation
+                    : classLocation.getParent();
+
+            found = searchForRepository(directory);
+
+            if (found != null) {
+                return found;
+            }
+
+        } catch (Exception e) {
+
+            System.out.println(
+                    "Could not determine class location: "
+                    + e.getMessage()
+            );
+        }
+
+        throw new IllegalStateException(
+                "Could not locate the Student Question "
+                + "and Answer System repository. "
+                + "Open the project folder in VS Code "
+                + "and run the project from that folder."
+        );
+    }
+
+    // Search parent directories for the project
+    private static Path searchForRepository(Path directory) {
+
+        while (directory != null) {
+
+            boolean hasGit = Files.exists(
+                    directory.resolve(".git")
+            );
+
+            boolean hasUserManager = Files.exists(
+                    directory.resolve("UserManager.java")
+            );
+
+            boolean hasMain = Files.exists(
+                    directory.resolve("Main.java")
+            );
+
+            if (hasGit && hasUserManager && hasMain) {
+                return directory;
+            }
+
+            directory = directory.getParent();
+        }
+
+        return null;
     }
 
     // Register a new user
@@ -27,31 +114,42 @@ public class UserManager {
         if (username == null || username.trim().isEmpty()
                 || password == null || password.isEmpty()) {
 
-            System.out.println("Username and password cannot be empty.");
             return null;
         }
 
-        // Check if username already exists
+        username = username.trim();
+
+        // Prevent delimiter characters in usernames
+        if (username.contains("|")
+                || username.contains("\n")
+                || username.contains("\r")) {
+
+            return null;
+        }
+
+        // Check for duplicate usernames
         for (User user : users) {
 
             if (user.getUsername().equals(username)) {
-
-                System.out.println("Username already exists.");
                 return null;
             }
         }
 
         User newUser = new User(username, password);
 
-        // First user automatically becomes admin
+        // First user becomes admin
         if (users.isEmpty()) {
 
             newUser.addRole(Role.ADMIN);
+
+        } else {
+
+            // Temporary student registration for testing
+            newUser.addRole(Role.STUDENT);
         }
 
         users.add(newUser);
 
-        // Save users whenever a new account is created
         saveUsers();
 
         return newUser;
@@ -59,6 +157,10 @@ public class UserManager {
 
     // Login
     public User login(String username, String password) {
+
+        if (username == null || password == null) {
+            return null;
+        }
 
         for (User user : users) {
 
@@ -72,65 +174,144 @@ public class UserManager {
         return null;
     }
 
-    // Get all users
-    public ArrayList<User> getUsers() {
+    // Assign a role to an existing user
+    public boolean addRoleToUser(String username, Role role) {
 
+        for (User user : users) {
+
+            if (user.getUsername().equals(username)) {
+
+                user.addRole(role);
+
+                saveUsers();
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public ArrayList<User> getUsers() {
         return new ArrayList<User>(users);
     }
 
-    // Save users to file
+    // Save users as readable text
     private void saveUsers() {
 
-        try {
+        try (BufferedWriter writer =
+                Files.newBufferedWriter(FILE_PATH)) {
 
-            ObjectOutputStream output =
-                    new ObjectOutputStream(
-                            new FileOutputStream(FILE_NAME)
-                    );
+            for (User user : users) {
 
-            output.writeObject(users);
+                String roles = "";
 
-            output.close();
+                for (Role role : user.getRoles()) {
 
-            System.out.println("Users saved successfully.");
+                    if (!roles.isEmpty()) {
+                        roles += ",";
+                    }
+
+                    roles += role.name();
+                }
+
+                writer.write(
+                        user.getUsername()
+                        + "|"
+                        + user.getPasswordHash()
+                        + "|"
+                        + roles
+                );
+
+                writer.newLine();
+            }
+
+            System.out.println("Users saved to: " + FILE_PATH);
 
         } catch (IOException e) {
 
-            System.out.println("Error saving users: " + e.getMessage());
+            System.out.println(
+                    "Error saving users: " + e.getMessage()
+            );
         }
     }
 
-    // Load users from file
+    // Load users from the text file
     private void loadUsers() {
 
-        File file = new File(FILE_NAME);
+        if (!Files.exists(FILE_PATH)) {
 
-        // No saved file exists yet
-        if (!file.exists()) {
-
-            System.out.println("No saved users found.");
+            System.out.println(
+                    "No saved users found. Starting fresh."
+            );
 
             return;
         }
 
-        try {
+        try (BufferedReader reader =
+                Files.newBufferedReader(FILE_PATH)) {
 
-            ObjectInputStream input =
-                    new ObjectInputStream(
-                            new FileInputStream(FILE_NAME)
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+
+                if (line.trim().isEmpty()) {
+                    continue;
+                }
+
+                String[] parts = line.split("\\|", -1);
+
+                if (parts.length != 3) {
+
+                    System.out.println(
+                            "Skipping invalid user record."
                     );
 
-            Object savedData = input.readObject();
+                    continue;
+                }
 
-            input.close();
+                String username = parts[0];
+                String passwordHash = parts[1];
 
-            users = (ArrayList<User>) savedData;
+                ArrayList<Role> roles =
+                        new ArrayList<Role>();
 
-            System.out.println("Users loaded successfully.");
+                String[] roleNames = parts[2].split(",");
 
-        } catch (IOException | ClassNotFoundException e) {
+                for (String roleName : roleNames) {
 
-            System.out.println("Error loading users: " + e.getMessage());
+                    try {
+
+                        roles.add(
+                                Role.valueOf(roleName.trim())
+                        );
+
+                    } catch (IllegalArgumentException e) {
+
+                        System.out.println(
+                                "Unknown role: " + roleName
+                        );
+                    }
+                }
+
+                User user = User.fromSavedData(
+                        username,
+                        passwordHash,
+                        roles
+                );
+
+                users.add(user);
+            }
+
+            System.out.println(
+                    "Loaded " + users.size() + " users."
+            );
+
+        } catch (IOException e) {
+
+            throw new IllegalStateException(
+                    "Could not load user database.", e
+            );
         }
     }
 }

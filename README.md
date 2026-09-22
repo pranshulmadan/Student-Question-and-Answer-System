@@ -6,4 +6,5 @@
 // 5. Registration window closes
 // 6. Log in using that username/password
 // 7. AdminGUI opens
-
+// Login Admin: Miguel
+// Password: Password

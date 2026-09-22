@@ -90,6 +90,11 @@ public class User {
             roles.add(role);
         }
     }
+    
+    public void removeRole(Role role) {
+
+        roles.remove(role);
+    }
 
     public boolean hasRole(Role role) {
         return roles.contains(role);

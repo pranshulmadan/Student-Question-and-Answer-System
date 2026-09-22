@@ -191,6 +191,108 @@ public class UserManager {
 
         return false;
     }
+    
+public boolean removeUser(User admin, String username) {
+
+    // Only an existing admin can remove users
+    if (admin == null || !users.contains(admin)
+            || !admin.hasRole(Role.ADMIN)) {
+        return false;
+    }
+
+    for (User user : users) {
+
+        if (user.getUsername().equals(username)) {
+
+            // Prevent the admin from deleting their own account
+            if (user == admin) {
+                return false;
+            }
+
+            // Prevent deleting the last administrator
+            if (user.hasRole(Role.ADMIN)) {
+
+                int adminCount = 0;
+
+                for (User currentUser : users) {
+                    if (currentUser.hasRole(Role.ADMIN)) {
+                        adminCount++;
+                    }
+                }
+
+                if (adminCount <= 1) {
+                    return false;
+                }
+            }
+
+            users.remove(user);
+
+            // Save changes to users.txt
+            saveUsers();
+
+            return true;
+        }
+    }
+
+    return false;
+}
+
+    
+public boolean removeRoleFromUser(
+        User admin, String username, Role role) {
+
+    // Only an existing admin can remove roles
+    if (admin == null || !users.contains(admin)
+            || !admin.hasRole(Role.ADMIN)) {
+        return false;
+    }
+
+    for (User user : users) {
+
+        if (user.getUsername().equals(username)) {
+
+            // Check that the user has this role
+            if (!user.hasRole(role)) {
+                return false;
+            }
+
+            // Prevent an admin from removing their own ADMIN role
+            if (user == admin && role == Role.ADMIN) {
+                return false;
+            }
+
+            // Prevent removing the last role from an account
+            if (user.getRoles().size() <= 1) {
+                return false;
+            }
+
+            // Prevent removing the last administrator
+            if (role == Role.ADMIN) {
+
+                int adminCount = 0;
+
+                for (User currentUser : users) {
+                    if (currentUser.hasRole(Role.ADMIN)) {
+                        adminCount++;
+                    }
+                }
+
+                if (adminCount <= 1) {
+                    return false;
+                }
+            }
+
+            user.removeRole(role);
+
+            // Save the updated roles
+            saveUsers();
+
+            return true;
+        }
+    }
+
+    return false;
+}
 
     public ArrayList<User> getUsers() {
         return new ArrayList<User>(users);

@@ -281,6 +281,198 @@ public class LoginGUI {
                     }
                 }
             });
+
+            
+JButton removeUserButton = new JButton("Remove User");
+
+JButton removeRoleButton = new JButton("Remove Role");
+
+panel.add(removeRoleButton);
+
+removeRoleButton.addActionListener(new ActionListener() {
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+        // Get all registered users
+        java.util.ArrayList<User> users =
+                userManager.getUsers();
+
+        String[] usernames = new String[users.size()];
+
+        for (int i = 0; i < users.size(); i++) {
+            usernames[i] = users.get(i).getUsername();
+        }
+
+        // Select the user
+        String selectedUsername = (String)
+                JOptionPane.showInputDialog(
+                        homeFrame,
+                        "Select a user:",
+                        "Remove Role",
+                        JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        usernames,
+                        usernames[0]
+                );
+
+        if (selectedUsername == null) {
+            return;
+        }
+
+        // Find the selected user
+        User selectedUser = null;
+
+        for (User currentUser : users) {
+
+            if (currentUser.getUsername()
+                    .equals(selectedUsername)) {
+
+                selectedUser = currentUser;
+                break;
+            }
+        }
+
+        if (selectedUser == null) {
+            return;
+        }
+
+        // Display only roles the user currently has
+        java.util.ArrayList<Role> roles =
+                selectedUser.getRoles();
+
+        if (roles.isEmpty()) {
+
+            JOptionPane.showMessageDialog(
+                    homeFrame,
+                    "This user has no assigned roles."
+            );
+
+            return;
+        }
+
+        Role selectedRole = (Role)
+                JOptionPane.showInputDialog(
+                        homeFrame,
+                        "Select a role to remove:",
+                        "Remove Role",
+                        JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        roles.toArray(),
+                        roles.get(0)
+                );
+
+        if (selectedRole == null) {
+            return;
+        }
+
+        // Confirm role removal
+        int confirm = JOptionPane.showConfirmDialog(
+                homeFrame,
+                "Remove " + selectedRole
+                        + " from " + selectedUsername + "?",
+                "Confirm Role Removal",
+                JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirm != JOptionPane.YES_OPTION) {
+            return;
+        }
+
+        boolean success = userManager.removeRoleFromUser(
+                user,
+                selectedUsername,
+                selectedRole
+        );
+
+        if (success) {
+
+            JOptionPane.showMessageDialog(
+                    homeFrame,
+                    "Role removed successfully!"
+            );
+
+        } else {
+
+            JOptionPane.showMessageDialog(
+                    homeFrame,
+                    "Unable to remove role.\n"
+                    + "A user must have at least one role, "
+                    + "and the last ADMIN role "
+                    + "cannot be removed."
+            );
+        }
+    }
+});
+panel.add(removeUserButton);
+
+removeUserButton.addActionListener(new ActionListener() {
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+        // Get the usernames of all registered users
+        java.util.ArrayList<User> users =
+                userManager.getUsers();
+
+        String[] usernames = new String[users.size()];
+
+        for (int i = 0; i < users.size(); i++) {
+            usernames[i] = users.get(i).getUsername();
+        }
+
+        // Let the admin select an account
+        String selectedUsername = (String)
+                JOptionPane.showInputDialog(
+                        homeFrame,
+                        "Select a user to remove:",
+                        "Remove User",
+                        JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        usernames,
+                        usernames[0]
+                );
+
+        if (selectedUsername == null) {
+            return;
+        }
+
+        // Ask for confirmation
+        int confirm = JOptionPane.showConfirmDialog(
+                homeFrame,
+                "Are you sure you want to remove "
+                        + selectedUsername + "?",
+                "Confirm Removal",
+                JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirm != JOptionPane.YES_OPTION) {
+            return;
+        }
+
+        boolean success = userManager.removeUser(
+                user,
+                selectedUsername
+        );
+
+        if (success) {
+
+            JOptionPane.showMessageDialog(
+                    homeFrame,
+                    "User removed successfully!"
+            );
+
+        } else {
+
+            JOptionPane.showMessageDialog(
+                    homeFrame,
+                    "Unable to remove user.\n"
+                    + "You cannot delete your own account "
+                    + "or the last administrator."
+            );
+        }
+    }
+});
         }
 
         // Logout

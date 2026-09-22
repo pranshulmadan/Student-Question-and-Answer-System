@@ -1,150 +1,177 @@
 
-import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 public class LoginGUI {
+
+    private static final Color BLUE = new Color(23, 101, 209);
+    private static final Color DARK = new Color(20, 44, 82);
+    private static final Color GRAY = new Color(96, 114, 139);
+    private static final Color BACKGROUND = new Color(244, 247, 252);
 
     public static void main(String[] args) {
 
         UserManager userManager = new UserManager();
 
-        showLogin(userManager);
+        SwingUtilities.invokeLater(() -> showLogin(userManager));
     }
 
     public static void showLogin(UserManager userManager) {
 
-        JFrame frame = new JFrame(
-                "Student Question and Answer System"
-        );
-
-        frame.setSize(400, 300);
+        JFrame frame = new JFrame("Student Q&A System");
+        frame.setSize(450, 570);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
+        frame.setResizable(false);
 
-        JPanel panel = new JPanel();
-        frame.add(panel);
+        JPanel mainPanel = new JPanel(new GridBagLayout());
+        mainPanel.setBackground(BACKGROUND);
+        frame.add(mainPanel);
+
+        // Centered login card
+        JPanel card = new JPanel();
+        card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
+        card.setBackground(Color.WHITE);
+        card.setBorder(new EmptyBorder(30, 35, 30, 35));
+        card.setPreferredSize(new Dimension(370, 465));
+
+        mainPanel.add(card);
+
+        // Book icon
+        JLabel iconLabel = new JLabel("\uD83D\uDCD6");
+        iconLabel.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 38));
+        iconLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        card.add(iconLabel);
+
+        card.add(Box.createVerticalStrut(10));
+
+        // Title
+        JLabel title = new JLabel("Student Q&A System");
+        title.setFont(new Font("SansSerif", Font.BOLD, 23));
+        title.setForeground(DARK);
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        card.add(title);
+
+        card.add(Box.createVerticalStrut(8));
+
+        JLabel subtitle = new JLabel("Sign in to continue");
+        subtitle.setFont(new Font("SansSerif", Font.PLAIN, 13));
+        subtitle.setForeground(GRAY);
+        subtitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+        card.add(subtitle);
+
+        card.add(Box.createVerticalStrut(30));
 
         // Username
-        JLabel usernameLabel = new JLabel("Username:");
-        panel.add(usernameLabel);
+        JLabel usernameLabel = new JLabel("Username");
+        usernameLabel.setFont(new Font("SansSerif", Font.PLAIN, 13));
+        usernameLabel.setForeground(DARK);
+        usernameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        card.add(usernameLabel);
 
-        JTextField usernameField = new JTextField(15);
-        panel.add(usernameField);
+        card.add(Box.createVerticalStrut(6));
+
+        JTextField usernameField = new JTextField();
+        usernameField.setMaximumSize(new Dimension(300, 38));
+        usernameField.setPreferredSize(new Dimension(300, 38));
+        usernameField.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        usernameField.setHorizontalAlignment(JTextField.CENTER);
+        usernameField.setAlignmentX(Component.CENTER_ALIGNMENT);
+        card.add(usernameField);
+
+        card.add(Box.createVerticalStrut(18));
 
         // Password
-        JLabel passwordLabel = new JLabel("Password:");
-        panel.add(passwordLabel);
+        JLabel passwordLabel = new JLabel("Password");
+        passwordLabel.setFont(new Font("SansSerif", Font.PLAIN, 13));
+        passwordLabel.setForeground(DARK);
+        passwordLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        card.add(passwordLabel);
 
-        JPasswordField passwordField = new JPasswordField(15);
-        panel.add(passwordField);
+        card.add(Box.createVerticalStrut(6));
+
+        JPasswordField passwordField = new JPasswordField();
+        passwordField.setMaximumSize(new Dimension(300, 38));
+        passwordField.setPreferredSize(new Dimension(300, 38));
+        passwordField.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        passwordField.setHorizontalAlignment(JTextField.CENTER);
+        passwordField.setAlignmentX(Component.CENTER_ALIGNMENT);
+        card.add(passwordField);
+
+        card.add(Box.createVerticalStrut(25));
 
         // Login button
         JButton loginButton = new JButton("Login");
-        panel.add(loginButton);
+        loginButton.setFont(new Font("SansSerif", Font.BOLD, 14));
+        loginButton.setForeground(Color.WHITE);
+        loginButton.setBackground(BLUE);
+        loginButton.setOpaque(true);
+        loginButton.setBorderPainted(false);
+        loginButton.setFocusPainted(false);
+        loginButton.setMaximumSize(new Dimension(300, 42));
+        loginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        card.add(loginButton);
+
+        card.add(Box.createVerticalStrut(12));
 
         // Register button
-        JButton registerButton = new JButton("Register");
-        panel.add(registerButton);
+        JButton registerButton = new JButton(
+                "Don't have an account? Register"
+        );
 
-        // Message label
-        JLabel messageLabel = new JLabel("");
-        panel.add(messageLabel);
+        registerButton.setForeground(BLUE);
+        registerButton.setBackground(Color.WHITE);
+        registerButton.setBorderPainted(false);
+        registerButton.setFocusPainted(false);
+        registerButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        card.add(registerButton);
 
-        // REGISTER BUTTON
-        registerButton.addActionListener(new ActionListener() {
+        card.add(Box.createVerticalStrut(18));
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        JLabel footer = new JLabel("Ask  \u2022  Learn  \u2022  Share");
+        footer.setFont(new Font("SansSerif", Font.PLAIN, 12));
+        footer.setForeground(GRAY);
+        footer.setAlignmentX(Component.CENTER_ALIGNMENT);
+        card.add(footer);
 
-                JTextField newUsername = new JTextField();
-                JPasswordField newPassword =
-                        new JPasswordField();
-
-                Object[] fields = {
-                        "Username:", newUsername,
-                        "Password:", newPassword
-                };
-
-                int result = JOptionPane.showConfirmDialog(
-                        frame,
-                        fields,
-                        "Register Account",
-                        JOptionPane.OK_CANCEL_OPTION
-                );
-
-                if (result == JOptionPane.OK_OPTION) {
-
-                    String username = newUsername.getText();
-                    String password =
-                            new String(newPassword.getPassword());
-
-                    User newUser = userManager.registerUser(
-                            username,
-                            password
-                    );
-
-                    if (newUser != null) {
-
-                        JOptionPane.showMessageDialog(
-                                frame,
-                                "Account created!\n"
-                                + "Assigned role: "
-                                + newUser.getRoles()
-                                + "\nPlease log in."
-                        );
-
-                    } else {
-
-                        JOptionPane.showMessageDialog(
-                                frame,
-                                "Registration failed.\n"
-                                + "Check your username and password."
-                        );
-                    }
-                }
-            }
-        });
-
-        // LOGIN BUTTON
+        // LOGIN BUTTON ACTION
         loginButton.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                String username = usernameField.getText();
-
+                String username = usernameField.getText().trim();
                 String password =
                         new String(passwordField.getPassword());
 
-                User user = userManager.login(
-                        username,
-                        password
-                );
+                User user = userManager.login(username, password);
 
                 if (user == null) {
 
-                    messageLabel.setText(
-                            "Invalid username or password."
+                    JOptionPane.showMessageDialog(
+                            frame,
+                            "Invalid username or password.",
+                            "Login Failed",
+                            JOptionPane.ERROR_MESSAGE
                     );
 
                     return;
                 }
 
-                // Get all roles assigned to the user
-                java.util.ArrayList<Role> roles =
-                        user.getRoles();
-
+                ArrayList<Role> roles = user.getRoles();
                 Role selectedRole;
 
-                // Automatically select role if user has one
+                // Automatically select the user's only role
                 if (roles.size() == 1) {
 
                     selectedRole = roles.get(0);
 
                 } else if (roles.size() > 1) {
 
-                    // Let user choose their role
                     selectedRole = (Role)
                             JOptionPane.showInputDialog(
                                     frame,
@@ -170,54 +197,175 @@ public class LoginGUI {
                     return;
                 }
 
-                // Show selected role
-                JOptionPane.showMessageDialog(
-                        frame,
-                        "Welcome, " + user.getUsername()
-                        + "!\nYou are logged in as: "
-                        + selectedRole
-                );
+frame.dispose();
 
-                // Open temporary role home screen
-                showHomeScreen(
-                        user,
-                        selectedRole,
-                        userManager,
-                        frame
-                );
+if (selectedRole == Role.ADMIN) {
+
+    new AdminGUI(user, userManager);
+
+} else {
+
+    showHomeScreen(user, selectedRole, userManager);
+}
             }
         });
+
+        // REGISTER BUTTON ACTION
+        registerButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                showRegister(userManager, frame);
+            }
+        });
+
+        // Press Enter to log in
+        frame.getRootPane().setDefaultButton(loginButton);
 
         frame.setVisible(true);
     }
 
-    // Temporary home screen for testing roles
-    private static void showHomeScreen(
-            User user,
-            Role role,
-            UserManager userManager,
-            JFrame loginFrame) {
+    // Registration window
+    private static void showRegister(
+            UserManager userManager, JFrame loginFrame) {
 
-        loginFrame.setVisible(false);
-
-        JFrame homeFrame = new JFrame(role + " Home");
-
-        homeFrame.setSize(400, 300);
-        homeFrame.setDefaultCloseOperation(
-                JFrame.EXIT_ON_CLOSE
+        JDialog dialog = new JDialog(
+                loginFrame, "Create Account", true
         );
 
+        dialog.setSize(400, 380);
+        dialog.setLocationRelativeTo(loginFrame);
+        dialog.setResizable(false);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setBorder(new EmptyBorder(25, 35, 25, 35));
+        panel.setBackground(Color.WHITE);
+
+        dialog.add(panel);
+
+        JLabel title = new JLabel("Create Account");
+        title.setFont(new Font("SansSerif", Font.BOLD, 22));
+        title.setForeground(DARK);
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel.add(title);
+
+        panel.add(Box.createVerticalStrut(25));
+
+        // Username
+        JLabel usernameLabel = new JLabel("Username");
+        usernameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel.add(usernameLabel);
+
+        panel.add(Box.createVerticalStrut(6));
+
+        JTextField usernameField = new JTextField();
+        usernameField.setMaximumSize(new Dimension(300, 38));
+        usernameField.setPreferredSize(new Dimension(300, 38));
+        usernameField.setHorizontalAlignment(JTextField.CENTER);
+        usernameField.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel.add(usernameField);
+
+        panel.add(Box.createVerticalStrut(15));
+
+        // Password
+        JLabel passwordLabel = new JLabel("Password");
+        passwordLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel.add(passwordLabel);
+
+        panel.add(Box.createVerticalStrut(6));
+
+        JPasswordField passwordField = new JPasswordField();
+        passwordField.setMaximumSize(new Dimension(300, 38));
+        passwordField.setPreferredSize(new Dimension(300, 38));
+        passwordField.setHorizontalAlignment(JTextField.CENTER);
+        passwordField.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel.add(passwordField);
+
+        panel.add(Box.createVerticalStrut(25));
+
+        JButton createButton = new JButton("Create Account");
+        createButton.setBackground(BLUE);
+        createButton.setForeground(Color.WHITE);
+        createButton.setOpaque(true);
+        createButton.setBorderPainted(false);
+        createButton.setFocusPainted(false);
+        createButton.setMaximumSize(new Dimension(300, 42));
+        createButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel.add(createButton);
+
+        createButton.addActionListener(e -> {
+
+            String username = usernameField.getText().trim();
+            String password =
+                    new String(passwordField.getPassword());
+
+            User newUser = userManager.registerUser(
+                    username, password
+            );
+
+            if (newUser != null) {
+
+                JOptionPane.showMessageDialog(
+                        dialog,
+                        "Account created successfully!\n"
+                        + "Assigned role: " + newUser.getRoles()
+                        + "\nPlease log in."
+                );
+
+                dialog.dispose();
+
+            } else {
+
+                JOptionPane.showMessageDialog(
+                        dialog,
+                        "Registration failed.\n"
+                        + "Check the username and password.",
+                        "Registration Failed",
+                        JOptionPane.ERROR_MESSAGE
+                );
+            }
+        });
+
+        dialog.getRootPane().setDefaultButton(createButton);
+
+        dialog.setVisible(true);
+    }
+
+    // Temporary role home screen
+    private static void showHomeScreen(
+            User user, Role role, UserManager userManager) {
+
+        JFrame homeFrame = new JFrame(role + " Home");
+        homeFrame.setSize(450, 350);
+        homeFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         homeFrame.setLocationRelativeTo(null);
 
         JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setBackground(BACKGROUND);
+        panel.setBorder(new EmptyBorder(40, 50, 40, 50));
+
         homeFrame.add(panel);
 
         JLabel welcomeLabel = new JLabel(
                 "Welcome, " + user.getUsername()
-                + " | Role: " + role
         );
 
+        welcomeLabel.setFont(new Font("SansSerif", Font.BOLD, 22));
+        welcomeLabel.setForeground(DARK);
+        welcomeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.add(welcomeLabel);
+
+        panel.add(Box.createVerticalStrut(10));
+
+        JLabel roleLabel = new JLabel("Role: " + role);
+        roleLabel.setForeground(GRAY);
+        roleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel.add(roleLabel);
+
+        panel.add(Box.createVerticalStrut(25));
 
         // Admin-only role assignment
         if (role == Role.ADMIN) {
@@ -225,269 +373,59 @@ public class LoginGUI {
             JButton assignRoleButton =
                     new JButton("Assign User Role");
 
+            assignRoleButton.setAlignmentX(Component.CENTER_ALIGNMENT);
             panel.add(assignRoleButton);
 
-            assignRoleButton.addActionListener(
-                    new ActionListener() {
+            assignRoleButton.addActionListener(e -> {
 
-                @Override
-                public void actionPerformed(ActionEvent e) {
+                String username = JOptionPane.showInputDialog(
+                        homeFrame,
+                        "Enter the username:"
+                );
 
-                    String username =
-                            JOptionPane.showInputDialog(
-                                    homeFrame,
-                                    "Enter the username:"
-                            );
-
-                    if (username == null
-                            || username.trim().isEmpty()) {
-                        return;
-                    }
-
-                    Role selectedRole = (Role)
-                            JOptionPane.showInputDialog(
-                                    homeFrame,
-                                    "Select a role to assign:",
-                                    "Assign Role",
-                                    JOptionPane.QUESTION_MESSAGE,
-                                    null,
-                                    Role.values(),
-                                    Role.STUDENT
-                            );
-
-                    if (selectedRole == null) {
-                        return;
-                    }
-
-                    boolean success =
-                            userManager.addRoleToUser(
-                                    username,
-                                    selectedRole
-                            );
-
-                    if (success) {
-
-                        JOptionPane.showMessageDialog(
-                                homeFrame,
-                                "Role assigned successfully!"
-                        );
-
-                    } else {
-
-                        JOptionPane.showMessageDialog(
-                                homeFrame,
-                                "User not found."
-                        );
-                    }
+                if (username == null || username.trim().isEmpty()) {
+                    return;
                 }
+
+                Role newRole = (Role)
+                        JOptionPane.showInputDialog(
+                                homeFrame,
+                                "Select a role to assign:",
+                                "Assign Role",
+                                JOptionPane.QUESTION_MESSAGE,
+                                null,
+                                Role.values(),
+                                Role.STUDENT
+                        );
+
+                if (newRole == null) {
+                    return;
+                }
+
+                boolean success = userManager.addRoleToUser(
+                        username.trim(), newRole
+                );
+
+                JOptionPane.showMessageDialog(
+                        homeFrame,
+                        success
+                                ? "Role assigned successfully!"
+                                : "User not found."
+                );
             });
-
-            
-JButton removeUserButton = new JButton("Remove User");
-
-JButton removeRoleButton = new JButton("Remove Role");
-
-panel.add(removeRoleButton);
-
-removeRoleButton.addActionListener(new ActionListener() {
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
-        // Get all registered users
-        java.util.ArrayList<User> users =
-                userManager.getUsers();
-
-        String[] usernames = new String[users.size()];
-
-        for (int i = 0; i < users.size(); i++) {
-            usernames[i] = users.get(i).getUsername();
         }
 
-        // Select the user
-        String selectedUsername = (String)
-                JOptionPane.showInputDialog(
-                        homeFrame,
-                        "Select a user:",
-                        "Remove Role",
-                        JOptionPane.QUESTION_MESSAGE,
-                        null,
-                        usernames,
-                        usernames[0]
-                );
+        panel.add(Box.createVerticalStrut(20));
 
-        if (selectedUsername == null) {
-            return;
-        }
-
-        // Find the selected user
-        User selectedUser = null;
-
-        for (User currentUser : users) {
-
-            if (currentUser.getUsername()
-                    .equals(selectedUsername)) {
-
-                selectedUser = currentUser;
-                break;
-            }
-        }
-
-        if (selectedUser == null) {
-            return;
-        }
-
-        // Display only roles the user currently has
-        java.util.ArrayList<Role> roles =
-                selectedUser.getRoles();
-
-        if (roles.isEmpty()) {
-
-            JOptionPane.showMessageDialog(
-                    homeFrame,
-                    "This user has no assigned roles."
-            );
-
-            return;
-        }
-
-        Role selectedRole = (Role)
-                JOptionPane.showInputDialog(
-                        homeFrame,
-                        "Select a role to remove:",
-                        "Remove Role",
-                        JOptionPane.QUESTION_MESSAGE,
-                        null,
-                        roles.toArray(),
-                        roles.get(0)
-                );
-
-        if (selectedRole == null) {
-            return;
-        }
-
-        // Confirm role removal
-        int confirm = JOptionPane.showConfirmDialog(
-                homeFrame,
-                "Remove " + selectedRole
-                        + " from " + selectedUsername + "?",
-                "Confirm Role Removal",
-                JOptionPane.YES_NO_OPTION
-        );
-
-        if (confirm != JOptionPane.YES_OPTION) {
-            return;
-        }
-
-        boolean success = userManager.removeRoleFromUser(
-                user,
-                selectedUsername,
-                selectedRole
-        );
-
-        if (success) {
-
-            JOptionPane.showMessageDialog(
-                    homeFrame,
-                    "Role removed successfully!"
-            );
-
-        } else {
-
-            JOptionPane.showMessageDialog(
-                    homeFrame,
-                    "Unable to remove role.\n"
-                    + "A user must have at least one role, "
-                    + "and the last ADMIN role "
-                    + "cannot be removed."
-            );
-        }
-    }
-});
-panel.add(removeUserButton);
-
-removeUserButton.addActionListener(new ActionListener() {
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
-        // Get the usernames of all registered users
-        java.util.ArrayList<User> users =
-                userManager.getUsers();
-
-        String[] usernames = new String[users.size()];
-
-        for (int i = 0; i < users.size(); i++) {
-            usernames[i] = users.get(i).getUsername();
-        }
-
-        // Let the admin select an account
-        String selectedUsername = (String)
-                JOptionPane.showInputDialog(
-                        homeFrame,
-                        "Select a user to remove:",
-                        "Remove User",
-                        JOptionPane.QUESTION_MESSAGE,
-                        null,
-                        usernames,
-                        usernames[0]
-                );
-
-        if (selectedUsername == null) {
-            return;
-        }
-
-        // Ask for confirmation
-        int confirm = JOptionPane.showConfirmDialog(
-                homeFrame,
-                "Are you sure you want to remove "
-                        + selectedUsername + "?",
-                "Confirm Removal",
-                JOptionPane.YES_NO_OPTION
-        );
-
-        if (confirm != JOptionPane.YES_OPTION) {
-            return;
-        }
-
-        boolean success = userManager.removeUser(
-                user,
-                selectedUsername
-        );
-
-        if (success) {
-
-            JOptionPane.showMessageDialog(
-                    homeFrame,
-                    "User removed successfully!"
-            );
-
-        } else {
-
-            JOptionPane.showMessageDialog(
-                    homeFrame,
-                    "Unable to remove user.\n"
-                    + "You cannot delete your own account "
-                    + "or the last administrator."
-            );
-        }
-    }
-});
-        }
-
-        // Logout
         JButton logoutButton = new JButton("Logout");
+        logoutButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.add(logoutButton);
 
-        logoutButton.addActionListener(new ActionListener() {
+        logoutButton.addActionListener(e -> {
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
+            homeFrame.dispose();
 
-                homeFrame.dispose();
-
-                loginFrame.setVisible(true);
-            }
+            showLogin(userManager);
         });
 
         homeFrame.setVisible(true);

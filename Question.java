@@ -7,19 +7,26 @@ public class Question {
     private String description;
     private String author;
     private boolean resolved;
+    private int acceptedAnswerId;
 
     private ArrayList<Answer> answers;
 
-    public Question(int questionId, String title,
-                    String description, String author) {
+    public Question(
+            int questionId,
+            String title,
+            String description,
+            String author) {
 
         this.questionId = questionId;
         this.title = title;
         this.description = description;
         this.author = author;
-        this.resolved = false;
 
-        this.answers = new ArrayList<Answer>();
+        this.resolved = false;
+        this.acceptedAnswerId = -1;
+
+        this.answers =
+                new ArrayList<Answer>();
     }
 
     public int getQuestionId() {
@@ -42,20 +49,46 @@ public class Question {
         return resolved;
     }
 
-    public void setResolved(boolean resolved) {
+    public void setResolved(
+            boolean resolved) {
+
         this.resolved = resolved;
     }
 
-    public void addAnswer(Answer answer) {
+    public int getAcceptedAnswerId() {
+        return acceptedAnswerId;
+    }
+
+    public void setAcceptedAnswerId(
+            int acceptedAnswerId) {
+
+        this.acceptedAnswerId =
+                acceptedAnswerId;
+    }
+
+    public boolean hasAcceptedAnswer() {
+        return acceptedAnswerId != -1;
+    }
+
+    public void addAnswer(
+            Answer answer) {
+
         answers.add(answer);
     }
 
     public ArrayList<Answer> getAnswers() {
-        return new ArrayList<Answer>(answers);
+
+        return new ArrayList<Answer>(
+                answers
+        );
     }
 
     @Override
     public String toString() {
-        return "#" + questionId + " - " + title;
+
+        return "#"
+                + questionId
+                + " - "
+                + title;
     }
 }

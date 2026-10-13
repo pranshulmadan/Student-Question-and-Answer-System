@@ -83,10 +83,6 @@ public class StudentGUI {
                 )
         );
 
-        /*
-         * App title
-         */
-
         JLabel systemTitle =
                 new JLabel(
                         "Student Q&A"
@@ -113,10 +109,6 @@ public class StudentGUI {
         sidebar.add(
                 Box.createVerticalStrut(8)
         );
-
-        /*
-         * Student Portal label
-         */
 
         JLabel studentLabel =
                 new JLabel(
@@ -150,7 +142,7 @@ public class StudentGUI {
         );
 
         /*
-         * Sidebar Buttons
+         * SIDEBAR BUTTONS
          */
 
         JButton askQuestionButton =
@@ -173,50 +165,47 @@ public class StudentGUI {
                         "Unresolved Questions"
                 );
 
+        JButton markSolvedButton =
+                createSidebarButton(
+                        "Mark Solved"
+                );
+
         JButton logoutButton =
                 createSidebarButton(
                         "Logout"
                 );
 
-        sidebar.add(
-                askQuestionButton
-        );
+        sidebar.add(askQuestionButton);
 
         sidebar.add(
                 Box.createVerticalStrut(12)
         );
 
-        sidebar.add(
-                viewQuestionsButton
-        );
+        sidebar.add(viewQuestionsButton);
 
         sidebar.add(
                 Box.createVerticalStrut(12)
         );
 
-        sidebar.add(
-                addAnswerButton
-        );
+        sidebar.add(addAnswerButton);
 
         sidebar.add(
                 Box.createVerticalStrut(12)
         );
 
+        sidebar.add(unresolvedButton);
+
         sidebar.add(
-                unresolvedButton
+                Box.createVerticalStrut(12)
         );
 
-        /*
-         * Push Logout to bottom
-         */
+        sidebar.add(markSolvedButton);
 
         sidebar.add(
                 Box.createVerticalGlue()
         );
 
-        sidebar.add(
-                logoutButton
-        );
+        sidebar.add(logoutButton);
 
         /*
          * RIGHT CONTENT AREA
@@ -245,10 +234,6 @@ public class StudentGUI {
                 )
         );
 
-        /*
-         * Dashboard title
-         */
-
         JLabel title =
                 new JLabel(
                         "Student Dashboard"
@@ -274,10 +259,6 @@ public class StudentGUI {
                 Box.createVerticalStrut(8)
         );
 
-        /*
-         * Welcome label
-         */
-
         JLabel welcomeLabel =
                 new JLabel(
                         "Welcome back, "
@@ -292,7 +273,9 @@ public class StudentGUI {
                 )
         );
 
-        welcomeLabel.setForeground(GRAY);
+        welcomeLabel.setForeground(
+                GRAY
+        );
 
         welcomeLabel.setAlignmentX(
                 Component.LEFT_ALIGNMENT
@@ -307,7 +290,7 @@ public class StudentGUI {
         );
 
         /*
-         * Dashboard Card
+         * DASHBOARD CARD
          */
 
         JPanel card =
@@ -349,17 +332,13 @@ public class StudentGUI {
         card.setMaximumSize(
                 new Dimension(
                         540,
-                        290
+                        300
                 )
         );
 
         card.setAlignmentX(
                 Component.LEFT_ALIGNMENT
         );
-
-        /*
-         * Card title
-         */
 
         JLabel cardTitle =
                 new JLabel(
@@ -385,10 +364,6 @@ public class StudentGUI {
         card.add(
                 Box.createVerticalStrut(10)
         );
-
-        /*
-         * Card description
-         */
 
         JLabel description =
                 new JLabel(
@@ -420,10 +395,6 @@ public class StudentGUI {
         card.add(
                 Box.createVerticalStrut(25)
         );
-
-        /*
-         * Available tools
-         */
 
         JLabel toolsTitle =
                 new JLabel(
@@ -459,7 +430,8 @@ public class StudentGUI {
                         + "• Find potentially related questions<br>"
                         + "• View questions and answers<br>"
                         + "• Submit potential answers<br>"
-                        + "• View unresolved questions"
+                        + "• View unresolved questions<br>"
+                        + "• Mark your question solved"
                         + "</html>"
                 );
 
@@ -518,8 +490,12 @@ public class StudentGUI {
 
         unresolvedButton
                 .addActionListener(
-                        e ->
-                                viewUnresolvedQuestions()
+                        e -> viewUnresolvedQuestions()
+                );
+
+        markSolvedButton
+                .addActionListener(
+                        e -> markQuestionSolved()
                 );
 
         logoutButton
@@ -538,7 +514,7 @@ public class StudentGUI {
     }
 
     /*
-     * SIDEBAR BUTTON DESIGN
+     * SIDEBAR BUTTON
      */
 
     private JButton createSidebarButton(
@@ -596,1784 +572,1529 @@ public class StudentGUI {
      * ASK QUESTION
      */
 
-private void askQuestion() {
-
-    JFrame askFrame =
-            new JFrame("Ask a Question");
-
-    askFrame.setSize(700, 520);
-    askFrame.setLocationRelativeTo(frame);
-
-    askFrame.setDefaultCloseOperation(
-            JFrame.DISPOSE_ON_CLOSE
-    );
-
-    askFrame.setResizable(false);
-
-    JPanel mainPanel =
-            new JPanel();
-
-    mainPanel.setLayout(
-            new BoxLayout(
-                    mainPanel,
-                    BoxLayout.Y_AXIS
-            )
-    );
-
-    mainPanel.setBackground(
-            BACKGROUND
-    );
-
-    mainPanel.setBorder(
-            new EmptyBorder(
-                    30,
-                    45,
-                    30,
-                    45
-            )
-    );
-
-    askFrame.add(mainPanel);
-
-    /*
-     * TITLE
-     */
-
-    JLabel titleLabel =
-            new JLabel(
-                    "Ask a Question"
-            );
-
-    titleLabel.setFont(
-            new Font(
-                    "SansSerif",
-                    Font.BOLD,
-                    26
-            )
-    );
-
-    titleLabel.setForeground(
-            DARK
-    );
-
-    titleLabel.setAlignmentX(
-            Component.LEFT_ALIGNMENT
-    );
-
-    mainPanel.add(
-            titleLabel
-    );
-
-    mainPanel.add(
-            Box.createVerticalStrut(5)
-    );
-
-    JLabel subtitleLabel =
-            new JLabel(
-                    "Describe what you need help with."
-            );
-
-    subtitleLabel.setFont(
-            new Font(
-                    "SansSerif",
-                    Font.PLAIN,
-                    14
-            )
-    );
-
-    subtitleLabel.setForeground(
-            GRAY
-    );
-
-    subtitleLabel.setAlignmentX(
-            Component.LEFT_ALIGNMENT
-    );
-
-    mainPanel.add(
-            subtitleLabel
-    );
-
-    mainPanel.add(
-            Box.createVerticalStrut(25)
-    );
-
-    /*
-     * QUESTION TITLE
-     */
-
-    JLabel questionTitleLabel =
-            new JLabel(
-                    "Question Title"
-            );
-
-    questionTitleLabel.setFont(
-            new Font(
-                    "SansSerif",
-                    Font.BOLD,
-                    14
-            )
-    );
-
-    questionTitleLabel.setForeground(
-            DARK
-    );
-
-    questionTitleLabel.setAlignmentX(
-            Component.LEFT_ALIGNMENT
-    );
-
-    mainPanel.add(
-            questionTitleLabel
-    );
-
-    mainPanel.add(
-            Box.createVerticalStrut(7)
-    );
-
-    JTextField titleField =
-            new JTextField();
-
-    titleField.setFont(
-            new Font(
-                    "SansSerif",
-                    Font.PLAIN,
-                    14
-            )
-    );
-
-    titleField.setMaximumSize(
-            new Dimension(
-                    Integer.MAX_VALUE,
-                    40
-            )
-    );
-
-    titleField.setAlignmentX(
-            Component.LEFT_ALIGNMENT
-    );
-
-    mainPanel.add(
-            titleField
-    );
-
-    mainPanel.add(
-            Box.createVerticalStrut(20)
-    );
-
-    /*
-     * DESCRIPTION
-     */
-
-    JLabel descriptionLabel =
-            new JLabel(
-                    "Question Description"
-            );
-
-    descriptionLabel.setFont(
-            new Font(
-                    "SansSerif",
-                    Font.BOLD,
-                    14
-            )
-    );
-
-    descriptionLabel.setForeground(
-            DARK
-    );
-
-    descriptionLabel.setAlignmentX(
-            Component.LEFT_ALIGNMENT
-    );
-
-    mainPanel.add(
-            descriptionLabel
-    );
-
-    mainPanel.add(
-            Box.createVerticalStrut(7)
-    );
-
-    JTextArea descriptionArea =
-            new JTextArea();
-
-    descriptionArea.setFont(
-            new Font(
-                    "SansSerif",
-                    Font.PLAIN,
-                    14
-            )
-    );
-
-    descriptionArea.setLineWrap(true);
-
-    descriptionArea.setWrapStyleWord(true);
-
-    descriptionArea.setBorder(
-            new EmptyBorder(
-                    8,
-                    8,
-                    8,
-                    8
-            )
-    );
-
-    JScrollPane descriptionScroll =
-            new JScrollPane(
-                    descriptionArea
-            );
-
-    descriptionScroll.setPreferredSize(
-            new Dimension(
-                    600,
-                    170
-            )
-    );
-
-    descriptionScroll.setMaximumSize(
-            new Dimension(
-                    Integer.MAX_VALUE,
-                    170
-            )
-    );
-
-    descriptionScroll.setAlignmentX(
-            Component.LEFT_ALIGNMENT
-    );
-
-    mainPanel.add(
-            descriptionScroll
-    );
-
-    mainPanel.add(
-            Box.createVerticalStrut(25)
-    );
-
-    /*
-     * BUTTON PANEL
-     */
-
-    JPanel buttonPanel =
-            new JPanel(
-                    new FlowLayout(
-                            FlowLayout.RIGHT
-                    )
-            );
-
-    buttonPanel.setBackground(
-            BACKGROUND
-    );
-
-    buttonPanel.setMaximumSize(
-            new Dimension(
-                    Integer.MAX_VALUE,
-                    50
-            )
-    );
-
-    buttonPanel.setAlignmentX(
-            Component.LEFT_ALIGNMENT
-    );
-
-    JButton cancelButton =
-            new JButton("Cancel");
-
-    cancelButton.setFont(
-            new Font(
-                    "SansSerif",
-                    Font.BOLD,
-                    14
-            )
-    );
-
-    cancelButton.setPreferredSize(
-            new Dimension(
-                    110,
-                    40
-            )
-    );
-
-    cancelButton.setFocusPainted(false);
-
-    JButton submitButton =
-            new JButton(
-                    "Submit Question"
-            );
-
-    submitButton.setFont(
-            new Font(
-                    "SansSerif",
-                    Font.BOLD,
-                    14
-            )
-    );
-
-    submitButton.setBackground(
-            BLUE
-    );
-
-    submitButton.setForeground(
-            Color.WHITE
-    );
-
-    submitButton.setFocusPainted(
-            false
-    );
-
-    submitButton.setBorderPainted(
-            false
-    );
-
-    submitButton.setPreferredSize(
-            new Dimension(
-                    160,
-                    40
-            )
-    );
-
-    buttonPanel.add(
-            cancelButton
-    );
-
-    buttonPanel.add(
-            submitButton
-    );
-
-    mainPanel.add(
-            buttonPanel
-    );
-
-    /*
-     * CANCEL
-     */
-
-    cancelButton.addActionListener(e -> {
-
-        askFrame.dispose();
-    });
-
-    /*
-     * SUBMIT QUESTION
-     */
-
-    submitButton.addActionListener(e -> {
-
-        String title =
+    private void askQuestion() {
+
+        JFrame askFrame =
+                new JFrame(
+                        "Ask a Question"
+                );
+
+        askFrame.setSize(
+                700,
+                520
+        );
+
+        askFrame.setLocationRelativeTo(
+                frame
+        );
+
+        askFrame.setDefaultCloseOperation(
+                JFrame.DISPOSE_ON_CLOSE
+        );
+
+        askFrame.setResizable(false);
+
+        JPanel mainPanel =
+                new JPanel();
+
+        mainPanel.setLayout(
+                new BoxLayout(
+                        mainPanel,
+                        BoxLayout.Y_AXIS
+                )
+        );
+
+        mainPanel.setBackground(
+                BACKGROUND
+        );
+
+        mainPanel.setBorder(
+                new EmptyBorder(
+                        30,
+                        45,
+                        30,
+                        45
+                )
+        );
+
+        askFrame.add(
+                mainPanel
+        );
+
+        JLabel titleLabel =
+                new JLabel(
+                        "Ask a Question"
+                );
+
+        titleLabel.setFont(
+                new Font(
+                        "SansSerif",
+                        Font.BOLD,
+                        26
+                )
+        );
+
+        titleLabel.setForeground(
+                DARK
+        );
+
+        titleLabel.setAlignmentX(
+                Component.LEFT_ALIGNMENT
+        );
+
+        mainPanel.add(
+                titleLabel
+        );
+
+        mainPanel.add(
+                Box.createVerticalStrut(5)
+        );
+
+        JLabel subtitleLabel =
+                new JLabel(
+                        "Describe what you need help with."
+                );
+
+        subtitleLabel.setFont(
+                new Font(
+                        "SansSerif",
+                        Font.PLAIN,
+                        14
+                )
+        );
+
+        subtitleLabel.setForeground(
+                GRAY
+        );
+
+        subtitleLabel.setAlignmentX(
+                Component.LEFT_ALIGNMENT
+        );
+
+        mainPanel.add(
+                subtitleLabel
+        );
+
+        mainPanel.add(
+                Box.createVerticalStrut(25)
+        );
+
+        JLabel questionTitleLabel =
+                new JLabel(
+                        "Question Title"
+                );
+
+        questionTitleLabel.setFont(
+                new Font(
+                        "SansSerif",
+                        Font.BOLD,
+                        14
+                )
+        );
+
+        questionTitleLabel.setForeground(
+                DARK
+        );
+
+        questionTitleLabel.setAlignmentX(
+                Component.LEFT_ALIGNMENT
+        );
+
+        mainPanel.add(
+                questionTitleLabel
+        );
+
+        mainPanel.add(
+                Box.createVerticalStrut(7)
+        );
+
+        JTextField titleField =
+                new JTextField();
+
+        titleField.setFont(
+                new Font(
+                        "SansSerif",
+                        Font.PLAIN,
+                        14
+                )
+        );
+
+        titleField.setMaximumSize(
+                new Dimension(
+                        Integer.MAX_VALUE,
+                        40
+                )
+        );
+
+        titleField.setAlignmentX(
+                Component.LEFT_ALIGNMENT
+        );
+
+        mainPanel.add(
                 titleField
-                        .getText()
-                        .trim();
+        );
 
-        String description =
-                descriptionArea
-                        .getText()
-                        .trim();
+        mainPanel.add(
+                Box.createVerticalStrut(20)
+        );
 
-        /*
-         * Validate fields
-         */
-
-        if (title.isEmpty()
-                || description.isEmpty()) {
-
-            JOptionPane.showMessageDialog(
-                    askFrame,
-                    "Please enter a title "
-                    + "and description.",
-                    "Missing Information",
-                    JOptionPane.WARNING_MESSAGE
-            );
-
-            return;
-        }
-
-        /*
-         * FIND RELATED QUESTIONS
-         */
-
-        ArrayList<Question> relatedQuestions =
-                questionManager
-                        .findRelatedQuestions(
-                                title,
-                                description
-                        );
-
-        if (!relatedQuestions.isEmpty()) {
-
-            StringBuilder relatedText =
-                    new StringBuilder();
-
-            relatedText.append(
-                    "Similar questions may already exist:\n\n"
-            );
-
-            for (Question related :
-                    relatedQuestions) {
-
-                relatedText.append("#")
-                        .append(
-                                related
-                                        .getQuestionId()
-                        )
-                        .append(" - ")
-                        .append(
-                                related
-                                        .getTitle()
-                        )
-                        .append("\n");
-
-                relatedText.append(
-                        related
-                                .getDescription()
+        JLabel descriptionLabel =
+                new JLabel(
+                        "Question Description"
                 );
 
-                relatedText.append(
-                        "\n\n"
+        descriptionLabel.setFont(
+                new Font(
+                        "SansSerif",
+                        Font.BOLD,
+                        14
+                )
+        );
+
+        descriptionLabel.setForeground(
+                DARK
+        );
+
+        descriptionLabel.setAlignmentX(
+                Component.LEFT_ALIGNMENT
+        );
+
+        mainPanel.add(
+                descriptionLabel
+        );
+
+        mainPanel.add(
+                Box.createVerticalStrut(7)
+        );
+
+        JTextArea descriptionArea =
+                new JTextArea();
+
+        descriptionArea.setFont(
+                new Font(
+                        "SansSerif",
+                        Font.PLAIN,
+                        14
+                )
+        );
+
+        descriptionArea.setLineWrap(true);
+        descriptionArea.setWrapStyleWord(true);
+
+        descriptionArea.setBorder(
+                new EmptyBorder(
+                        8,
+                        8,
+                        8,
+                        8
+                )
+        );
+
+        JScrollPane descriptionScroll =
+                new JScrollPane(
+                        descriptionArea
                 );
-            }
 
-            JTextArea relatedArea =
-                    new JTextArea(
-                            relatedText
-                                    .toString(),
-                            12,
-                            35
-                    );
+        descriptionScroll.setPreferredSize(
+                new Dimension(
+                        600,
+                        170
+                )
+        );
 
-            relatedArea.setEditable(
-                    false
-            );
+        descriptionScroll.setMaximumSize(
+                new Dimension(
+                        Integer.MAX_VALUE,
+                        170
+                )
+        );
 
-            relatedArea.setLineWrap(
-                    true
-            );
+        descriptionScroll.setAlignmentX(
+                Component.LEFT_ALIGNMENT
+        );
 
-            relatedArea.setWrapStyleWord(
-                    true
-            );
+        mainPanel.add(
+                descriptionScroll
+        );
 
-            JScrollPane scrollPane =
-                    new JScrollPane(
-                            relatedArea
-                    );
+        mainPanel.add(
+                Box.createVerticalStrut(25)
+        );
 
-            int choice =
-                    JOptionPane
-                            .showConfirmDialog(
-                                    askFrame,
-                                    scrollPane,
-                                    "Related Questions Found",
-                                    JOptionPane
-                                            .YES_NO_OPTION,
-                                    JOptionPane
-                                            .INFORMATION_MESSAGE
-                            );
+        JPanel buttonPanel =
+                new JPanel(
+                        new FlowLayout(
+                                FlowLayout.RIGHT
+                        )
+                );
 
-            /*
-             * NO = do not submit
-             */
+        buttonPanel.setBackground(
+                BACKGROUND
+        );
 
-            if (choice !=
-                    JOptionPane.YES_OPTION) {
+        buttonPanel.setMaximumSize(
+                new Dimension(
+                        Integer.MAX_VALUE,
+                        50
+                )
+        );
+
+        buttonPanel.setAlignmentX(
+                Component.LEFT_ALIGNMENT
+        );
+
+        JButton cancelButton =
+                new JButton(
+                        "Cancel"
+                );
+
+        cancelButton.setPreferredSize(
+                new Dimension(
+                        110,
+                        40
+                )
+        );
+
+        JButton submitButton =
+                new JButton(
+                        "Submit Question"
+                );
+
+        submitButton.setBackground(
+                BLUE
+        );
+
+        submitButton.setForeground(
+                Color.WHITE
+        );
+
+        submitButton.setFocusPainted(false);
+        submitButton.setBorderPainted(false);
+
+        submitButton.setPreferredSize(
+                new Dimension(
+                        160,
+                        40
+                )
+        );
+
+        buttonPanel.add(
+                cancelButton
+        );
+
+        buttonPanel.add(
+                submitButton
+        );
+
+        mainPanel.add(
+                buttonPanel
+        );
+
+        cancelButton.addActionListener(
+                e -> askFrame.dispose()
+        );
+
+        submitButton.addActionListener(e -> {
+
+            String title =
+                    titleField
+                            .getText()
+                            .trim();
+
+            String description =
+                    descriptionArea
+                            .getText()
+                            .trim();
+
+            if (title.isEmpty()
+                    || description.isEmpty()) {
+
+                JOptionPane.showMessageDialog(
+                        askFrame,
+                        "Please enter a title and description.",
+                        "Missing Information",
+                        JOptionPane.WARNING_MESSAGE
+                );
 
                 return;
             }
-        }
 
-        /*
-         * ADD QUESTION
-         */
-
-        Question question =
-                questionManager
-                        .addQuestion(
-                                title,
-                                description,
-                                user.getUsername()
-                        );
-
-        if (question != null) {
-
-            JOptionPane.showMessageDialog(
-                    askFrame,
-                    "Question submitted successfully!\n\n"
-                    + "Question ID: "
-                    + question.getQuestionId(),
-                    "Question Submitted",
-                    JOptionPane.INFORMATION_MESSAGE
-            );
-
-            askFrame.dispose();
-
-        } else {
-
-            JOptionPane.showMessageDialog(
-                    askFrame,
-                    "Unable to submit question.",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE
-            );
-        }
-    });
-
-    /*
-     * Press ENTER in title field
-     * moves focus to description.
-     */
-
-    titleField.addActionListener(e -> {
-
-        descriptionArea.requestFocus();
-    });
-
-    askFrame.setVisible(true);
-
-    titleField.requestFocusInWindow();
-}
-
-    /*
-     * VIEW ALL QUESTIONS
-     */
-
-private void viewQuestions() {
-
-    ArrayList<Question> questions =
-            questionManager.getQuestions();
-
-    if (questions.isEmpty()) {
-
-        JOptionPane.showMessageDialog(
-                frame,
-                "No questions have been submitted yet."
-        );
-
-        return;
-    }
-
-    /*
-     * WINDOW
-     */
-
-    JFrame questionsFrame =
-            new JFrame("View Questions");
-
-    questionsFrame.setSize(900, 560);
-    questionsFrame.setLocationRelativeTo(frame);
-    questionsFrame.setDefaultCloseOperation(
-            JFrame.DISPOSE_ON_CLOSE
-    );
-
-    /*
-     * MAIN PANEL
-     */
-
-    JPanel mainPanel =
-            new JPanel(new BorderLayout());
-
-    mainPanel.setBackground(BACKGROUND);
-
-    questionsFrame.add(mainPanel);
-
-    /*
-     * TOP HEADER
-     */
-
-    JPanel headerPanel =
-            new JPanel();
-
-    headerPanel.setLayout(
-            new BoxLayout(
-                    headerPanel,
-                    BoxLayout.Y_AXIS
-            )
-    );
-
-    headerPanel.setBackground(BACKGROUND);
-
-    headerPanel.setBorder(
-            new EmptyBorder(
-                    25,
-                    30,
-                    20,
-                    30
-            )
-    );
-
-    JLabel title =
-            new JLabel("Browse Questions");
-
-    title.setFont(
-            new Font(
-                    "SansSerif",
-                    Font.BOLD,
-                    26
-            )
-    );
-
-    title.setForeground(DARK);
-
-    JLabel subtitle =
-            new JLabel(
-                    "Select a question to view its details and answers."
-            );
-
-    subtitle.setFont(
-            new Font(
-                    "SansSerif",
-                    Font.PLAIN,
-                    14
-            )
-    );
-
-    subtitle.setForeground(GRAY);
-
-    headerPanel.add(title);
-
-    headerPanel.add(
-            Box.createVerticalStrut(5)
-    );
-
-    headerPanel.add(subtitle);
-
-    mainPanel.add(
-            headerPanel,
-            BorderLayout.NORTH
-    );
-
-    /*
-     * LEFT QUESTION LIST
-     */
-
-    DefaultListModel<Question> listModel =
-            new DefaultListModel<Question>();
-
-    for (Question question : questions) {
-
-        listModel.addElement(question);
-    }
-
-    JList<Question> questionList =
-            new JList<Question>(listModel);
-
-    questionList.setSelectionMode(
-            ListSelectionModel
-                    .SINGLE_SELECTION
-    );
-
-    questionList.setFont(
-            new Font(
-                    "SansSerif",
-                    Font.PLAIN,
-                    14
-            )
-    );
-
-    questionList.setFixedCellHeight(38);
-
-    /*
-     * Custom display for each question
-     */
-
-    questionList.setCellRenderer(
-            new DefaultListCellRenderer() {
-
-                @Override
-                public Component
-                getListCellRendererComponent(
-                        JList<?> list,
-                        Object value,
-                        int index,
-                        boolean isSelected,
-                        boolean cellHasFocus) {
-
-                    JLabel label =
-                            (JLabel)
-                            super
-                            .getListCellRendererComponent(
-                                    list,
-                                    value,
-                                    index,
-                                    isSelected,
-                                    cellHasFocus
+            ArrayList<Question> relatedQuestions =
+                    questionManager
+                            .findRelatedQuestions(
+                                    title,
+                                    description
                             );
 
-                    Question question =
-                            (Question) value;
+            if (!relatedQuestions.isEmpty()) {
 
-                    String status =
-                            question.isResolved()
-                                    ? "Resolved"
-                                    : "Unresolved";
+                StringBuilder relatedText =
+                        new StringBuilder();
 
-                    label.setText(
-                            "#"
-                            + question
-                                    .getQuestionId()
-                            + " - "
-                            + question.getTitle()
-                            + "  ["
-                            + status
-                            + "]"
-                    );
+                relatedText.append(
+                        "Similar questions may already exist:\n\n"
+                );
 
-                    label.setBorder(
-                            new EmptyBorder(
-                                    5,
-                                    10,
-                                    5,
-                                    10
+                for (Question related :
+                        relatedQuestions) {
+
+                    relatedText.append("#")
+                            .append(
+                                    related.getQuestionId()
                             )
+                            .append(" - ")
+                            .append(
+                                    related.getTitle()
+                            )
+                            .append("\n");
+
+                    relatedText.append(
+                            related.getDescription()
                     );
 
-                    return label;
+                    relatedText.append(
+                            "\n\n"
+                    );
+                }
+
+                relatedText.append(
+                        "Would you still like to submit your question?"
+                );
+
+                JTextArea relatedArea =
+                        new JTextArea(
+                                relatedText.toString(),
+                                12,
+                                35
+                        );
+
+                relatedArea.setEditable(false);
+                relatedArea.setLineWrap(true);
+                relatedArea.setWrapStyleWord(true);
+
+                int choice =
+                        JOptionPane
+                                .showConfirmDialog(
+                                        askFrame,
+                                        new JScrollPane(
+                                                relatedArea
+                                        ),
+                                        "Related Questions Found",
+                                        JOptionPane.YES_NO_OPTION,
+                                        JOptionPane.INFORMATION_MESSAGE
+                                );
+
+                if (choice !=
+                        JOptionPane.YES_OPTION) {
+
+                    return;
                 }
             }
-    );
 
-    JScrollPane listScrollPane =
-            new JScrollPane(
-                    questionList
-            );
-
-    listScrollPane.setPreferredSize(
-            new Dimension(
-                    330,
-                    400
-            )
-    );
-
-    /*
-     * RIGHT DETAIL PANEL
-     */
-
-    JPanel detailPanel =
-            new JPanel();
-
-    detailPanel.setLayout(
-            new BoxLayout(
-                    detailPanel,
-                    BoxLayout.Y_AXIS
-            )
-    );
-
-    detailPanel.setBackground(
-            Color.WHITE
-    );
-
-    detailPanel.setBorder(
-            new EmptyBorder(
-                    25,
-                    30,
-                    25,
-                    30
-            )
-    );
-
-    JLabel questionTitleLabel =
-            new JLabel(
-                    "Select a question"
-            );
-
-    questionTitleLabel.setFont(
-            new Font(
-                    "SansSerif",
-                    Font.BOLD,
-                    22
-            )
-    );
-
-    questionTitleLabel.setForeground(
-            DARK
-    );
-
-    questionTitleLabel.setAlignmentX(
-            Component.LEFT_ALIGNMENT
-    );
-
-    JLabel authorLabel =
-            new JLabel("");
-
-    authorLabel.setFont(
-            new Font(
-                    "SansSerif",
-                    Font.PLAIN,
-                    13
-            )
-    );
-
-    authorLabel.setForeground(GRAY);
-
-    authorLabel.setAlignmentX(
-            Component.LEFT_ALIGNMENT
-    );
-
-    JLabel statusLabel =
-            new JLabel("");
-
-    statusLabel.setFont(
-            new Font(
-                    "SansSerif",
-                    Font.BOLD,
-                    13
-            )
-    );
-
-    statusLabel.setAlignmentX(
-            Component.LEFT_ALIGNMENT
-    );
-
-    JTextArea descriptionArea =
-            new JTextArea();
-
-    descriptionArea.setEditable(false);
-    descriptionArea.setLineWrap(true);
-    descriptionArea.setWrapStyleWord(true);
-
-    descriptionArea.setFont(
-            new Font(
-                    "SansSerif",
-                    Font.PLAIN,
-                    14
-            )
-    );
-
-    descriptionArea.setBackground(
-            Color.WHITE
-    );
-
-    descriptionArea.setBorder(
-            BorderFactory.createTitledBorder(
-                    "Description"
-            )
-    );
-
-    descriptionArea.setRows(6);
-
-    JScrollPane descriptionScroll =
-            new JScrollPane(
-                    descriptionArea
-            );
-
-    descriptionScroll.setAlignmentX(
-            Component.LEFT_ALIGNMENT
-    );
-
-    /*
-     * Answers area
-     */
-
-    JTextArea answersArea =
-            new JTextArea();
-
-    answersArea.setEditable(false);
-    answersArea.setLineWrap(true);
-    answersArea.setWrapStyleWord(true);
-
-    answersArea.setFont(
-            new Font(
-                    "SansSerif",
-                    Font.PLAIN,
-                    14
-            )
-    );
-
-    answersArea.setBackground(
-            Color.WHITE
-    );
-
-    answersArea.setBorder(
-            BorderFactory.createTitledBorder(
-                    "Potential Answers"
-            )
-    );
-
-    JScrollPane answersScroll =
-            new JScrollPane(
-                    answersArea
-            );
-
-    answersScroll.setAlignmentX(
-            Component.LEFT_ALIGNMENT
-    );
-
-    /*
-     * Add components to detail panel
-     */
-
-    detailPanel.add(
-            questionTitleLabel
-    );
-
-    detailPanel.add(
-            Box.createVerticalStrut(8)
-    );
-
-    detailPanel.add(authorLabel);
-
-    detailPanel.add(
-            Box.createVerticalStrut(5)
-    );
-
-    detailPanel.add(statusLabel);
-
-    detailPanel.add(
-            Box.createVerticalStrut(15)
-    );
-
-    detailPanel.add(
-            descriptionScroll
-    );
-
-    detailPanel.add(
-            Box.createVerticalStrut(15)
-    );
-
-    detailPanel.add(
-            answersScroll
-    );
-
-    /*
-     * SPLIT PANE
-     */
-
-    JSplitPane splitPane =
-            new JSplitPane(
-                    JSplitPane
-                            .HORIZONTAL_SPLIT,
-                    listScrollPane,
-                    detailPanel
-            );
-
-    splitPane.setDividerLocation(330);
-
-    splitPane.setResizeWeight(0.35);
-
-    splitPane.setBorder(null);
-
-    mainPanel.add(
-            splitPane,
-            BorderLayout.CENTER
-    );
-
-    /*
-     * BOTTOM CLOSE BUTTON
-     */
-
-    JPanel bottomPanel =
-            new JPanel(
-                    new FlowLayout(
-                            FlowLayout.RIGHT
-                    )
-            );
-
-    bottomPanel.setBackground(
-            BACKGROUND
-    );
-
-    bottomPanel.setBorder(
-            new EmptyBorder(
-                    10,
-                    20,
-                    15,
-                    20
-            )
-    );
-
-    JButton closeButton =
-            new JButton("Close");
-
-    closeButton.setFont(
-            new Font(
-                    "SansSerif",
-                    Font.BOLD,
-                    14
-            )
-    );
-
-    closeButton.setBackground(BLUE);
-    closeButton.setForeground(Color.WHITE);
-
-    closeButton.setFocusPainted(false);
-    closeButton.setBorderPainted(false);
-
-    closeButton.setPreferredSize(
-            new Dimension(
-                    100,
-                    38
-            )
-    );
-
-    bottomPanel.add(closeButton);
-
-    mainPanel.add(
-            bottomPanel,
-            BorderLayout.SOUTH
-    );
-
-    /*
-     * QUESTION SELECTION
-     */
-
-    questionList.addListSelectionListener(e -> {
-
-        if (e.getValueIsAdjusting()) {
-            return;
-        }
-
-        Question selectedQuestion =
-                questionList
-                        .getSelectedValue();
-
-        if (selectedQuestion == null) {
-            return;
-        }
-
-        questionTitleLabel.setText(
-                "#"
-                + selectedQuestion
-                        .getQuestionId()
-                + " - "
-                + selectedQuestion
-                        .getTitle()
-        );
-
-        authorLabel.setText(
-                "Asked by: "
-                + selectedQuestion
-                        .getAuthor()
-        );
-
-        if (selectedQuestion
-                .isResolved()) {
-
-            statusLabel.setText(
-                    "Status: Resolved"
-            );
-
-            statusLabel.setForeground(
-                    new Color(
-                            40,
-                            140,
-                            80
-                    )
-            );
-
-        } else {
-
-            statusLabel.setText(
-                    "Status: Unresolved"
-            );
-
-            statusLabel.setForeground(
-                    new Color(
-                            190,
-                            80,
-                            60
-                    )
-            );
-        }
-
-        descriptionArea.setText(
-                selectedQuestion
-                        .getDescription()
-        );
-
-        StringBuilder answers =
-                new StringBuilder();
-
-        if (selectedQuestion
-                .getAnswers()
-                .isEmpty()) {
-
-            answers.append(
-                    "No answers yet."
-            );
-
-        } else {
-
-            int answerNumber = 1;
-
-            for (Answer answer :
-                    selectedQuestion
-                            .getAnswers()) {
-
-                answers.append(
-                        answerNumber
+            Question question =
+                    questionManager
+                            .addQuestion(
+                                    title,
+                                    description,
+                                    user.getUsername()
+                            );
+
+            if (question != null) {
+
+                JOptionPane.showMessageDialog(
+                        askFrame,
+                        "Question submitted successfully!\n\n"
+                        + "Question ID: "
+                        + question.getQuestionId(),
+                        "Question Submitted",
+                        JOptionPane.INFORMATION_MESSAGE
                 );
 
-                answers.append(
-                        ". "
-                );
+                askFrame.dispose();
 
-                answers.append(
-                        answer
-                                .getDescription()
-                );
+            } else {
 
-                answers.append(
-                        "\n"
+                JOptionPane.showMessageDialog(
+                        askFrame,
+                        "Unable to submit question.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE
                 );
-
-                answers.append(
-                        "   By: "
-                );
-
-                answers.append(
-                        answer
-                                .getAuthor()
-                );
-
-                answers.append(
-                        "\n\n"
-                );
-
-                answerNumber++;
             }
-        }
+        });
 
-        answersArea.setText(
-                answers.toString()
+        titleField.addActionListener(e ->
+                descriptionArea.requestFocus()
         );
 
-        descriptionArea
-                .setCaretPosition(0);
+        askFrame.setVisible(true);
 
-        answersArea
-                .setCaretPosition(0);
-    });
-
-    /*
-     * CLOSE BUTTON
-     */
-
-    closeButton.addActionListener(e -> {
-
-        questionsFrame.dispose();
-    });
-
-    /*
-     * Automatically select first question
-     */
-
-    if (!questions.isEmpty()) {
-
-        questionList
-                .setSelectedIndex(0);
+        titleField.requestFocusInWindow();
     }
 
-    questionsFrame.setVisible(true);
-}
+    /*
+     * VIEW QUESTIONS
+     */
+
+    private void viewQuestions() {
+
+        ArrayList<Question> questions =
+                questionManager.getQuestions();
+
+        if (questions.isEmpty()) {
+
+            JOptionPane.showMessageDialog(
+                    frame,
+                    "No questions have been submitted yet."
+            );
+
+            return;
+        }
+
+        JFrame questionsFrame =
+                new JFrame(
+                        "View Questions"
+                );
+
+        questionsFrame.setSize(
+                900,
+                560
+        );
+
+        questionsFrame.setLocationRelativeTo(
+                frame
+        );
+
+        questionsFrame.setDefaultCloseOperation(
+                JFrame.DISPOSE_ON_CLOSE
+        );
+
+        JPanel mainPanel =
+                new JPanel(
+                        new BorderLayout()
+                );
+
+        mainPanel.setBackground(
+                BACKGROUND
+        );
+
+        questionsFrame.add(
+                mainPanel
+        );
+
+        JPanel headerPanel =
+                new JPanel();
+
+        headerPanel.setLayout(
+                new BoxLayout(
+                        headerPanel,
+                        BoxLayout.Y_AXIS
+                )
+        );
+
+        headerPanel.setBackground(
+                BACKGROUND
+        );
+
+        headerPanel.setBorder(
+                new EmptyBorder(
+                        25,
+                        30,
+                        20,
+                        30
+                )
+        );
+
+        JLabel title =
+                new JLabel(
+                        "Browse Questions"
+                );
+
+        title.setFont(
+                new Font(
+                        "SansSerif",
+                        Font.BOLD,
+                        26
+                )
+        );
+
+        title.setForeground(
+                DARK
+        );
+
+        JLabel subtitle =
+                new JLabel(
+                        "Select a question to view its details and answers."
+                );
+
+        subtitle.setForeground(
+                GRAY
+        );
+
+        headerPanel.add(title);
+
+        headerPanel.add(
+                Box.createVerticalStrut(5)
+        );
+
+        headerPanel.add(subtitle);
+
+        mainPanel.add(
+                headerPanel,
+                BorderLayout.NORTH
+        );
+
+        DefaultListModel<Question> listModel =
+                new DefaultListModel<>();
+
+        for (Question question :
+                questions) {
+
+            listModel.addElement(
+                    question
+            );
+        }
+
+        JList<Question> questionList =
+                new JList<>(
+                        listModel
+                );
+
+        questionList.setSelectionMode(
+                ListSelectionModel
+                        .SINGLE_SELECTION
+        );
+
+        questionList.setFixedCellHeight(
+                38
+        );
+
+        questionList.setCellRenderer(
+                new DefaultListCellRenderer() {
+
+                    @Override
+                    public Component
+                    getListCellRendererComponent(
+                            JList<?> list,
+                            Object value,
+                            int index,
+                            boolean isSelected,
+                            boolean cellHasFocus) {
+
+                        JLabel label =
+                                (JLabel)
+                                super
+                                .getListCellRendererComponent(
+                                        list,
+                                        value,
+                                        index,
+                                        isSelected,
+                                        cellHasFocus
+                                );
+
+                        Question question =
+                                (Question)
+                                value;
+
+                        String status =
+                                question.isResolved()
+                                        ? "Resolved"
+                                        : "Unresolved";
+
+                        label.setText(
+                                "#"
+                                + question.getQuestionId()
+                                + " - "
+                                + question.getTitle()
+                                + " ["
+                                + status
+                                + "]"
+                        );
+
+                        return label;
+                    }
+                }
+        );
+
+        JScrollPane listScrollPane =
+                new JScrollPane(
+                        questionList
+                );
+
+        listScrollPane.setPreferredSize(
+                new Dimension(
+                        330,
+                        400
+                )
+        );
+
+        JPanel detailPanel =
+                new JPanel();
+
+        detailPanel.setLayout(
+                new BoxLayout(
+                        detailPanel,
+                        BoxLayout.Y_AXIS
+                )
+        );
+
+        detailPanel.setBackground(
+                Color.WHITE
+        );
+
+        detailPanel.setBorder(
+                new EmptyBorder(
+                        25,
+                        30,
+                        25,
+                        30
+                )
+        );
+
+        JLabel questionTitleLabel =
+                new JLabel(
+                        "Select a question"
+                );
+
+        questionTitleLabel.setFont(
+                new Font(
+                        "SansSerif",
+                        Font.BOLD,
+                        22
+                )
+        );
+
+        questionTitleLabel.setForeground(
+                DARK
+        );
+
+        questionTitleLabel.setAlignmentX(
+                Component.LEFT_ALIGNMENT
+        );
+
+        JLabel authorLabel =
+                new JLabel("");
+
+        authorLabel.setForeground(
+                GRAY
+        );
+
+        authorLabel.setAlignmentX(
+                Component.LEFT_ALIGNMENT
+        );
+
+        JLabel statusLabel =
+                new JLabel("");
+
+        statusLabel.setAlignmentX(
+                Component.LEFT_ALIGNMENT
+        );
+
+        JTextArea descriptionArea =
+                new JTextArea();
+
+        descriptionArea.setEditable(false);
+        descriptionArea.setLineWrap(true);
+        descriptionArea.setWrapStyleWord(true);
+
+        descriptionArea.setBorder(
+                BorderFactory
+                        .createTitledBorder(
+                                "Description"
+                        )
+        );
+
+        JScrollPane descriptionScroll =
+                new JScrollPane(
+                        descriptionArea
+                );
+
+        descriptionScroll.setAlignmentX(
+                Component.LEFT_ALIGNMENT
+        );
+
+        JTextArea answersArea =
+                new JTextArea();
+
+        answersArea.setEditable(false);
+        answersArea.setLineWrap(true);
+        answersArea.setWrapStyleWord(true);
+
+        answersArea.setBorder(
+                BorderFactory
+                        .createTitledBorder(
+                                "Potential Answers"
+                        )
+        );
+
+        JScrollPane answersScroll =
+                new JScrollPane(
+                        answersArea
+                );
+
+        answersScroll.setAlignmentX(
+                Component.LEFT_ALIGNMENT
+        );
+
+        detailPanel.add(
+                questionTitleLabel
+        );
+
+        detailPanel.add(
+                Box.createVerticalStrut(8)
+        );
+
+        detailPanel.add(
+                authorLabel
+        );
+
+        detailPanel.add(
+                Box.createVerticalStrut(5)
+        );
+
+        detailPanel.add(
+                statusLabel
+        );
+
+        detailPanel.add(
+                Box.createVerticalStrut(15)
+        );
+
+        detailPanel.add(
+                descriptionScroll
+        );
+
+        detailPanel.add(
+                Box.createVerticalStrut(15)
+        );
+
+        detailPanel.add(
+                answersScroll
+        );
+
+        JSplitPane splitPane =
+                new JSplitPane(
+                        JSplitPane
+                                .HORIZONTAL_SPLIT,
+                        listScrollPane,
+                        detailPanel
+                );
+
+        splitPane.setDividerLocation(
+                330
+        );
+
+        mainPanel.add(
+                splitPane,
+                BorderLayout.CENTER
+        );
+
+        JPanel bottomPanel =
+                new JPanel(
+                        new FlowLayout(
+                                FlowLayout.RIGHT
+                        )
+                );
+
+        bottomPanel.setBackground(
+                BACKGROUND
+        );
+
+        JButton closeButton =
+                new JButton(
+                        "Close"
+                );
+
+        closeButton.setBackground(
+                BLUE
+        );
+
+        closeButton.setForeground(
+                Color.WHITE
+        );
+
+        closeButton.setPreferredSize(
+                new Dimension(
+                        100,
+                        38
+                )
+        );
+
+        closeButton.setFocusPainted(false);
+        closeButton.setBorderPainted(false);
+
+        bottomPanel.add(
+                closeButton
+        );
+
+        mainPanel.add(
+                bottomPanel,
+                BorderLayout.SOUTH
+        );
+
+        questionList
+                .addListSelectionListener(
+                        e -> {
+
+                            if (e.getValueIsAdjusting()) {
+                                return;
+                            }
+
+                            Question selectedQuestion =
+                                    questionList
+                                            .getSelectedValue();
+
+                            if (selectedQuestion == null) {
+                                return;
+                            }
+
+                            questionTitleLabel
+                                    .setText(
+                                            "#"
+                                            + selectedQuestion
+                                                    .getQuestionId()
+                                            + " - "
+                                            + selectedQuestion
+                                                    .getTitle()
+                                    );
+
+                            authorLabel
+                                    .setText(
+                                            "Asked by: "
+                                            + selectedQuestion
+                                                    .getAuthor()
+                                    );
+
+                            if (selectedQuestion
+                                    .isResolved()) {
+
+                                statusLabel.setText(
+                                        "Status: Resolved"
+                                );
+
+                                statusLabel.setForeground(
+                                        new Color(
+                                                40,
+                                                140,
+                                                80
+                                        )
+                                );
+
+                            } else {
+
+                                statusLabel.setText(
+                                        "Status: Unresolved"
+                                );
+
+                                statusLabel.setForeground(
+                                        new Color(
+                                                190,
+                                                80,
+                                                60
+                                        )
+                                );
+                            }
+
+                            descriptionArea.setText(
+                                    selectedQuestion
+                                            .getDescription()
+                            );
+
+                            StringBuilder answers =
+                                    new StringBuilder();
+
+                            if (selectedQuestion
+                                    .getAnswers()
+                                    .isEmpty()) {
+
+                                answers.append(
+                                        "No answers yet."
+                                );
+
+                            } else {
+
+                                int answerNumber =
+                                        1;
+
+                                for (Answer answer :
+                                        selectedQuestion
+                                                .getAnswers()) {
+
+                                    if (answer.getAnswerId()
+                                            == selectedQuestion
+                                                    .getAcceptedAnswerId()) {
+
+                                        answers.append(
+                                                "✓ ACCEPTED ANSWER\n"
+                                        );
+                                    }
+
+                                    answers.append(
+                                            answerNumber
+                                    );
+
+                                    answers.append(
+                                            ". "
+                                    );
+
+                                    answers.append(
+                                            answer.getDescription()
+                                    );
+
+                                    answers.append(
+                                            "\n   By: "
+                                    );
+
+                                    answers.append(
+                                            answer.getAuthor()
+                                    );
+
+                                    answers.append(
+                                            "\n\n"
+                                    );
+
+                                    answerNumber++;
+                                }
+                            }
+
+                            answersArea.setText(
+                                    answers.toString()
+                            );
+
+                            descriptionArea
+                                    .setCaretPosition(0);
+
+                            answersArea
+                                    .setCaretPosition(0);
+                        }
+                );
+
+        closeButton.addActionListener(
+                e -> questionsFrame.dispose()
+        );
+
+        questionList.setSelectedIndex(
+                0
+        );
+
+        questionsFrame.setVisible(
+                true
+        );
+    }
 
     /*
      * ADD ANSWER
      */
 
-private void addAnswer() {
+    private void addAnswer() {
 
-ArrayList<Question> questions =
-        questionManager.getUnresolvedQuestions();
+        ArrayList<Question> questions =
+                questionManager
+                        .getUnresolvedQuestions();
 
-if (questions.isEmpty()) {
+        if (questions.isEmpty()) {
 
-    JOptionPane.showMessageDialog(
-            frame,
-            "There are no unresolved questions to answer."
-    );
-
-    return;
-}
-
-    /*
-     * WINDOW
-     */
-
-    JFrame answerFrame =
-            new JFrame("Add Answer");
-
-    answerFrame.setSize(800, 560);
-    answerFrame.setLocationRelativeTo(frame);
-
-    answerFrame.setDefaultCloseOperation(
-            JFrame.DISPOSE_ON_CLOSE
-    );
-
-    answerFrame.setResizable(false);
-
-    JPanel mainPanel =
-            new JPanel(new BorderLayout());
-
-    mainPanel.setBackground(BACKGROUND);
-
-    answerFrame.add(mainPanel);
-
-    /*
-     * HEADER
-     */
-
-    JPanel headerPanel =
-            new JPanel();
-
-    headerPanel.setLayout(
-            new BoxLayout(
-                    headerPanel,
-                    BoxLayout.Y_AXIS
-            )
-    );
-
-    headerPanel.setBackground(BACKGROUND);
-
-    headerPanel.setBorder(
-            new EmptyBorder(
-                    25,
-                    35,
-                    20,
-                    35
-            )
-    );
-
-    JLabel title =
-            new JLabel("Add a Potential Answer");
-
-    title.setFont(
-            new Font(
-                    "SansSerif",
-                    Font.BOLD,
-                    26
-            )
-    );
-
-    title.setForeground(DARK);
-
-    JLabel subtitle =
-            new JLabel(
-                    "Select a question and submit your answer."
+            JOptionPane.showMessageDialog(
+                    frame,
+                    "There are no unresolved questions to answer."
             );
 
-    subtitle.setFont(
-            new Font(
-                    "SansSerif",
-                    Font.PLAIN,
-                    14
-            )
-    );
-
-    subtitle.setForeground(GRAY);
-
-    headerPanel.add(title);
-
-    headerPanel.add(
-            Box.createVerticalStrut(5)
-    );
-
-    headerPanel.add(subtitle);
-
-    mainPanel.add(
-            headerPanel,
-            BorderLayout.NORTH
-    );
-
-    /*
-     * CENTER PANEL
-     */
-
-    JPanel centerPanel =
-            new JPanel();
-
-    centerPanel.setLayout(
-            new BoxLayout(
-                    centerPanel,
-                    BoxLayout.Y_AXIS
-            )
-    );
-
-    centerPanel.setBackground(
-            Color.WHITE
-    );
-
-    centerPanel.setBorder(
-            new EmptyBorder(
-                    25,
-                    35,
-                    25,
-                    35
-            )
-    );
-
-    /*
-     * QUESTION SELECTOR
-     */
-
-    JLabel questionLabel =
-            new JLabel("Select Question");
-
-    questionLabel.setFont(
-            new Font(
-                    "SansSerif",
-                    Font.BOLD,
-                    14
-            )
-    );
-
-    questionLabel.setForeground(DARK);
-
-    questionLabel.setAlignmentX(
-            Component.LEFT_ALIGNMENT
-    );
-
-    centerPanel.add(questionLabel);
-
-    centerPanel.add(
-            Box.createVerticalStrut(8)
-    );
-
-    JComboBox<Question> questionBox =
-            new JComboBox<>(
-                    questions.toArray(
-                            new Question[0]
-                    )
-            );
-
-    questionBox.setMaximumSize(
-            new Dimension(
-                    Integer.MAX_VALUE,
-                    40
-            )
-    );
-
-    questionBox.setAlignmentX(
-            Component.LEFT_ALIGNMENT
-    );
-
-    centerPanel.add(questionBox);
-
-    centerPanel.add(
-            Box.createVerticalStrut(20)
-    );
-
-    /*
-     * QUESTION DETAILS
-     */
-
-    JLabel detailsLabel =
-            new JLabel("Question Details");
-
-    detailsLabel.setFont(
-            new Font(
-                    "SansSerif",
-                    Font.BOLD,
-                    14
-            )
-    );
-
-    detailsLabel.setForeground(DARK);
-
-    detailsLabel.setAlignmentX(
-            Component.LEFT_ALIGNMENT
-    );
-
-    centerPanel.add(detailsLabel);
-
-    centerPanel.add(
-            Box.createVerticalStrut(8)
-    );
-
-    JTextArea questionDetails =
-            new JTextArea();
-
-    questionDetails.setEditable(false);
-    questionDetails.setLineWrap(true);
-    questionDetails.setWrapStyleWord(true);
-
-    questionDetails.setFont(
-            new Font(
-                    "SansSerif",
-                    Font.PLAIN,
-                    14
-            )
-    );
-
-    questionDetails.setBackground(
-            new Color(
-                    248,
-                    250,
-                    253
-            )
-    );
-
-    questionDetails.setBorder(
-            new EmptyBorder(
-                    10,
-                    10,
-                    10,
-                    10
-            )
-    );
-
-    JScrollPane questionScroll =
-            new JScrollPane(
-                    questionDetails
-            );
-
-    questionScroll.setPreferredSize(
-            new Dimension(
-                    700,
-                    120
-            )
-    );
-
-    questionScroll.setMaximumSize(
-            new Dimension(
-                    Integer.MAX_VALUE,
-                    120
-            )
-    );
-
-    questionScroll.setAlignmentX(
-            Component.LEFT_ALIGNMENT
-    );
-
-    centerPanel.add(questionScroll);
-
-    centerPanel.add(
-            Box.createVerticalStrut(20)
-    );
-
-    /*
-     * ANSWER FIELD
-     */
-
-    JLabel answerLabel =
-            new JLabel("Your Answer");
-
-    answerLabel.setFont(
-            new Font(
-                    "SansSerif",
-                    Font.BOLD,
-                    14
-            )
-    );
-
-    answerLabel.setForeground(DARK);
-
-    answerLabel.setAlignmentX(
-            Component.LEFT_ALIGNMENT
-    );
-
-    centerPanel.add(answerLabel);
-
-    centerPanel.add(
-            Box.createVerticalStrut(8)
-    );
-
-    JTextArea answerArea =
-            new JTextArea();
-
-    answerArea.setLineWrap(true);
-    answerArea.setWrapStyleWord(true);
-
-    answerArea.setFont(
-            new Font(
-                    "SansSerif",
-                    Font.PLAIN,
-                    14
-            )
-    );
-
-    answerArea.setBorder(
-            new EmptyBorder(
-                    10,
-                    10,
-                    10,
-                    10
-            )
-    );
-
-    JScrollPane answerScroll =
-            new JScrollPane(
-                    answerArea
-            );
-
-    answerScroll.setPreferredSize(
-            new Dimension(
-                    700,
-                    130
-            )
-    );
-
-    answerScroll.setMaximumSize(
-            new Dimension(
-                    Integer.MAX_VALUE,
-                    130
-            )
-    );
-
-    answerScroll.setAlignmentX(
-            Component.LEFT_ALIGNMENT
-    );
-
-    centerPanel.add(answerScroll);
-
-    mainPanel.add(
-            centerPanel,
-            BorderLayout.CENTER
-    );
-
-    /*
-     * BUTTON PANEL
-     */
-
-    JPanel buttonPanel =
-            new JPanel(
-                    new FlowLayout(
-                            FlowLayout.RIGHT
-                    )
-            );
-
-    buttonPanel.setBackground(
-            BACKGROUND
-    );
-
-    buttonPanel.setBorder(
-            new EmptyBorder(
-                    10,
-                    25,
-                    15,
-                    25
-            )
-    );
-
-    JButton cancelButton =
-            new JButton("Cancel");
-
-    cancelButton.setFont(
-            new Font(
-                    "SansSerif",
-                    Font.BOLD,
-                    14
-            )
-    );
-
-    cancelButton.setPreferredSize(
-            new Dimension(
-                    110,
-                    40
-            )
-    );
-
-    cancelButton.setFocusPainted(false);
-
-    JButton submitButton =
-            new JButton("Submit Answer");
-
-    submitButton.setFont(
-            new Font(
-                    "SansSerif",
-                    Font.BOLD,
-                    14
-            )
-    );
-
-    submitButton.setBackground(BLUE);
-    submitButton.setForeground(Color.WHITE);
-
-    submitButton.setFocusPainted(false);
-    submitButton.setBorderPainted(false);
-
-    submitButton.setPreferredSize(
-            new Dimension(
-                    150,
-                    40
-            )
-    );
-
-    buttonPanel.add(cancelButton);
-    buttonPanel.add(submitButton);
-
-    mainPanel.add(
-            buttonPanel,
-            BorderLayout.SOUTH
-    );
-
-    /*
-     * UPDATE QUESTION DETAILS
-     */
-
-    Runnable updateQuestionDetails = () -> {
-
-        Question selectedQuestion =
-                (Question)
-                questionBox.getSelectedItem();
-
-        if (selectedQuestion == null) {
-
-            questionDetails.setText("");
             return;
         }
 
-        StringBuilder details =
-                new StringBuilder();
-
-        details.append("Question #")
-                .append(
-                        selectedQuestion
-                                .getQuestionId()
+        JFrame answerFrame =
+                new JFrame(
+                        "Add Answer"
                 );
 
-        details.append("\nTitle: ")
-                .append(
-                        selectedQuestion
-                                .getTitle()
-                );
-
-        details.append("\nAsked by: ")
-                .append(
-                        selectedQuestion
-                                .getAuthor()
-                );
-
-        details.append("\nStatus: ")
-                .append(
-                        selectedQuestion
-                                .isResolved()
-                                ? "Resolved"
-                                : "Unresolved"
-                );
-
-        details.append("\n\n")
-                .append(
-                        selectedQuestion
-                                .getDescription()
-                );
-
-        details.append(
-                "\n\nCurrent Answers:\n"
+        answerFrame.setSize(
+                800,
+                560
         );
 
-        if (selectedQuestion
-                .getAnswers()
-                .isEmpty()) {
-
-            details.append(
-                    "No answers yet."
-            );
-
-        } else {
-
-            for (Answer answer :
-                    selectedQuestion
-                            .getAnswers()) {
-
-                details.append("- ")
-                        .append(
-                                answer
-                                        .getDescription()
-                        )
-                        .append(" (by ")
-                        .append(
-                                answer
-                                        .getAuthor()
-                        )
-                        .append(")\n");
-            }
-        }
-
-        questionDetails.setText(
-                details.toString()
+        answerFrame.setLocationRelativeTo(
+                frame
         );
 
-        questionDetails.setCaretPosition(0);
-    };
+        answerFrame.setDefaultCloseOperation(
+                JFrame.DISPOSE_ON_CLOSE
+        );
 
-    /*
-     * When question changes
-     */
+        answerFrame.setResizable(false);
 
-    questionBox.addActionListener(e -> {
+        JPanel mainPanel =
+                new JPanel(
+                        new BorderLayout()
+                );
+
+        mainPanel.setBackground(
+                BACKGROUND
+        );
+
+        answerFrame.add(
+                mainPanel
+        );
+
+        JPanel headerPanel =
+                new JPanel();
+
+        headerPanel.setLayout(
+                new BoxLayout(
+                        headerPanel,
+                        BoxLayout.Y_AXIS
+                )
+        );
+
+        headerPanel.setBackground(
+                BACKGROUND
+        );
+
+        headerPanel.setBorder(
+                new EmptyBorder(
+                        25,
+                        35,
+                        20,
+                        35
+                )
+        );
+
+        JLabel title =
+                new JLabel(
+                        "Add a Potential Answer"
+                );
+
+        title.setFont(
+                new Font(
+                        "SansSerif",
+                        Font.BOLD,
+                        26
+                )
+        );
+
+        title.setForeground(
+                DARK
+        );
+
+        JLabel subtitle =
+                new JLabel(
+                        "Select an unresolved question and submit your answer."
+                );
+
+        subtitle.setForeground(
+                GRAY
+        );
+
+        headerPanel.add(
+                title
+        );
+
+        headerPanel.add(
+                Box.createVerticalStrut(5)
+        );
+
+        headerPanel.add(
+                subtitle
+        );
+
+        mainPanel.add(
+                headerPanel,
+                BorderLayout.NORTH
+        );
+
+        JPanel centerPanel =
+                new JPanel();
+
+        centerPanel.setLayout(
+                new BoxLayout(
+                        centerPanel,
+                        BoxLayout.Y_AXIS
+                )
+        );
+
+        centerPanel.setBackground(
+                Color.WHITE
+        );
+
+        centerPanel.setBorder(
+                new EmptyBorder(
+                        25,
+                        35,
+                        25,
+                        35
+                )
+        );
+
+        JLabel questionLabel =
+                new JLabel(
+                        "Select Question"
+                );
+
+        questionLabel.setAlignmentX(
+                Component.LEFT_ALIGNMENT
+        );
+
+        centerPanel.add(
+                questionLabel
+        );
+
+        centerPanel.add(
+                Box.createVerticalStrut(8)
+        );
+
+        JComboBox<Question> questionBox =
+                new JComboBox<>(
+                        questions.toArray(
+                                new Question[0]
+                        )
+                );
+
+        questionBox.setMaximumSize(
+                new Dimension(
+                        Integer.MAX_VALUE,
+                        40
+                )
+        );
+
+        questionBox.setAlignmentX(
+                Component.LEFT_ALIGNMENT
+        );
+
+        centerPanel.add(
+                questionBox
+        );
+
+        centerPanel.add(
+                Box.createVerticalStrut(20)
+        );
+
+        JTextArea questionDetails =
+                new JTextArea();
+
+        questionDetails.setEditable(false);
+        questionDetails.setLineWrap(true);
+        questionDetails.setWrapStyleWord(true);
+
+        questionDetails.setBackground(
+                new Color(
+                        248,
+                        250,
+                        253
+                )
+        );
+
+        JScrollPane questionScroll =
+                new JScrollPane(
+                        questionDetails
+                );
+
+        questionScroll.setPreferredSize(
+                new Dimension(
+                        700,
+                        120
+                )
+        );
+
+        questionScroll.setMaximumSize(
+                new Dimension(
+                        Integer.MAX_VALUE,
+                        120
+                )
+        );
+
+        questionScroll.setAlignmentX(
+                Component.LEFT_ALIGNMENT
+        );
+
+        centerPanel.add(
+                questionScroll
+        );
+
+        centerPanel.add(
+                Box.createVerticalStrut(20)
+        );
+
+        JLabel answerLabel =
+                new JLabel(
+                        "Your Answer"
+                );
+
+        answerLabel.setAlignmentX(
+                Component.LEFT_ALIGNMENT
+        );
+
+        centerPanel.add(
+                answerLabel
+        );
+
+        centerPanel.add(
+                Box.createVerticalStrut(8)
+        );
+
+        JTextArea answerArea =
+                new JTextArea();
+
+        answerArea.setLineWrap(true);
+        answerArea.setWrapStyleWord(true);
+
+        JScrollPane answerScroll =
+                new JScrollPane(
+                        answerArea
+                );
+
+        answerScroll.setPreferredSize(
+                new Dimension(
+                        700,
+                        130
+                )
+        );
+
+        answerScroll.setMaximumSize(
+                new Dimension(
+                        Integer.MAX_VALUE,
+                        130
+                )
+        );
+
+        answerScroll.setAlignmentX(
+                Component.LEFT_ALIGNMENT
+        );
+
+        centerPanel.add(
+                answerScroll
+        );
+
+        mainPanel.add(
+                centerPanel,
+                BorderLayout.CENTER
+        );
+
+        JPanel buttonPanel =
+                new JPanel(
+                        new FlowLayout(
+                                FlowLayout.RIGHT
+                        )
+                );
+
+        buttonPanel.setBackground(
+                BACKGROUND
+        );
+
+        JButton cancelButton =
+                new JButton(
+                        "Cancel"
+                );
+
+        JButton submitButton =
+                new JButton(
+                        "Submit Answer"
+                );
+
+        submitButton.setBackground(
+                BLUE
+        );
+
+        submitButton.setForeground(
+                Color.WHITE
+        );
+
+        submitButton.setFocusPainted(false);
+        submitButton.setBorderPainted(false);
+
+        submitButton.setPreferredSize(
+                new Dimension(
+                        150,
+                        40
+                )
+        );
+
+        buttonPanel.add(
+                cancelButton
+        );
+
+        buttonPanel.add(
+                submitButton
+        );
+
+        mainPanel.add(
+                buttonPanel,
+                BorderLayout.SOUTH
+        );
+
+        Runnable updateQuestionDetails =
+                () -> {
+
+                    Question selectedQuestion =
+                            (Question)
+                            questionBox
+                                    .getSelectedItem();
+
+                    if (selectedQuestion == null) {
+
+                        questionDetails.setText(
+                                ""
+                        );
+
+                        return;
+                    }
+
+                    StringBuilder details =
+                            new StringBuilder();
+
+                    details.append(
+                            "Question #"
+                    );
+
+                    details.append(
+                            selectedQuestion
+                                    .getQuestionId()
+                    );
+
+                    details.append(
+                            "\nTitle: "
+                    );
+
+                    details.append(
+                            selectedQuestion
+                                    .getTitle()
+                    );
+
+                    details.append(
+                            "\nAsked by: "
+                    );
+
+                    details.append(
+                            selectedQuestion
+                                    .getAuthor()
+                    );
+
+                    details.append(
+                            "\n\n"
+                    );
+
+                    details.append(
+                            selectedQuestion
+                                    .getDescription()
+                    );
+
+                    details.append(
+                            "\n\nCurrent Answers:\n"
+                    );
+
+                    if (selectedQuestion
+                            .getAnswers()
+                            .isEmpty()) {
+
+                        details.append(
+                                "No answers yet."
+                        );
+
+                    } else {
+
+                        for (Answer answer :
+                                selectedQuestion
+                                        .getAnswers()) {
+
+                            details.append(
+                                    "- "
+                            );
+
+                            details.append(
+                                    answer
+                                            .getDescription()
+                            );
+
+                            details.append(
+                                    " (by "
+                            );
+
+                            details.append(
+                                    answer
+                                            .getAuthor()
+                            );
+
+                            details.append(
+                                    ")\n"
+                            );
+                        }
+                    }
+
+                    questionDetails.setText(
+                            details.toString()
+                    );
+
+                    questionDetails.setCaretPosition(
+                            0
+                    );
+                };
+
+        questionBox.addActionListener(
+                e ->
+                        updateQuestionDetails.run()
+        );
 
         updateQuestionDetails.run();
-    });
 
-    /*
-     * Initial question
-     */
+        cancelButton.addActionListener(
+                e ->
+                        answerFrame.dispose()
+        );
 
-    updateQuestionDetails.run();
+        submitButton.addActionListener(e -> {
 
-    /*
-     * CANCEL BUTTON
-     */
+            Question selectedQuestion =
+                    (Question)
+                    questionBox
+                            .getSelectedItem();
 
-    cancelButton.addActionListener(e -> {
+            String description =
+                    answerArea
+                            .getText()
+                            .trim();
 
-        answerFrame.dispose();
-    });
+            if (selectedQuestion == null) {
 
-    /*
-     * SUBMIT ANSWER
-     */
+                return;
+            }
 
-    submitButton.addActionListener(e -> {
+            if (description.isEmpty()) {
 
-        Question selectedQuestion =
-                (Question)
-                questionBox.getSelectedItem();
-
-        if (selectedQuestion == null) {
-
-            JOptionPane.showMessageDialog(
-                    answerFrame,
-                    "Please select a question."
-            );
-
-            return;
-        }
-
-        String description =
-                answerArea
-                        .getText()
-                        .trim();
-
-        if (description.isEmpty()) {
-
-            JOptionPane.showMessageDialog(
-                    answerFrame,
-                    "Please enter an answer.",
-                    "Missing Answer",
-                    JOptionPane.WARNING_MESSAGE
-            );
-
-            return;
-        }
-
-        Answer answer =
-                questionManager.addAnswer(
-                        selectedQuestion,
-                        description,
-                        user.getUsername()
+                JOptionPane.showMessageDialog(
+                        answerFrame,
+                        "Please enter an answer."
                 );
 
-        if (answer != null) {
+                return;
+            }
 
-            JOptionPane.showMessageDialog(
-                    answerFrame,
-                    "Answer submitted successfully!",
-                    "Answer Submitted",
-                    JOptionPane.INFORMATION_MESSAGE
-            );
+            Answer answer =
+                    questionManager.addAnswer(
+                            selectedQuestion,
+                            description,
+                            user.getUsername()
+                    );
 
-            answerFrame.dispose();
+            if (answer != null) {
 
-        } else {
+                JOptionPane.showMessageDialog(
+                        answerFrame,
+                        "Answer submitted successfully!"
+                );
 
-            JOptionPane.showMessageDialog(
-                    answerFrame,
-                    "Unable to submit answer.",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE
-            );
-        }
-    });
+                answerFrame.dispose();
 
-    answerFrame.setVisible(true);
-}
+            } else {
+
+                JOptionPane.showMessageDialog(
+                        answerFrame,
+                        "Unable to submit answer."
+                );
+            }
+        });
+
+        answerFrame.setVisible(
+                true
+        );
+    }
 
     /*
      * VIEW UNRESOLVED QUESTIONS
@@ -2387,12 +2108,10 @@ if (questions.isEmpty()) {
 
         if (unresolved.isEmpty()) {
 
-            JOptionPane
-                    .showMessageDialog(
-                            frame,
-                            "There are no "
-                            + "unresolved questions."
-                    );
+            JOptionPane.showMessageDialog(
+                    frame,
+                    "There are no unresolved questions."
+            );
 
             return;
         }
@@ -2408,8 +2127,7 @@ if (questions.isEmpty()) {
             );
 
             output.append(
-                    question
-                            .getQuestionId()
+                    question.getQuestionId()
             );
 
             output.append(
@@ -2433,8 +2151,7 @@ if (questions.isEmpty()) {
             );
 
             output.append(
-                    question
-                            .getDescription()
+                    question.getDescription()
             );
 
             output.append(
@@ -2455,11 +2172,12 @@ if (questions.isEmpty()) {
                         question
                                 .getAnswers()) {
 
-                    output.append("- ");
+                    output.append(
+                            "- "
+                    );
 
                     output.append(
-                            answer
-                                    .getDescription()
+                            answer.getDescription()
                     );
 
                     output.append(
@@ -2467,8 +2185,7 @@ if (questions.isEmpty()) {
                     );
 
                     output.append(
-                            answer
-                                    .getAuthor()
+                            answer.getAuthor()
                     );
 
                     output.append(
@@ -2490,32 +2207,533 @@ if (questions.isEmpty()) {
                 );
 
         textArea.setEditable(false);
-
         textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
 
-        textArea
-                .setWrapStyleWord(true);
+        JOptionPane.showMessageDialog(
+                frame,
+                new JScrollPane(
+                        textArea
+                ),
+                "Unresolved Questions",
+                JOptionPane.INFORMATION_MESSAGE
+        );
+    }
 
-        textArea.setFont(
-                new Font(
-                        "SansSerif",
-                        Font.PLAIN,
-                        14
+    /*
+     * MARK QUESTION SOLVED
+     */
+
+    private void markQuestionSolved() {
+
+        ArrayList<Question> myQuestions =
+                new ArrayList<>();
+
+        for (Question question :
+                questionManager
+                        .getUnresolvedQuestions()) {
+
+            if (question.getAuthor()
+                    .equals(
+                            user.getUsername()
+                    )) {
+
+                myQuestions.add(
+                        question
+                );
+            }
+        }
+
+        if (myQuestions.isEmpty()) {
+
+            JOptionPane.showMessageDialog(
+                    frame,
+                    "You do not have any unresolved questions."
+            );
+
+            return;
+        }
+
+        JFrame solvedFrame =
+                new JFrame(
+                        "Mark Question Solved"
+                );
+
+        solvedFrame.setSize(
+                750,
+                540
+        );
+
+        solvedFrame.setLocationRelativeTo(
+                frame
+        );
+
+        solvedFrame.setDefaultCloseOperation(
+                JFrame.DISPOSE_ON_CLOSE
+        );
+
+        solvedFrame.setResizable(
+                false
+        );
+
+        JPanel mainPanel =
+                new JPanel();
+
+        mainPanel.setLayout(
+                new BoxLayout(
+                        mainPanel,
+                        BoxLayout.Y_AXIS
                 )
         );
 
-        JScrollPane scrollPane =
-                new JScrollPane(
-                        textArea
+        mainPanel.setBackground(
+                BACKGROUND
+        );
+
+        mainPanel.setBorder(
+                new EmptyBorder(
+                        30,
+                        45,
+                        30,
+                        45
+                )
+        );
+
+        solvedFrame.add(
+                mainPanel
+        );
+
+        JLabel title =
+                new JLabel(
+                        "Mark Question Solved"
                 );
 
-        JOptionPane
-                .showMessageDialog(
-                        frame,
-                        scrollPane,
-                        "Unresolved Questions",
-                        JOptionPane
-                                .INFORMATION_MESSAGE
+        title.setFont(
+                new Font(
+                        "SansSerif",
+                        Font.BOLD,
+                        26
+                )
+        );
+
+        title.setForeground(
+                DARK
+        );
+
+        title.setAlignmentX(
+                Component.LEFT_ALIGNMENT
+        );
+
+        mainPanel.add(
+                title
+        );
+
+        mainPanel.add(
+                Box.createVerticalStrut(5)
+        );
+
+        JLabel subtitle =
+                new JLabel(
+                        "Choose your question and select the answer that solved it."
                 );
+
+        subtitle.setForeground(
+                GRAY
+        );
+
+        subtitle.setAlignmentX(
+                Component.LEFT_ALIGNMENT
+        );
+
+        mainPanel.add(
+                subtitle
+        );
+
+        mainPanel.add(
+                Box.createVerticalStrut(25)
+        );
+
+        JLabel questionLabel =
+                new JLabel(
+                        "Your Question"
+                );
+
+        questionLabel.setAlignmentX(
+                Component.LEFT_ALIGNMENT
+        );
+
+        mainPanel.add(
+                questionLabel
+        );
+
+        mainPanel.add(
+                Box.createVerticalStrut(7)
+        );
+
+        JComboBox<Question> questionBox =
+                new JComboBox<>(
+                        myQuestions.toArray(
+                                new Question[0]
+                        )
+                );
+
+        questionBox.setMaximumSize(
+                new Dimension(
+                        Integer.MAX_VALUE,
+                        40
+                )
+        );
+
+        questionBox.setAlignmentX(
+                Component.LEFT_ALIGNMENT
+        );
+
+        mainPanel.add(
+                questionBox
+        );
+
+        mainPanel.add(
+                Box.createVerticalStrut(20)
+        );
+
+        JTextArea questionDetails =
+                new JTextArea();
+
+        questionDetails.setEditable(false);
+        questionDetails.setLineWrap(true);
+        questionDetails.setWrapStyleWord(true);
+
+        JScrollPane questionScroll =
+                new JScrollPane(
+                        questionDetails
+                );
+
+        questionScroll.setMaximumSize(
+                new Dimension(
+                        Integer.MAX_VALUE,
+                        100
+                )
+        );
+
+        questionScroll.setPreferredSize(
+                new Dimension(
+                        650,
+                        100
+                )
+        );
+
+        questionScroll.setAlignmentX(
+                Component.LEFT_ALIGNMENT
+        );
+
+        mainPanel.add(
+                questionScroll
+        );
+
+        mainPanel.add(
+                Box.createVerticalStrut(20)
+        );
+
+        JLabel answerLabel =
+                new JLabel(
+                        "Correct Answer"
+                );
+
+        answerLabel.setAlignmentX(
+                Component.LEFT_ALIGNMENT
+        );
+
+        mainPanel.add(
+                answerLabel
+        );
+
+        mainPanel.add(
+                Box.createVerticalStrut(7)
+        );
+
+        JComboBox<Answer> answerBox =
+                new JComboBox<>();
+
+        answerBox.setMaximumSize(
+                new Dimension(
+                        Integer.MAX_VALUE,
+                        40
+                )
+        );
+
+        answerBox.setAlignmentX(
+                Component.LEFT_ALIGNMENT
+        );
+
+        mainPanel.add(
+                answerBox
+        );
+
+        mainPanel.add(
+                Box.createVerticalStrut(20)
+        );
+
+        JTextArea answerPreview =
+                new JTextArea();
+
+        answerPreview.setEditable(false);
+        answerPreview.setLineWrap(true);
+        answerPreview.setWrapStyleWord(true);
+
+        JScrollPane answerScroll =
+                new JScrollPane(
+                        answerPreview
+                );
+
+        answerScroll.setMaximumSize(
+                new Dimension(
+                        Integer.MAX_VALUE,
+                        100
+                )
+        );
+
+        answerScroll.setPreferredSize(
+                new Dimension(
+                        650,
+                        100
+                )
+        );
+
+        answerScroll.setAlignmentX(
+                Component.LEFT_ALIGNMENT
+        );
+
+        mainPanel.add(
+                answerScroll
+        );
+
+        mainPanel.add(
+                Box.createVerticalStrut(20)
+        );
+
+        JPanel buttonPanel =
+                new JPanel(
+                        new FlowLayout(
+                                FlowLayout.RIGHT
+                        )
+                );
+
+        buttonPanel.setBackground(
+                BACKGROUND
+        );
+
+        buttonPanel.setMaximumSize(
+                new Dimension(
+                        Integer.MAX_VALUE,
+                        50
+                )
+        );
+
+        buttonPanel.setAlignmentX(
+                Component.LEFT_ALIGNMENT
+        );
+
+        JButton cancelButton =
+                new JButton(
+                        "Cancel"
+                );
+
+        JButton solvedButton =
+                new JButton(
+                        "Mark as Solved"
+                );
+
+        solvedButton.setBackground(
+                BLUE
+        );
+
+        solvedButton.setForeground(
+                Color.WHITE
+        );
+
+        solvedButton.setFocusPainted(false);
+        solvedButton.setBorderPainted(false);
+
+        solvedButton.setPreferredSize(
+                new Dimension(
+                        150,
+                        40
+                )
+        );
+
+        buttonPanel.add(
+                cancelButton
+        );
+
+        buttonPanel.add(
+                solvedButton
+        );
+
+        mainPanel.add(
+                buttonPanel
+        );
+
+        Runnable updateQuestion =
+                () -> {
+
+                    Question selectedQuestion =
+                            (Question)
+                            questionBox
+                                    .getSelectedItem();
+
+                    answerBox.removeAllItems();
+
+                    answerPreview.setText("");
+
+                    if (selectedQuestion == null) {
+
+                        return;
+                    }
+
+                    questionDetails.setText(
+                            selectedQuestion
+                                    .getDescription()
+                    );
+
+                    for (Answer answer :
+                            selectedQuestion
+                                    .getAnswers()) {
+
+                        answerBox.addItem(
+                                answer
+                        );
+                    }
+
+                    if (answerBox
+                            .getItemCount()
+                            == 0) {
+
+                        answerPreview.setText(
+                                "This question does not have any answers yet."
+                        );
+                    }
+                };
+
+        Runnable updateAnswer =
+                () -> {
+
+                    Answer selectedAnswer =
+                            (Answer)
+                            answerBox
+                                    .getSelectedItem();
+
+                    if (selectedAnswer == null) {
+
+                        answerPreview.setText(
+                                ""
+                        );
+
+                        return;
+                    }
+
+                    answerPreview.setText(
+                            selectedAnswer
+                                    .getDescription()
+                            + "\n\nAnswered by: "
+                            + selectedAnswer
+                                    .getAuthor()
+                    );
+                };
+
+        questionBox.addActionListener(e -> {
+
+            updateQuestion.run();
+            updateAnswer.run();
+        });
+
+        answerBox.addActionListener(e -> {
+
+            updateAnswer.run();
+        });
+
+        updateQuestion.run();
+        updateAnswer.run();
+
+        cancelButton.addActionListener(
+                e ->
+                        solvedFrame.dispose()
+        );
+
+        solvedButton.addActionListener(e -> {
+
+            Question selectedQuestion =
+                    (Question)
+                    questionBox
+                            .getSelectedItem();
+
+            Answer selectedAnswer =
+                    (Answer)
+                    answerBox
+                            .getSelectedItem();
+
+            if (selectedQuestion == null) {
+
+                JOptionPane.showMessageDialog(
+                        solvedFrame,
+                        "Please select a question."
+                );
+
+                return;
+            }
+
+            if (selectedAnswer == null) {
+
+                JOptionPane.showMessageDialog(
+                        solvedFrame,
+                        "This question does not have an answer to select."
+                );
+
+                return;
+            }
+
+            int confirm =
+                    JOptionPane.showConfirmDialog(
+                            solvedFrame,
+                            "Mark this question as solved\n"
+                            + "and accept the selected answer?",
+                            "Confirm Solution",
+                            JOptionPane.YES_NO_OPTION
+                    );
+
+            if (confirm !=
+                    JOptionPane.YES_OPTION) {
+
+                return;
+            }
+
+            boolean success =
+                    questionManager
+                            .resolveQuestion(
+                                    selectedQuestion,
+                                    selectedAnswer,
+                                    user.getUsername()
+                            );
+
+            if (success) {
+
+                JOptionPane.showMessageDialog(
+                        solvedFrame,
+                        "Question marked as solved!"
+                );
+
+                solvedFrame.dispose();
+
+            } else {
+
+                JOptionPane.showMessageDialog(
+                        solvedFrame,
+                        "Unable to resolve this question."
+                );
+            }
+        });
+
+        solvedFrame.setVisible(
+                true
+        );
     }
 }

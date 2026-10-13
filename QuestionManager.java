@@ -212,6 +212,8 @@ public class QuestionManager {
                         )
                         + "|"
                         + question.isResolved()
+                        + "|"
+                        + question.getAcceptedAnswerId()
                 );
 
                 writer.newLine();
@@ -232,86 +234,125 @@ public class QuestionManager {
     }
 
     // Load questions from questions.txt
-    private void loadQuestions() {
+private void loadQuestions() {
 
-        if (!Files.exists(FILE_PATH)) {
+    if (!Files.exists(FILE_PATH)) {
 
-            System.out.println(
-                    "No saved questions found."
-            );
+        System.out.println(
+                "No saved questions found."
+        );
 
-            return;
-        }
+        return;
+    }
 
-        try (BufferedReader reader =
-                Files.newBufferedReader(FILE_PATH)) {
+    try (BufferedReader reader =
+            Files.newBufferedReader(FILE_PATH)) {
 
-            String line;
+        String line;
 
-            int highestId = 0;
+        int highestId = 0;
 
-            while ((line = reader.readLine()) != null) {
+        while ((line = reader.readLine()) != null) {
 
-                if (line.trim().isEmpty()) {
-                    continue;
-                }
-
-                String[] parts =
-                        line.split("\\|", -1);
-
-                if (parts.length != 5) {
-
-                    System.out.println(
-                            "Skipping invalid question record."
-                    );
-
-                    continue;
-                }
-
-                int questionId =
-                        Integer.parseInt(parts[0]);
-
-                String title = parts[1];
-                String description = parts[2];
-                String author = parts[3];
-
-                boolean resolved =
-                        Boolean.parseBoolean(parts[4]);
-
-                Question question = new Question(
-                        questionId,
-                        title,
-                        description,
-                        author
-                );
-
-                question.setResolved(resolved);
-
-                questions.add(question);
-
-                if (questionId > highestId) {
-                    highestId = questionId;
-                }
+            if (line.trim().isEmpty()) {
+                continue;
             }
 
-            nextQuestionId =
-                    highestId + 1;
+            String[] parts =
+                    line.split("\\|", -1);
 
-            System.out.println(
-                    "Loaded "
-                    + questions.size()
-                    + " questions."
+            /*
+             * Old records have 5 fields.
+             * New records have 6 fields.
+             */
+
+            if (parts.length != 5
+                    && parts.length != 6) {
+
+                System.out.println(
+                        "Skipping invalid question record."
+                );
+
+                continue;
+            }
+
+            int questionId =
+                    Integer.parseInt(
+                            parts[0]
+                    );
+
+            String title =
+                    parts[1];
+
+            String description =
+                    parts[2];
+
+            String author =
+                    parts[3];
+
+            boolean resolved =
+                    Boolean.parseBoolean(
+                            parts[4]
+                    );
+
+            Question question =
+                    new Question(
+                            questionId,
+                            title,
+                            description,
+                            author
+                    );
+
+            question.setResolved(
+                    resolved
             );
 
-        } catch (IOException
-                | NumberFormatException e) {
+            /*
+             * Load accepted answer ID
+             * if this is a new-format record.
+             */
 
-            System.out.println(
-                    "Error loading questions: "
-                    + e.getMessage()
+            if (parts.length == 6) {
+
+                int acceptedAnswerId =
+                        Integer.parseInt(
+                                parts[5]
+                        );
+
+                question.setAcceptedAnswerId(
+                        acceptedAnswerId
+                );
+            }
+
+            questions.add(
+                    question
             );
+
+            if (questionId > highestId) {
+
+                highestId =
+                        questionId;
+            }
         }
+
+        nextQuestionId =
+                highestId + 1;
+
+        System.out.println(
+                "Loaded "
+                + questions.size()
+                + " questions."
+        );
+
+    } catch (IOException
+            | NumberFormatException e) {
+
+        System.out.println(
+                "Error loading questions: "
+                + e.getMessage()
+        );
     }
+}
 
     // Save all answers to answers.txt
     private void saveAnswers() {
@@ -508,5 +549,75 @@ public ArrayList<Question> getUnresolvedQuestions() {
     }
 
     return unresolved;
+}
+
+public boolean resolveQuestion(
+        Question question,
+        Answer answer,
+        String username) {
+
+    if (question == null
+            || answer == null
+            || username == null) {
+
+        return false;
+    }
+
+    /*
+     * Only the person who asked
+     * the question can resolve it.
+     */
+
+    if (!question.getAuthor()
+            .equals(username)) {
+
+        return false;
+    }
+
+    /*
+     * Already resolved
+     */
+
+    if (question.isResolved()) {
+
+        return false;
+    }
+
+    /*
+     * Make sure the selected answer
+     * actually belongs to this question.
+     */
+
+    boolean answerFound = false;
+
+    for (Answer existingAnswer :
+            question.getAnswers()) {
+
+        if (existingAnswer.getAnswerId()
+                == answer.getAnswerId()) {
+
+            answerFound = true;
+            break;
+        }
+    }
+
+    if (!answerFound) {
+
+        return false;
+    }
+
+    /*
+     * Resolve question
+     */
+
+    question.setResolved(true);
+
+    question.setAcceptedAnswerId(
+            answer.getAnswerId()
+    );
+
+    saveQuestions();
+
+    return true;
 }
 }

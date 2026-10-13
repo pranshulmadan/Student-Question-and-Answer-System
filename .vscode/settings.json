@@ -1,5 +1,10 @@
 {
     "java.jdt.ls.vmargs": "-XX:+UseParallelGC -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xmx8G -Xms100m -Xlog:disable",
+
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar"
+    ],
+
     "python.testing.unittestArgs": [
         "-v",
         "-s",
@@ -7,6 +12,7 @@
         "-p",
         "*test.py"
     ],
+
     "python.testing.pytestEnabled": false,
     "python.testing.unittestEnabled": true
 }

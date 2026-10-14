@@ -1,437 +1,1476 @@
-
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 public class LoginGUI {
 
-    private static final Color BLUE = new Color(23, 101, 209);
-    private static final Color DARK = new Color(20, 44, 82);
-    private static final Color GRAY = new Color(96, 114, 139);
-    private static final Color BACKGROUND = new Color(244, 247, 252);
+    private static final Color BLUE =
+            new Color(23, 101, 209);
+
+    private static final Color DARK =
+            new Color(20, 44, 82);
+
+    private static final Color GRAY =
+            new Color(96, 114, 139);
+
+    private static final Color BACKGROUND =
+            new Color(244, 247, 252);
 
     public static void main(String[] args) {
 
-        UserManager userManager = new UserManager();
+        UserManager userManager =
+                new UserManager();
 
-        SwingUtilities.invokeLater(() -> showLogin(userManager));
+        SwingUtilities.invokeLater(() ->
+                showLogin(userManager)
+        );
     }
 
-    public static void showLogin(UserManager userManager) {
+    /*
+     * LOGIN SCREEN
+     */
 
-        JFrame frame = new JFrame("Student Q&A System");
-        frame.setSize(450, 570);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    public static void showLogin(
+            UserManager userManager) {
+
+        JFrame frame =
+                new JFrame(
+                        "Student Q&A System"
+                );
+
+        frame.setSize(
+                800,
+                520
+        );
+
+        frame.setDefaultCloseOperation(
+                JFrame.EXIT_ON_CLOSE
+        );
+
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
 
-        JPanel mainPanel = new JPanel(new GridBagLayout());
-        mainPanel.setBackground(BACKGROUND);
+        Color lightBackground =
+                new Color(
+                        245,
+                        248,
+                        252
+                );
+
+        /*
+         * MAIN PANEL
+         */
+
+        JPanel mainPanel =
+                new JPanel(
+                        new GridLayout(
+                                1,
+                                2
+                        )
+                );
+
         frame.add(mainPanel);
 
-        // Centered login card
-        JPanel card = new JPanel();
-        card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
-        card.setBackground(Color.WHITE);
-        card.setBorder(new EmptyBorder(30, 35, 30, 35));
-        card.setPreferredSize(new Dimension(370, 465));
+        /*
+         * LEFT SIDE
+         */
 
-        mainPanel.add(card);
+        JPanel leftPanel =
+                new JPanel();
 
-        // Book icon
-        JLabel iconLabel = new JLabel("\uD83D\uDCD6");
-        iconLabel.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 38));
-        iconLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        card.add(iconLabel);
-
-        card.add(Box.createVerticalStrut(10));
-
-        // Title
-        JLabel title = new JLabel("Student Q&A System");
-        title.setFont(new Font("SansSerif", Font.BOLD, 23));
-        title.setForeground(DARK);
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
-        card.add(title);
-
-        card.add(Box.createVerticalStrut(8));
-
-        JLabel subtitle = new JLabel("Sign in to continue");
-        subtitle.setFont(new Font("SansSerif", Font.PLAIN, 13));
-        subtitle.setForeground(GRAY);
-        subtitle.setAlignmentX(Component.CENTER_ALIGNMENT);
-        card.add(subtitle);
-
-        card.add(Box.createVerticalStrut(30));
-
-        // Username
-        JLabel usernameLabel = new JLabel("Username");
-        usernameLabel.setFont(new Font("SansSerif", Font.PLAIN, 13));
-        usernameLabel.setForeground(DARK);
-        usernameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        card.add(usernameLabel);
-
-        card.add(Box.createVerticalStrut(6));
-
-        JTextField usernameField = new JTextField();
-        usernameField.setMaximumSize(new Dimension(300, 38));
-        usernameField.setPreferredSize(new Dimension(300, 38));
-        usernameField.setFont(new Font("SansSerif", Font.PLAIN, 14));
-        usernameField.setHorizontalAlignment(JTextField.CENTER);
-        usernameField.setAlignmentX(Component.CENTER_ALIGNMENT);
-        card.add(usernameField);
-
-        card.add(Box.createVerticalStrut(18));
-
-        // Password
-        JLabel passwordLabel = new JLabel("Password");
-        passwordLabel.setFont(new Font("SansSerif", Font.PLAIN, 13));
-        passwordLabel.setForeground(DARK);
-        passwordLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        card.add(passwordLabel);
-
-        card.add(Box.createVerticalStrut(6));
-
-        JPasswordField passwordField = new JPasswordField();
-        passwordField.setMaximumSize(new Dimension(300, 38));
-        passwordField.setPreferredSize(new Dimension(300, 38));
-        passwordField.setFont(new Font("SansSerif", Font.PLAIN, 14));
-        passwordField.setHorizontalAlignment(JTextField.CENTER);
-        passwordField.setAlignmentX(Component.CENTER_ALIGNMENT);
-        card.add(passwordField);
-
-        card.add(Box.createVerticalStrut(25));
-
-        // Login button
-        JButton loginButton = new JButton("Login");
-        loginButton.setFont(new Font("SansSerif", Font.BOLD, 14));
-        loginButton.setForeground(Color.WHITE);
-        loginButton.setBackground(BLUE);
-        loginButton.setOpaque(true);
-        loginButton.setBorderPainted(false);
-        loginButton.setFocusPainted(false);
-        loginButton.setMaximumSize(new Dimension(300, 42));
-        loginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        card.add(loginButton);
-
-        card.add(Box.createVerticalStrut(12));
-
-        // Register button
-        JButton registerButton = new JButton(
-                "Don't have an account? Register"
+        leftPanel.setLayout(
+                new BoxLayout(
+                        leftPanel,
+                        BoxLayout.Y_AXIS
+                )
         );
 
-        registerButton.setForeground(BLUE);
-        registerButton.setBackground(Color.WHITE);
-        registerButton.setBorderPainted(false);
-        registerButton.setFocusPainted(false);
-        registerButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        card.add(registerButton);
+        leftPanel.setBackground(BLUE);
 
-        card.add(Box.createVerticalStrut(18));
+        leftPanel.setBorder(
+                BorderFactory
+                        .createEmptyBorder(
+                                80,
+                                45,
+                                60,
+                                45
+                        )
+        );
 
-        JLabel footer = new JLabel("Ask  \u2022  Learn  \u2022  Share");
-        footer.setFont(new Font("SansSerif", Font.PLAIN, 12));
-        footer.setForeground(GRAY);
-        footer.setAlignmentX(Component.CENTER_ALIGNMENT);
-        card.add(footer);
+        JLabel logo =
+                new JLabel(
+                        "Student Q&A"
+                );
 
-        // LOGIN BUTTON ACTION
-        loginButton.addActionListener(new ActionListener() {
+        logo.setFont(
+                new Font(
+                        "SansSerif",
+                        Font.BOLD,
+                        30
+                )
+        );
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        logo.setForeground(
+                Color.WHITE
+        );
 
-                String username = usernameField.getText().trim();
-                String password =
-                        new String(passwordField.getPassword());
+        logo.setAlignmentX(
+                Component.CENTER_ALIGNMENT
+        );
 
-                User user = userManager.login(username, password);
+        leftPanel.add(
+                logo
+        );
 
-                if (user == null) {
+        leftPanel.add(
+                Box.createVerticalStrut(
+                        15
+                )
+        );
 
-                    JOptionPane.showMessageDialog(
-                            frame,
-                            "Invalid username or password.",
-                            "Login Failed",
-                            JOptionPane.ERROR_MESSAGE
-                    );
+        JLabel slogan =
+                new JLabel(
+                        "Ask. Learn. Share."
+                );
 
-                    return;
-                }
+        slogan.setFont(
+                new Font(
+                        "SansSerif",
+                        Font.PLAIN,
+                        18
+                )
+        );
 
-                ArrayList<Role> roles = user.getRoles();
-                Role selectedRole;
+        slogan.setForeground(
+                Color.WHITE
+        );
 
-                // Automatically select the user's only role
-                if (roles.size() == 1) {
+        slogan.setAlignmentX(
+                Component.CENTER_ALIGNMENT
+        );
 
-                    selectedRole = roles.get(0);
+        leftPanel.add(
+                slogan
+        );
 
-                } else if (roles.size() > 1) {
+        leftPanel.add(
+                Box.createVerticalStrut(
+                        50
+                )
+        );
 
-                    selectedRole = (Role)
-                            JOptionPane.showInputDialog(
-                                    frame,
-                                    "Select your role:",
-                                    "Role Selection",
-                                    JOptionPane.QUESTION_MESSAGE,
-                                    null,
-                                    roles.toArray(),
-                                    roles.get(0)
+        JLabel feature1 =
+                createFeatureLabel(
+                        "Ask questions"
+                );
+
+        JLabel feature2 =
+                createFeatureLabel(
+                        "Learn from other students"
+                );
+
+        JLabel feature3 =
+                createFeatureLabel(
+                        "Share your knowledge"
+                );
+
+        leftPanel.add(
+                feature1
+        );
+
+        leftPanel.add(
+                Box.createVerticalStrut(
+                        18
+                )
+        );
+
+        leftPanel.add(
+                feature2
+        );
+
+        leftPanel.add(
+                Box.createVerticalStrut(
+                        18
+                )
+        );
+
+        leftPanel.add(
+                feature3
+        );
+
+        /*
+         * RIGHT SIDE
+         */
+
+        JPanel rightPanel =
+                new JPanel();
+
+        rightPanel.setLayout(
+                new BoxLayout(
+                        rightPanel,
+                        BoxLayout.Y_AXIS
+                )
+        );
+
+        rightPanel.setBackground(
+                lightBackground
+        );
+
+        rightPanel.setBorder(
+                BorderFactory
+                        .createEmptyBorder(
+                                55,
+                                55,
+                                45,
+                                55
+                        )
+        );
+
+        JLabel welcomeLabel =
+                new JLabel(
+                        "Welcome Back"
+                );
+
+        welcomeLabel.setFont(
+                new Font(
+                        "SansSerif",
+                        Font.BOLD,
+                        27
+                )
+        );
+
+        welcomeLabel.setForeground(
+                DARK
+        );
+
+        welcomeLabel.setAlignmentX(
+                Component.CENTER_ALIGNMENT
+        );
+
+        rightPanel.add(
+                welcomeLabel
+        );
+
+        rightPanel.add(
+                Box.createVerticalStrut(
+                        8
+                )
+        );
+
+        JLabel subtitle =
+                new JLabel(
+                        "Sign in to your account"
+                );
+
+        subtitle.setForeground(
+                GRAY
+        );
+
+        subtitle.setFont(
+                new Font(
+                        "SansSerif",
+                        Font.PLAIN,
+                        13
+                )
+        );
+
+        subtitle.setAlignmentX(
+                Component.CENTER_ALIGNMENT
+        );
+
+        rightPanel.add(
+                subtitle
+        );
+
+        rightPanel.add(
+                Box.createVerticalStrut(
+                        35
+                )
+        );
+
+        /*
+         * USERNAME
+         */
+
+        JLabel usernameLabel =
+                new JLabel(
+                        "Username"
+                );
+
+        usernameLabel.setForeground(
+                DARK
+        );
+
+        usernameLabel.setFont(
+                new Font(
+                        "SansSerif",
+                        Font.BOLD,
+                        13
+                )
+        );
+
+        usernameLabel.setAlignmentX(
+                Component.CENTER_ALIGNMENT
+        );
+
+        rightPanel.add(
+                usernameLabel
+        );
+
+        rightPanel.add(
+                Box.createVerticalStrut(
+                        7
+                )
+        );
+
+        JTextField usernameField =
+                new JTextField();
+
+        usernameField.setMaximumSize(
+                new Dimension(
+                        280,
+                        42
+                )
+        );
+
+        usernameField.setPreferredSize(
+                new Dimension(
+                        280,
+                        42
+                )
+        );
+
+        usernameField.setFont(
+                new Font(
+                        "SansSerif",
+                        Font.PLAIN,
+                        14
+                )
+        );
+
+        usernameField.setHorizontalAlignment(
+                JTextField.CENTER
+        );
+
+        usernameField.setAlignmentX(
+                Component.CENTER_ALIGNMENT
+        );
+
+        rightPanel.add(
+                usernameField
+        );
+
+        rightPanel.add(
+                Box.createVerticalStrut(
+                        20
+                )
+        );
+
+        /*
+         * PASSWORD
+         */
+
+        JLabel passwordLabel =
+                new JLabel(
+                        "Password"
+                );
+
+        passwordLabel.setForeground(
+                DARK
+        );
+
+        passwordLabel.setFont(
+                new Font(
+                        "SansSerif",
+                        Font.BOLD,
+                        13
+                )
+        );
+
+        passwordLabel.setAlignmentX(
+                Component.CENTER_ALIGNMENT
+        );
+
+        rightPanel.add(
+                passwordLabel
+        );
+
+        rightPanel.add(
+                Box.createVerticalStrut(
+                        7
+                )
+        );
+
+        JPasswordField passwordField =
+                new JPasswordField();
+
+        passwordField.setMaximumSize(
+                new Dimension(
+                        280,
+                        42
+                )
+        );
+
+        passwordField.setPreferredSize(
+                new Dimension(
+                        280,
+                        42
+                )
+        );
+
+        passwordField.setFont(
+                new Font(
+                        "SansSerif",
+                        Font.PLAIN,
+                        14
+                )
+        );
+
+        passwordField.setHorizontalAlignment(
+                JTextField.CENTER
+        );
+
+        passwordField.setAlignmentX(
+                Component.CENTER_ALIGNMENT
+        );
+
+        rightPanel.add(
+                passwordField
+        );
+
+        rightPanel.add(
+                Box.createVerticalStrut(
+                        8
+                )
+        );
+
+        /*
+         * SHOW PASSWORD
+         */
+
+        JCheckBox showPassword =
+                new JCheckBox(
+                        "Show password"
+                );
+
+        showPassword.setBackground(
+                lightBackground
+        );
+
+        showPassword.setForeground(
+                GRAY
+        );
+
+        showPassword.setAlignmentX(
+                Component.CENTER_ALIGNMENT
+        );
+
+        char defaultEcho =
+                passwordField
+                        .getEchoChar();
+
+        showPassword
+                .addActionListener(
+                        e -> {
+
+                            if (showPassword
+                                    .isSelected()) {
+
+                                passwordField
+                                        .setEchoChar(
+                                                (char) 0
+                                        );
+
+                            } else {
+
+                                passwordField
+                                        .setEchoChar(
+                                                defaultEcho
+                                        );
+                            }
+                        }
+                );
+
+        rightPanel.add(
+                showPassword
+        );
+
+        rightPanel.add(
+                Box.createVerticalStrut(
+                        25
+                )
+        );
+
+        /*
+         * LOGIN BUTTON
+         */
+
+        JButton loginButton =
+                new JButton(
+                        "LOGIN"
+                );
+
+        loginButton.setFont(
+                new Font(
+                        "SansSerif",
+                        Font.BOLD,
+                        14
+                )
+        );
+
+        loginButton.setBackground(
+                BLUE
+        );
+
+        loginButton.setForeground(
+                Color.WHITE
+        );
+
+        loginButton.setOpaque(
+                true
+        );
+
+        loginButton.setBorderPainted(
+                false
+        );
+
+        loginButton.setFocusPainted(
+                false
+        );
+
+        loginButton.setMaximumSize(
+                new Dimension(
+                        280,
+                        44
+                )
+        );
+
+        loginButton.setAlignmentX(
+                Component.CENTER_ALIGNMENT
+        );
+
+        rightPanel.add(
+                loginButton
+        );
+
+        rightPanel.add(
+                Box.createVerticalStrut(
+                        15
+                )
+        );
+
+        /*
+         * REGISTER
+         */
+
+        JLabel accountLabel =
+                new JLabel(
+                        "Don't have an account?"
+                );
+
+        accountLabel.setForeground(
+                GRAY
+        );
+
+        accountLabel.setAlignmentX(
+                Component.CENTER_ALIGNMENT
+        );
+
+        rightPanel.add(
+                accountLabel
+        );
+
+        JButton registerButton =
+                new JButton(
+                        "Create an Account"
+                );
+
+        registerButton.setForeground(
+                BLUE
+        );
+
+        registerButton.setBackground(
+                lightBackground
+        );
+
+        registerButton.setBorderPainted(
+                false
+        );
+
+        registerButton.setFocusPainted(
+                false
+        );
+
+        registerButton.setFont(
+                new Font(
+                        "SansSerif",
+                        Font.BOLD,
+                        13
+                )
+        );
+
+        registerButton.setAlignmentX(
+                Component.CENTER_ALIGNMENT
+        );
+
+        rightPanel.add(
+                registerButton
+        );
+
+        /*
+         * ADD BOTH SIDES
+         */
+
+        mainPanel.add(
+                leftPanel
+        );
+
+        mainPanel.add(
+                rightPanel
+        );
+
+        /*
+         * LOGIN ACTION
+         */
+
+        loginButton
+                .addActionListener(
+                        e -> {
+
+                            String username =
+                                    usernameField
+                                            .getText()
+                                            .trim();
+
+                            String password =
+                                    new String(
+                                            passwordField
+                                                    .getPassword()
+                                    );
+
+                            User user =
+                                    userManager.login(
+                                            username,
+                                            password
+                                    );
+
+                            if (user == null) {
+
+                                JOptionPane
+                                        .showMessageDialog(
+                                                frame,
+                                                "Invalid username or password.",
+                                                "Login Failed",
+                                                JOptionPane.ERROR_MESSAGE
+                                        );
+
+                                return;
+                            }
+
+                            java.util.ArrayList<Role> roles =
+                                    user.getRoles();
+
+                            /*
+                             * ONE ROLE
+                             */
+
+                            if (roles.size() == 1) {
+
+                                Role selectedRole =
+                                        roles.get(0);
+
+                                frame.dispose();
+
+                                openRoleScreen(
+                                        selectedRole,
+                                        user,
+                                        userManager
+                                );
+
+                            }
+
+                            /*
+                             * MULTIPLE ROLES
+                             */
+
+                            else if (
+                                    roles.size() > 1) {
+
+                                frame.dispose();
+
+                                showRoleSelection(
+                                        user,
+                                        userManager,
+                                        roles
+                                );
+
+                            }
+
+                            /*
+                             * NO ROLE
+                             */
+
+                            else {
+
+                                JOptionPane
+                                        .showMessageDialog(
+                                                frame,
+                                                "No role assigned."
+                                        );
+                            }
+                        }
+                );
+
+        /*
+         * REGISTER ACTION
+         */
+
+        registerButton
+                .addActionListener(
+                        e -> {
+
+                            showRegister(
+                                    userManager,
+                                    frame
                             );
+                        }
+                );
 
-                    if (selectedRole == null) {
-                        return;
-                    }
+        /*
+         * ENTER KEY LOGIN
+         */
 
-                } else {
+        frame.getRootPane()
+                .setDefaultButton(
+                        loginButton
+                );
 
-                    JOptionPane.showMessageDialog(
-                            frame,
-                            "No role assigned to this account."
+        frame.setVisible(
+                true
+        );
+    }
+
+    /*
+     * FEATURE LABEL
+     */
+
+    private static JLabel createFeatureLabel(
+            String text) {
+
+        JLabel label =
+                new JLabel(text);
+
+        label.setFont(
+                new Font(
+                        "SansSerif",
+                        Font.PLAIN,
+                        16
+                )
+        );
+
+        label.setForeground(
+                Color.WHITE
+        );
+
+        label.setAlignmentX(
+                Component.CENTER_ALIGNMENT
+        );
+
+        return label;
+    }
+
+    /*
+     * ROLE SELECTION SCREEN
+     */
+
+    private static void showRoleSelection(
+            User user,
+            UserManager userManager,
+            java.util.ArrayList<Role> roles) {
+
+        JFrame roleFrame =
+                new JFrame(
+                        "Select Role"
+                );
+
+        roleFrame.setSize(
+                500,
+                480
+        );
+
+        roleFrame.setDefaultCloseOperation(
+                JFrame.EXIT_ON_CLOSE
+        );
+
+        roleFrame.setLocationRelativeTo(
+                null
+        );
+
+        roleFrame.setResizable(
+                false
+        );
+
+        JPanel mainPanel =
+                new JPanel();
+
+        mainPanel.setLayout(
+                new BoxLayout(
+                        mainPanel,
+                        BoxLayout.Y_AXIS
+                )
+        );
+
+        mainPanel.setBackground(
+                BACKGROUND
+        );
+
+        mainPanel.setBorder(
+                BorderFactory
+                        .createEmptyBorder(
+                                45,
+                                60,
+                                40,
+                                60
+                        )
+        );
+
+        roleFrame.add(
+                mainPanel
+        );
+
+        /*
+         * TITLE
+         */
+
+        JLabel title =
+                new JLabel(
+                        "Choose Your Role"
+                );
+
+        title.setFont(
+                new Font(
+                        "SansSerif",
+                        Font.BOLD,
+                        28
+                )
+        );
+
+        title.setForeground(
+                DARK
+        );
+
+        title.setAlignmentX(
+                Component.CENTER_ALIGNMENT
+        );
+
+        mainPanel.add(
+                title
+        );
+
+        mainPanel.add(
+                Box.createVerticalStrut(
+                        8
+                )
+        );
+
+        /*
+         * WELCOME
+         */
+
+        JLabel welcomeLabel =
+                new JLabel(
+                        "Welcome, "
+                        + user.getUsername()
+                );
+
+        welcomeLabel.setFont(
+                new Font(
+                        "SansSerif",
+                        Font.PLAIN,
+                        15
+                )
+        );
+
+        welcomeLabel.setForeground(
+                GRAY
+        );
+
+        welcomeLabel.setAlignmentX(
+                Component.CENTER_ALIGNMENT
+        );
+
+        mainPanel.add(
+                welcomeLabel
+        );
+
+        mainPanel.add(
+                Box.createVerticalStrut(
+                        8
+                )
+        );
+
+        JLabel instruction =
+                new JLabel(
+                        "Select how you would like to continue."
+                );
+
+        instruction.setFont(
+                new Font(
+                        "SansSerif",
+                        Font.PLAIN,
+                        13
+                )
+        );
+
+        instruction.setForeground(
+                GRAY
+        );
+
+        instruction.setAlignmentX(
+                Component.CENTER_ALIGNMENT
+        );
+
+        mainPanel.add(
+                instruction
+        );
+
+        mainPanel.add(
+                Box.createVerticalStrut(
+                        35
+                )
+        );
+
+        /*
+         * ROLE BUTTONS
+         */
+
+        for (Role role : roles) {
+
+            JButton roleButton =
+                    createRoleButton(
+                            role
                     );
 
-                    return;
-                }
+            roleButton.addActionListener(
+                    e -> {
 
-        frame.dispose();
+                        roleFrame.dispose();
 
-        if (selectedRole == Role.ADMIN) {
+                        openRoleScreen(
+                                role,
+                                user,
+                                userManager
+                        );
+                    }
+            );
 
-            new AdminGUI(user, userManager);
+            mainPanel.add(
+                    roleButton
+            );
 
-        } else if (selectedRole == Role.STUDENT) {
+            mainPanel.add(
+                    Box.createVerticalStrut(
+                            15
+                    )
+            );
+        }
 
-            new StudentGUI(user, userManager);
+        /*
+         * BACK BUTTON
+         */
+
+        mainPanel.add(
+                Box.createVerticalGlue()
+        );
+
+        JButton backButton =
+                new JButton(
+                        "Back to Login"
+                );
+
+        backButton.setFont(
+                new Font(
+                        "SansSerif",
+                        Font.PLAIN,
+                        13
+                )
+        );
+
+        backButton.setForeground(
+                BLUE
+        );
+
+        backButton.setBackground(
+                BACKGROUND
+        );
+
+        backButton.setBorderPainted(
+                false
+        );
+
+        backButton.setFocusPainted(
+                false
+        );
+
+        backButton.setAlignmentX(
+                Component.CENTER_ALIGNMENT
+        );
+
+        backButton
+                .addActionListener(
+                        e -> {
+
+                            roleFrame.dispose();
+
+                            showLogin(
+                                    userManager
+                            );
+                        }
+                );
+
+        mainPanel.add(
+                backButton
+        );
+
+        roleFrame.setVisible(
+                true
+        );
+    }
+
+    /*
+     * ROLE BUTTON DESIGN
+     */
+
+    private static JButton createRoleButton(
+            Role role) {
+
+        JButton button =
+                new JButton();
+
+        if (role == Role.ADMIN) {
+
+            button.setText(
+                    "Admin Dashboard"
+            );
+
+        } else if (
+                role == Role.STUDENT) {
+
+            button.setText(
+                    "Student Dashboard"
+            );
+
+        } else if (
+                role == Role.REVIEWER) {
+
+            button.setText(
+                    "Reviewer Dashboard"
+            );
 
         } else {
 
-            showHomeScreen(user, selectedRole, userManager);
-        }
-            }
-        });
-
-        // REGISTER BUTTON ACTION
-        registerButton.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                showRegister(userManager, frame);
-            }
-        });
-
-        // Press Enter to log in
-        frame.getRootPane().setDefaultButton(loginButton);
-
-        frame.setVisible(true);
-    }
-
-    // Registration window
-    private static void showRegister(
-            UserManager userManager, JFrame loginFrame) {
-
-        JDialog dialog = new JDialog(
-                loginFrame, "Create Account", true
-        );
-
-        dialog.setSize(400, 380);
-        dialog.setLocationRelativeTo(loginFrame);
-        dialog.setResizable(false);
-
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setBorder(new EmptyBorder(25, 35, 25, 35));
-        panel.setBackground(Color.WHITE);
-
-        dialog.add(panel);
-
-        JLabel title = new JLabel("Create Account");
-        title.setFont(new Font("SansSerif", Font.BOLD, 22));
-        title.setForeground(DARK);
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
-        panel.add(title);
-
-        panel.add(Box.createVerticalStrut(25));
-
-        // Username
-        JLabel usernameLabel = new JLabel("Username");
-        usernameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        panel.add(usernameLabel);
-
-        panel.add(Box.createVerticalStrut(6));
-
-        JTextField usernameField = new JTextField();
-        usernameField.setMaximumSize(new Dimension(300, 38));
-        usernameField.setPreferredSize(new Dimension(300, 38));
-        usernameField.setHorizontalAlignment(JTextField.CENTER);
-        usernameField.setAlignmentX(Component.CENTER_ALIGNMENT);
-        panel.add(usernameField);
-
-        panel.add(Box.createVerticalStrut(15));
-
-        // Password
-        JLabel passwordLabel = new JLabel("Password");
-        passwordLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        panel.add(passwordLabel);
-
-        panel.add(Box.createVerticalStrut(6));
-
-        JPasswordField passwordField = new JPasswordField();
-        passwordField.setMaximumSize(new Dimension(300, 38));
-        passwordField.setPreferredSize(new Dimension(300, 38));
-        passwordField.setHorizontalAlignment(JTextField.CENTER);
-        passwordField.setAlignmentX(Component.CENTER_ALIGNMENT);
-        panel.add(passwordField);
-
-        panel.add(Box.createVerticalStrut(25));
-
-        JButton createButton = new JButton("Create Account");
-        createButton.setBackground(BLUE);
-        createButton.setForeground(Color.WHITE);
-        createButton.setOpaque(true);
-        createButton.setBorderPainted(false);
-        createButton.setFocusPainted(false);
-        createButton.setMaximumSize(new Dimension(300, 42));
-        createButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        panel.add(createButton);
-
-        createButton.addActionListener(e -> {
-
-            String username = usernameField.getText().trim();
-            String password =
-                    new String(passwordField.getPassword());
-
-            User newUser = userManager.registerUser(
-                    username, password
+            button.setText(
+                    role.toString()
             );
+        }
 
-            if (newUser != null) {
-
-                JOptionPane.showMessageDialog(
-                        dialog,
-                        "Account created successfully!\n"
-                        + "Assigned role: " + newUser.getRoles()
-                        + "\nPlease log in."
-                );
-
-                dialog.dispose();
-
-            } else {
-
-                JOptionPane.showMessageDialog(
-                        dialog,
-                        "Registration failed.\n"
-                        + "Check the username and password.",
-                        "Registration Failed",
-                        JOptionPane.ERROR_MESSAGE
-                );
-            }
-        });
-
-        dialog.getRootPane().setDefaultButton(createButton);
-
-        dialog.setVisible(true);
-    }
-
-    // Temporary role home screen
-    private static void showHomeScreen(
-            User user, Role role, UserManager userManager) {
-
-        JFrame homeFrame = new JFrame(role + " Home");
-        homeFrame.setSize(450, 350);
-        homeFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        homeFrame.setLocationRelativeTo(null);
-
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setBackground(BACKGROUND);
-        panel.setBorder(new EmptyBorder(40, 50, 40, 50));
-
-        homeFrame.add(panel);
-
-        JLabel welcomeLabel = new JLabel(
-                "Welcome, " + user.getUsername()
+        button.setFont(
+                new Font(
+                        "SansSerif",
+                        Font.BOLD,
+                        15
+                )
         );
 
-        welcomeLabel.setFont(new Font("SansSerif", Font.BOLD, 22));
-        welcomeLabel.setForeground(DARK);
-        welcomeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        panel.add(welcomeLabel);
+        button.setBackground(
+                BLUE
+        );
 
-        panel.add(Box.createVerticalStrut(10));
+        button.setForeground(
+                Color.WHITE
+        );
 
-        JLabel roleLabel = new JLabel("Role: " + role);
-        roleLabel.setForeground(GRAY);
-        roleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        panel.add(roleLabel);
+        button.setOpaque(
+                true
+        );
 
-        panel.add(Box.createVerticalStrut(25));
+        button.setBorderPainted(
+                false
+        );
 
-        // Admin-only role assignment
+        button.setFocusPainted(
+                false
+        );
+
+        button.setMaximumSize(
+                new Dimension(
+                        320,
+                        52
+                )
+        );
+
+        button.setPreferredSize(
+                new Dimension(
+                        320,
+                        52
+                )
+        );
+
+        button.setAlignmentX(
+                Component.CENTER_ALIGNMENT
+        );
+
+        return button;
+    }
+
+    /*
+     * OPEN SELECTED ROLE
+     */
+
+    private static void openRoleScreen(
+            Role role,
+            User user,
+            UserManager userManager) {
+
         if (role == Role.ADMIN) {
 
-            JButton assignRoleButton =
-                    new JButton("Assign User Role");
+            new AdminGUI(
+                    user,
+                    userManager
+            );
 
-            assignRoleButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-            panel.add(assignRoleButton);
+        } else if (
+                role == Role.STUDENT) {
 
-            assignRoleButton.addActionListener(e -> {
+            new StudentGUI(
+                    user,
+                    userManager
+            );
 
-                String username = JOptionPane.showInputDialog(
-                        homeFrame,
-                        "Enter the username:"
-                );
+        } else if (
+                role == Role.REVIEWER) {
 
-                if (username == null || username.trim().isEmpty()) {
-                    return;
-                }
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Reviewer dashboard coming soon."
+            );
 
-                Role newRole = (Role)
-                        JOptionPane.showInputDialog(
-                                homeFrame,
-                                "Select a role to assign:",
-                                "Assign Role",
-                                JOptionPane.QUESTION_MESSAGE,
-                                null,
-                                Role.values(),
-                                Role.STUDENT
-                        );
-
-                if (newRole == null) {
-                    return;
-                }
-
-                boolean success = userManager.addRoleToUser(
-                        username.trim(), newRole
-                );
-
-                JOptionPane.showMessageDialog(
-                        homeFrame,
-                        success
-                                ? "Role assigned successfully!"
-                                : "User not found."
-                );
-            });
+            showLogin(
+                    userManager
+            );
         }
+    }
 
-        panel.add(Box.createVerticalStrut(20));
+    /*
+     * REGISTRATION WINDOW
+     */
 
-        JButton logoutButton = new JButton("Logout");
-        logoutButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        panel.add(logoutButton);
+    private static void showRegister(
+            UserManager userManager,
+            JFrame loginFrame) {
 
-        logoutButton.addActionListener(e -> {
+        JDialog dialog =
+                new JDialog(
+                        loginFrame,
+                        "Create Account",
+                        true
+                );
 
-            homeFrame.dispose();
+        dialog.setSize(
+                400,
+                380
+        );
 
-            showLogin(userManager);
-        });
+        dialog.setLocationRelativeTo(
+                loginFrame
+        );
 
-        homeFrame.setVisible(true);
+        dialog.setResizable(
+                false
+        );
+
+        JPanel panel =
+                new JPanel();
+
+        panel.setLayout(
+                new BoxLayout(
+                        panel,
+                        BoxLayout.Y_AXIS
+                )
+        );
+
+        panel.setBorder(
+                new EmptyBorder(
+                        25,
+                        35,
+                        25,
+                        35
+                )
+        );
+
+        panel.setBackground(
+                Color.WHITE
+        );
+
+        dialog.add(
+                panel
+        );
+
+        /*
+         * TITLE
+         */
+
+        JLabel title =
+                new JLabel(
+                        "Create Account"
+                );
+
+        title.setFont(
+                new Font(
+                        "SansSerif",
+                        Font.BOLD,
+                        22
+                )
+        );
+
+        title.setForeground(
+                DARK
+        );
+
+        title.setAlignmentX(
+                Component.CENTER_ALIGNMENT
+        );
+
+        panel.add(
+                title
+        );
+
+        panel.add(
+                Box.createVerticalStrut(
+                        25
+                )
+        );
+
+        /*
+         * USERNAME
+         */
+
+        JLabel usernameLabel =
+                new JLabel(
+                        "Username"
+                );
+
+        usernameLabel.setAlignmentX(
+                Component.CENTER_ALIGNMENT
+        );
+
+        panel.add(
+                usernameLabel
+        );
+
+        panel.add(
+                Box.createVerticalStrut(
+                        6
+                )
+        );
+
+        JTextField usernameField =
+                new JTextField();
+
+        usernameField.setMaximumSize(
+                new Dimension(
+                        300,
+                        38
+                )
+        );
+
+        usernameField.setPreferredSize(
+                new Dimension(
+                        300,
+                        38
+                )
+        );
+
+        usernameField.setHorizontalAlignment(
+                JTextField.CENTER
+        );
+
+        usernameField.setAlignmentX(
+                Component.CENTER_ALIGNMENT
+        );
+
+        panel.add(
+                usernameField
+        );
+
+        panel.add(
+                Box.createVerticalStrut(
+                        15
+                )
+        );
+
+        /*
+         * PASSWORD
+         */
+
+        JLabel passwordLabel =
+                new JLabel(
+                        "Password"
+                );
+
+        passwordLabel.setAlignmentX(
+                Component.CENTER_ALIGNMENT
+        );
+
+        panel.add(
+                passwordLabel
+        );
+
+        panel.add(
+                Box.createVerticalStrut(
+                        6
+                )
+        );
+
+        JPasswordField passwordField =
+                new JPasswordField();
+
+        passwordField.setMaximumSize(
+                new Dimension(
+                        300,
+                        38
+                )
+        );
+
+        passwordField.setPreferredSize(
+                new Dimension(
+                        300,
+                        38
+                )
+        );
+
+        passwordField.setHorizontalAlignment(
+                JTextField.CENTER
+        );
+
+        passwordField.setAlignmentX(
+                Component.CENTER_ALIGNMENT
+        );
+
+        panel.add(
+                passwordField
+        );
+
+        panel.add(
+                Box.createVerticalStrut(
+                        25
+                )
+        );
+
+        /*
+         * CREATE ACCOUNT BUTTON
+         */
+
+        JButton createButton =
+                new JButton(
+                        "Create Account"
+                );
+
+        createButton.setBackground(
+                BLUE
+        );
+
+        createButton.setForeground(
+                Color.WHITE
+        );
+
+        createButton.setOpaque(
+                true
+        );
+
+        createButton.setBorderPainted(
+                false
+        );
+
+        createButton.setFocusPainted(
+                false
+        );
+
+        createButton.setMaximumSize(
+                new Dimension(
+                        300,
+                        42
+                )
+        );
+
+        createButton.setAlignmentX(
+                Component.CENTER_ALIGNMENT
+        );
+
+        panel.add(
+                createButton
+        );
+
+        /*
+         * CREATE ACCOUNT ACTION
+         */
+
+        createButton
+                .addActionListener(
+                        e -> {
+
+                            String username =
+                                    usernameField
+                                            .getText()
+                                            .trim();
+
+                            String password =
+                                    new String(
+                                            passwordField
+                                                    .getPassword()
+                                    );
+
+                            User newUser =
+                                    userManager
+                                            .registerUser(
+                                                    username,
+                                                    password
+                                            );
+
+                            if (newUser != null) {
+
+                                JOptionPane
+                                        .showMessageDialog(
+                                                dialog,
+                                                "Account created successfully!\n"
+                                                + "Assigned role: "
+                                                + newUser.getRoles()
+                                                + "\nPlease log in."
+                                        );
+
+                                dialog.dispose();
+
+                            } else {
+
+                                JOptionPane
+                                        .showMessageDialog(
+                                                dialog,
+                                                "Registration failed.\n"
+                                                + "Check the username and password.",
+                                                "Registration Failed",
+                                                JOptionPane.ERROR_MESSAGE
+                                        );
+                            }
+                        }
+                );
+
+        dialog.getRootPane()
+                .setDefaultButton(
+                        createButton
+                );
+
+        dialog.setVisible(
+                true
+        );
     }
 }

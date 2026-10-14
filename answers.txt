@@ -1,9 +1,1 @@
-1|1|Test|Test
-2|1|Test test|Test
-3|4|This answer solved the problem.|AnotherStudent
-4|6|Potential answer.|AnotherStudent
-5|7|This is a potential answer.|Test
-6|10|This is an existing potential answer.|AnotherStudent
-7|11|This answer solved the problem.|AnotherStudent
-8|13|Potential answer.|AnotherStudent
-9|14|This is a potential answer.|Test
+10|1|8|admin

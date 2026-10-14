@@ -1,15 +1,22 @@
 public class Answer {
 
-    private final String text;
+    private final int answerId;
+    private final String description;
     private final String author;
 
-    public Answer(String text, String author) {
-        this.text = text;
+    public Answer(int answerId, String description,
+                  String author) {
+        this.answerId = answerId;
+        this.description = description;
         this.author = author;
     }
 
-    public String getText() {
-        return text;
+    public int getAnswerId() {
+        return answerId;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public String getAuthor() {
@@ -18,6 +25,6 @@ public class Answer {
 
     @Override
     public String toString() {
-        return text + " (by " + author + ")";
+        return "#" + answerId + " - " + description;
     }
 }

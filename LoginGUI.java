@@ -16,6 +16,12 @@ public class LoginGUI {
     private static final Color BACKGROUND =
             new Color(244, 247, 252);
 
+    /*
+     * Set to true for presentation/demo mode.
+     * Set to false to hide the demo login button.
+     */
+    private static final boolean DEMO_MODE = true;
+
     public static void main(String[] args) {
 
         UserManager userManager =
@@ -69,7 +75,9 @@ public class LoginGUI {
                         )
                 );
 
-        frame.add(mainPanel);
+        frame.add(
+                mainPanel
+        );
 
         /*
          * LEFT SIDE
@@ -85,7 +93,9 @@ public class LoginGUI {
                 )
         );
 
-        leftPanel.setBackground(BLUE);
+        leftPanel.setBackground(
+                BLUE
+        );
 
         leftPanel.setBorder(
                 BorderFactory
@@ -219,9 +229,9 @@ public class LoginGUI {
         rightPanel.setBorder(
                 BorderFactory
                         .createEmptyBorder(
-                                55,
-                                55,
                                 45,
+                                55,
+                                35,
                                 55
                         )
         );
@@ -284,7 +294,7 @@ public class LoginGUI {
 
         rightPanel.add(
                 Box.createVerticalStrut(
-                        35
+                        25
                 )
         );
 
@@ -362,7 +372,7 @@ public class LoginGUI {
 
         rightPanel.add(
                 Box.createVerticalStrut(
-                        20
+                        15
                 )
         );
 
@@ -497,7 +507,7 @@ public class LoginGUI {
 
         rightPanel.add(
                 Box.createVerticalStrut(
-                        25
+                        18
                 )
         );
 
@@ -545,6 +555,13 @@ public class LoginGUI {
                 )
         );
 
+        loginButton.setPreferredSize(
+                new Dimension(
+                        280,
+                        44
+                )
+        );
+
         loginButton.setAlignmentX(
                 Component.CENTER_ALIGNMENT
         );
@@ -555,7 +572,76 @@ public class LoginGUI {
 
         rightPanel.add(
                 Box.createVerticalStrut(
-                        15
+                        10
+                )
+        );
+
+        /*
+         * DEMO LOGIN BUTTON
+         */
+
+        JButton demoButton =
+                new JButton(
+                        "DEMO LOGIN"
+                );
+
+        demoButton.setFont(
+                new Font(
+                        "SansSerif",
+                        Font.BOLD,
+                        14
+                )
+        );
+
+        demoButton.setBackground(
+                DARK
+        );
+
+        demoButton.setForeground(
+                Color.WHITE
+        );
+
+        demoButton.setOpaque(
+                true
+        );
+
+        demoButton.setBorderPainted(
+                false
+        );
+
+        demoButton.setFocusPainted(
+                false
+        );
+
+        demoButton.setMaximumSize(
+                new Dimension(
+                        280,
+                        44
+                )
+        );
+
+        demoButton.setPreferredSize(
+                new Dimension(
+                        280,
+                        44
+                )
+        );
+
+        demoButton.setAlignmentX(
+                Component.CENTER_ALIGNMENT
+        );
+
+        demoButton.setVisible(
+                DEMO_MODE
+        );
+
+        rightPanel.add(
+                demoButton
+        );
+
+        rightPanel.add(
+                Box.createVerticalStrut(
+                        12
                 )
         );
 
@@ -630,7 +716,71 @@ public class LoginGUI {
         );
 
         /*
-         * LOGIN ACTION
+         * DEMO LOGIN ACTION
+         */
+
+        demoButton.addActionListener(
+                e -> {
+
+                    User user =
+                            userManager
+                                    .getUserByUsername(
+                                            "Test"
+                                    );
+
+                    if (user == null) {
+
+                        JOptionPane
+                                .showMessageDialog(
+                                        frame,
+                                        "Demo user 'Test' does not exist.",
+                                        "Demo Login",
+                                        JOptionPane.ERROR_MESSAGE
+                                );
+
+                        return;
+                    }
+
+                    java.util.ArrayList<Role> roles =
+                            user.getRoles();
+
+                    if (roles.size() == 1) {
+
+                        Role selectedRole =
+                                roles.get(0);
+
+                        frame.dispose();
+
+                        openRoleScreen(
+                                selectedRole,
+                                user,
+                                userManager
+                        );
+
+                    } else if (
+                            roles.size() > 1) {
+
+                        frame.dispose();
+
+                        showRoleSelection(
+                                user,
+                                userManager,
+                                roles
+                        );
+
+                    } else {
+
+                        JOptionPane
+                                .showMessageDialog(
+                                        frame,
+                                        "Demo user has no role assigned."
+                                );
+                    }
+                }
+        );
+
+        /*
+         * NORMAL LOGIN ACTION
          */
 
         loginButton
@@ -758,7 +908,9 @@ public class LoginGUI {
             String text) {
 
         JLabel label =
-                new JLabel(text);
+                new JLabel(
+                        text
+                );
 
         label.setFont(
                 new Font(
@@ -976,7 +1128,7 @@ public class LoginGUI {
         }
 
         /*
-         * BACK BUTTON
+         * BACK TO LOGIN
          */
 
         mainPanel.add(
@@ -1397,6 +1549,13 @@ public class LoginGUI {
         );
 
         createButton.setMaximumSize(
+                new Dimension(
+                        300,
+                        42
+                )
+        );
+
+        createButton.setPreferredSize(
                 new Dimension(
                         300,
                         42

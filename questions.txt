@@ -6,3 +6,12 @@
 6|Author Permission JUnit Question|Only Test should be able to resolve this.|Test|false|-1
 7|Answer JUnit Question|This question needs a potential answer.|Test|false|-1
 8|Recursion JUnit Example|How does recursion work in Java?|Test|false|-1
+9|Test question|Testing|Test|true|15
+10|Unresolved JUnit Question|This question should still be unresolved.|Test|false|-1
+11|Unresolved Question With Answers|This question should have potential answers.|Test|false|-1
+12|Resolved JUnit Question|This question will be marked solved.|Test|true|17
+13|JUnit Test Question|This question was created by a JUnit test.|Test|false|-1
+14|Author Permission JUnit Question|Only Test should be able to resolve this.|Test|false|-1
+15|Answer JUnit Question|This question needs a potential answer.|Test|false|-1
+16|Recursion JUnit Example|How does recursion work in Java?|Test|false|-1
+17|Q1|Are these guys crazy?|Test|false|-1

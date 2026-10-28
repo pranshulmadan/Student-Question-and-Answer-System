@@ -431,4 +431,71 @@ public boolean removeRoleFromUser(
 
     return null;
 }
+
+public User registerInvitedUser(
+        String username,
+        String password,
+        ArrayList<Role> roles) {
+
+    if (username == null
+            || username.trim().isEmpty()) {
+
+        return null;
+    }
+
+    if (password == null
+            || password.trim().isEmpty()) {
+
+        return null;
+    }
+
+    if (roles == null
+            || roles.isEmpty()) {
+
+        return null;
+    }
+
+    /*
+     * Prevent duplicate usernames
+     */
+
+    for (User existingUser :
+            users) {
+
+        if (existingUser
+                .getUsername()
+                .equalsIgnoreCase(
+                        username.trim()
+                )) {
+
+            return null;
+        }
+    }
+
+    User newUser =
+            new User(
+                    username.trim(),
+                    password
+            );
+
+    /*
+     * Assign invitation roles
+     */
+
+    for (Role role : roles) {
+
+        newUser.addRole(
+                role
+        );
+    }
+
+    users.add(
+            newUser
+    );
+
+    saveUsers();
+
+    return newUser;
+}
+
 }

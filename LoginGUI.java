@@ -1317,319 +1317,489 @@ public class LoginGUI {
      * REGISTRATION WINDOW
      */
 
-    private static void showRegister(
-            UserManager userManager,
-            JFrame loginFrame) {
+private static void showRegister(
+        UserManager userManager,
+        JFrame loginFrame) {
 
-        JDialog dialog =
-                new JDialog(
-                        loginFrame,
-                        "Create Account",
-                        true
-                );
+    JDialog dialog =
+            new JDialog(
+                    loginFrame,
+                    "Create Account",
+                    true
+            );
 
-        dialog.setSize(
-                400,
-                380
-        );
+    dialog.setSize(
+            400,
+            500
+    );
 
-        dialog.setLocationRelativeTo(
-                loginFrame
-        );
+    dialog.setLocationRelativeTo(
+            loginFrame
+    );
 
-        dialog.setResizable(
-                false
-        );
+    dialog.setResizable(
+            false
+    );
 
-        JPanel panel =
-                new JPanel();
+    JPanel panel =
+            new JPanel();
 
-        panel.setLayout(
-                new BoxLayout(
-                        panel,
-                        BoxLayout.Y_AXIS
-                )
-        );
+    panel.setLayout(
+            new BoxLayout(
+                    panel,
+                    BoxLayout.Y_AXIS
+            )
+    );
 
-        panel.setBorder(
-                new EmptyBorder(
-                        25,
-                        35,
-                        25,
-                        35
-                )
-        );
+    panel.setBorder(
+            new EmptyBorder(
+                    25,
+                    35,
+                    25,
+                    35
+            )
+    );
 
-        panel.setBackground(
-                Color.WHITE
-        );
+    panel.setBackground(
+            Color.WHITE
+    );
 
-        dialog.add(
-                panel
-        );
+    dialog.add(
+            panel
+    );
 
-        /*
-         * TITLE
-         */
+    /*
+     * TITLE
+     */
 
-        JLabel title =
-                new JLabel(
-                        "Create Account"
-                );
+    JLabel title =
+            new JLabel(
+                    "Create Account"
+            );
 
-        title.setFont(
-                new Font(
-                        "SansSerif",
-                        Font.BOLD,
-                        22
-                )
-        );
+    title.setFont(
+            new Font(
+                    "SansSerif",
+                    Font.BOLD,
+                    22
+            )
+    );
 
-        title.setForeground(
-                DARK
-        );
+    title.setForeground(
+            DARK
+    );
 
-        title.setAlignmentX(
-                Component.CENTER_ALIGNMENT
-        );
+    title.setAlignmentX(
+            Component.CENTER_ALIGNMENT
+    );
 
-        panel.add(
-                title
-        );
+    panel.add(
+            title
+    );
 
-        panel.add(
-                Box.createVerticalStrut(
-                        25
-                )
-        );
+    panel.add(
+            Box.createVerticalStrut(
+                    25
+            )
+    );
 
-        /*
-         * USERNAME
-         */
+    /*
+     * USERNAME
+     */
 
-        JLabel usernameLabel =
-                new JLabel(
-                        "Username"
-                );
+    JLabel usernameLabel =
+            new JLabel(
+                    "Username"
+            );
 
-        usernameLabel.setAlignmentX(
-                Component.CENTER_ALIGNMENT
-        );
+    usernameLabel.setAlignmentX(
+            Component.CENTER_ALIGNMENT
+    );
 
-        panel.add(
-                usernameLabel
-        );
+    panel.add(
+            usernameLabel
+    );
 
-        panel.add(
-                Box.createVerticalStrut(
-                        6
-                )
-        );
+    panel.add(
+            Box.createVerticalStrut(
+                    6
+            )
+    );
 
-        JTextField usernameField =
-                new JTextField();
+    JTextField usernameField =
+            new JTextField();
 
-        usernameField.setMaximumSize(
-                new Dimension(
-                        300,
-                        38
-                )
-        );
+    usernameField.setMaximumSize(
+            new Dimension(
+                    300,
+                    38
+            )
+    );
 
-        usernameField.setPreferredSize(
-                new Dimension(
-                        300,
-                        38
-                )
-        );
+    usernameField.setPreferredSize(
+            new Dimension(
+                    300,
+                    38
+            )
+    );
 
-        usernameField.setHorizontalAlignment(
-                JTextField.CENTER
-        );
+    usernameField.setHorizontalAlignment(
+            JTextField.CENTER
+    );
 
-        usernameField.setAlignmentX(
-                Component.CENTER_ALIGNMENT
-        );
+    usernameField.setAlignmentX(
+            Component.CENTER_ALIGNMENT
+    );
 
-        panel.add(
-                usernameField
-        );
+    panel.add(
+            usernameField
+    );
 
-        panel.add(
-                Box.createVerticalStrut(
-                        15
-                )
-        );
+    panel.add(
+            Box.createVerticalStrut(
+                    15
+            )
+    );
 
-        /*
-         * PASSWORD
-         */
+    /*
+     * PASSWORD
+     */
 
-        JLabel passwordLabel =
-                new JLabel(
-                        "Password"
-                );
+    JLabel passwordLabel =
+            new JLabel(
+                    "Password"
+            );
 
-        passwordLabel.setAlignmentX(
-                Component.CENTER_ALIGNMENT
-        );
+    passwordLabel.setAlignmentX(
+            Component.CENTER_ALIGNMENT
+    );
 
-        panel.add(
-                passwordLabel
-        );
+    panel.add(
+            passwordLabel
+    );
 
-        panel.add(
-                Box.createVerticalStrut(
-                        6
-                )
-        );
+    panel.add(
+            Box.createVerticalStrut(
+                    6
+            )
+    );
 
-        JPasswordField passwordField =
-                new JPasswordField();
+    JPasswordField passwordField =
+            new JPasswordField();
 
-        passwordField.setMaximumSize(
-                new Dimension(
-                        300,
-                        38
-                )
-        );
+    passwordField.setMaximumSize(
+            new Dimension(
+                    300,
+                    38
+            )
+    );
 
-        passwordField.setPreferredSize(
-                new Dimension(
-                        300,
-                        38
-                )
-        );
+    passwordField.setPreferredSize(
+            new Dimension(
+                    300,
+                    38
+            )
+    );
 
-        passwordField.setHorizontalAlignment(
-                JTextField.CENTER
-        );
+    passwordField.setHorizontalAlignment(
+            JTextField.CENTER
+    );
 
-        passwordField.setAlignmentX(
-                Component.CENTER_ALIGNMENT
-        );
+    passwordField.setAlignmentX(
+            Component.CENTER_ALIGNMENT
+    );
 
-        panel.add(
-                passwordField
-        );
+    panel.add(
+            passwordField
+    );
 
-        panel.add(
-                Box.createVerticalStrut(
-                        25
-                )
-        );
+    panel.add(
+            Box.createVerticalStrut(
+                    15
+            )
+    );
 
-        /*
-         * CREATE ACCOUNT BUTTON
-         */
+    /*
+     * INVITATION CODE
+     */
 
-        JButton createButton =
-                new JButton(
-                        "Create Account"
-                );
+    JLabel invitationLabel =
+            new JLabel(
+                    "Invitation Code"
+            );
 
-        createButton.setBackground(
-                BLUE
-        );
+    invitationLabel.setAlignmentX(
+            Component.CENTER_ALIGNMENT
+    );
 
-        createButton.setForeground(
-                Color.WHITE
-        );
+    panel.add(
+            invitationLabel
+    );
 
-        createButton.setOpaque(
-                true
-        );
+    panel.add(
+            Box.createVerticalStrut(
+                    6
+            )
+    );
 
-        createButton.setBorderPainted(
-                false
-        );
+    JTextField invitationField =
+            new JTextField();
 
-        createButton.setFocusPainted(
-                false
-        );
+    invitationField.setMaximumSize(
+            new Dimension(
+                    300,
+                    38
+            )
+    );
 
-        createButton.setMaximumSize(
-                new Dimension(
-                        300,
-                        42
-                )
-        );
+    invitationField.setPreferredSize(
+            new Dimension(
+                    300,
+                    38
+            )
+    );
 
-        createButton.setPreferredSize(
-                new Dimension(
-                        300,
-                        42
-                )
-        );
+    invitationField.setHorizontalAlignment(
+            JTextField.CENTER
+    );
 
-        createButton.setAlignmentX(
-                Component.CENTER_ALIGNMENT
-        );
+    invitationField.setAlignmentX(
+            Component.CENTER_ALIGNMENT
+    );
 
-        panel.add(
-                createButton
-        );
+    panel.add(
+            invitationField
+    );
 
-        /*
-         * CREATE ACCOUNT ACTION
-         */
+    panel.add(
+            Box.createVerticalStrut(
+                    8
+            )
+    );
 
-        createButton
-                .addActionListener(
-                        e -> {
+    JLabel invitationHelp =
+            new JLabel(
+                    "Leave blank for normal registration."
+            );
 
-                            String username =
-                                    usernameField
-                                            .getText()
-                                            .trim();
+    invitationHelp.setFont(
+            new Font(
+                    "SansSerif",
+                    Font.PLAIN,
+                    11
+            )
+    );
 
-                            String password =
-                                    new String(
-                                            passwordField
-                                                    .getPassword()
+    invitationHelp.setForeground(
+            GRAY
+    );
+
+    invitationHelp.setAlignmentX(
+            Component.CENTER_ALIGNMENT
+    );
+
+    panel.add(
+            invitationHelp
+    );
+
+    panel.add(
+            Box.createVerticalStrut(
+                    25
+            )
+    );
+
+    /*
+     * CREATE ACCOUNT BUTTON
+     */
+
+    JButton createButton =
+            new JButton(
+                    "Create Account"
+            );
+
+    createButton.setBackground(
+            BLUE
+    );
+
+    createButton.setForeground(
+            Color.WHITE
+    );
+
+    createButton.setOpaque(
+            true
+    );
+
+    createButton.setBorderPainted(
+            false
+    );
+
+    createButton.setFocusPainted(
+            false
+    );
+
+    createButton.setMaximumSize(
+            new Dimension(
+                    300,
+                    42
+            )
+    );
+
+    createButton.setPreferredSize(
+            new Dimension(
+                    300,
+                    42
+            )
+    );
+
+    createButton.setAlignmentX(
+            Component.CENTER_ALIGNMENT
+    );
+
+    panel.add(
+            createButton
+    );
+
+    /*
+     * CREATE ACCOUNT ACTION
+     */
+
+    createButton.addActionListener(
+            e -> {
+
+                String username =
+                        usernameField
+                                .getText()
+                                .trim();
+
+                String password =
+                        new String(
+                                passwordField
+                                        .getPassword()
+                        );
+
+                String invitationCode =
+                        invitationField
+                                .getText()
+                                .trim();
+
+                User newUser;
+
+                /*
+                 * INVITED REGISTRATION
+                 */
+
+                if (!invitationCode.isEmpty()) {
+
+                    InvitationManager invitationManager =
+                            new InvitationManager();
+
+                    Invitation invitation =
+                            invitationManager
+                                    .validateInvitation(
+                                            invitationCode
                                     );
 
-                            User newUser =
-                                    userManager
-                                            .registerUser(
-                                                    username,
-                                                    password
-                                            );
+                    /*
+                     * Invalid / expired / used
+                     */
 
-                            if (newUser != null) {
+                    if (invitation == null) {
 
-                                JOptionPane
-                                        .showMessageDialog(
-                                                dialog,
-                                                "Account created successfully!\n"
-                                                + "Assigned role: "
-                                                + newUser.getRoles()
-                                                + "\nPlease log in."
-                                        );
+                        JOptionPane.showMessageDialog(
+                                dialog,
+                                "The invitation code is invalid, "
+                                + "expired, or already used.",
+                                "Invalid Invitation",
+                                JOptionPane.ERROR_MESSAGE
+                        );
 
-                                dialog.dispose();
+                        return;
+                    }
 
-                            } else {
+                    /*
+                     * Register with invitation roles
+                     */
 
-                                JOptionPane
-                                        .showMessageDialog(
-                                                dialog,
-                                                "Registration failed.\n"
-                                                + "Check the username and password.",
-                                                "Registration Failed",
-                                                JOptionPane.ERROR_MESSAGE
-                                        );
-                            }
-                        }
-                );
+                    newUser =
+                            userManager
+                                    .registerInvitedUser(
+                                            username,
+                                            password,
+                                            invitation.getRoles()
+                                    );
 
-        dialog.getRootPane()
-                .setDefaultButton(
-                        createButton
-                );
+                    /*
+                     * Only mark invitation used
+                     * after account creation succeeds.
+                     */
 
-        dialog.setVisible(
-                true
-        );
-    }
+                    if (newUser != null) {
+
+                        invitationManager
+                                .useInvitation(
+                                        invitationCode
+                                );
+                    }
+
+                }
+
+                /*
+                 * NORMAL REGISTRATION
+                 */
+
+                else {
+
+                    newUser =
+                            userManager
+                                    .registerUser(
+                                            username,
+                                            password
+                                    );
+                }
+
+                /*
+                 * SUCCESS
+                 */
+
+                if (newUser != null) {
+
+                    JOptionPane.showMessageDialog(
+                            dialog,
+                            "Account created successfully!\n"
+                            + "Assigned role(s): "
+                            + newUser.getRoles()
+                            + "\nPlease log in."
+                    );
+
+                    dialog.dispose();
+
+                }
+
+                /*
+                 * FAILURE
+                 */
+
+                else {
+
+                    JOptionPane.showMessageDialog(
+                            dialog,
+                            "Registration failed.\n"
+                            + "The username may already exist "
+                            + "or the username/password is invalid.",
+                            "Registration Failed",
+                            JOptionPane.ERROR_MESSAGE
+                    );
+                }
+            }
+    );
+
+    dialog.getRootPane()
+            .setDefaultButton(
+                    createButton
+            );
+
+    dialog.setVisible(
+            true
+    );
+}
 }

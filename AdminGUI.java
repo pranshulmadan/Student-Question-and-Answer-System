@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.util.ArrayList;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
@@ -32,7 +33,11 @@ public class AdminGUI {
                 "Student Q&A - Admin Dashboard"
         );
 
-        frame.setSize(900, 560);
+        frame.setSize(
+                900,
+                560
+        );
+
         frame.setDefaultCloseOperation(
                 JFrame.EXIT_ON_CLOSE
         );
@@ -41,15 +46,20 @@ public class AdminGUI {
         frame.setResizable(false);
 
         JPanel mainPanel =
-                new JPanel(new BorderLayout());
+                new JPanel(
+                        new BorderLayout()
+                );
 
-        frame.add(mainPanel);
+        frame.add(
+                mainPanel
+        );
 
         /*
          * LEFT SIDEBAR
          */
 
-        JPanel sidebar = new JPanel();
+        JPanel sidebar =
+                new JPanel();
 
         sidebar.setLayout(
                 new BoxLayout(
@@ -59,10 +69,15 @@ public class AdminGUI {
         );
 
         sidebar.setPreferredSize(
-                new Dimension(230, 560)
+                new Dimension(
+                        230,
+                        560
+                )
         );
 
-        sidebar.setBackground(BLUE);
+        sidebar.setBackground(
+                BLUE
+        );
 
         sidebar.setBorder(
                 new EmptyBorder(
@@ -73,8 +88,14 @@ public class AdminGUI {
                 )
         );
 
+        /*
+         * APP TITLE
+         */
+
         JLabel systemTitle =
-                new JLabel("Student Q&A");
+                new JLabel(
+                        "Student Q&A"
+                );
 
         systemTitle.setFont(
                 new Font(
@@ -92,14 +113,24 @@ public class AdminGUI {
                 Component.CENTER_ALIGNMENT
         );
 
-        sidebar.add(systemTitle);
-
         sidebar.add(
-                Box.createVerticalStrut(8)
+                systemTitle
         );
 
+        sidebar.add(
+                Box.createVerticalStrut(
+                        8
+                )
+        );
+
+        /*
+         * ADMIN LABEL
+         */
+
         JLabel adminLabel =
-                new JLabel("Admin Portal");
+                new JLabel(
+                        "Admin Portal"
+                );
 
         adminLabel.setFont(
                 new Font(
@@ -121,15 +152,28 @@ public class AdminGUI {
                 Component.CENTER_ALIGNMENT
         );
 
-        sidebar.add(adminLabel);
+        sidebar.add(
+                adminLabel
+        );
 
         sidebar.add(
-                Box.createVerticalStrut(45)
+                Box.createVerticalStrut(
+                        45
+                )
         );
+
+        /*
+         * SIDEBAR BUTTONS
+         */
 
         JButton viewUsersButton =
                 createSidebarButton(
                         "View Users"
+                );
+
+        JButton inviteUserButton =
+                createSidebarButton(
+                        "Invite User"
                 );
 
         JButton assignRoleButton =
@@ -152,31 +196,61 @@ public class AdminGUI {
                         "Logout"
                 );
 
-        sidebar.add(viewUsersButton);
+        /*
+         * ADD BUTTONS
+         */
 
         sidebar.add(
-                Box.createVerticalStrut(12)
+                viewUsersButton
         );
-
-        sidebar.add(assignRoleButton);
 
         sidebar.add(
-                Box.createVerticalStrut(12)
+                Box.createVerticalStrut(
+                        12
+                )
         );
-
-        sidebar.add(removeRoleButton);
 
         sidebar.add(
-                Box.createVerticalStrut(12)
+                inviteUserButton
         );
 
-        sidebar.add(removeUserButton);
+        sidebar.add(
+                Box.createVerticalStrut(
+                        12
+                )
+        );
+
+        sidebar.add(
+                assignRoleButton
+        );
+
+        sidebar.add(
+                Box.createVerticalStrut(
+                        12
+                )
+        );
+
+        sidebar.add(
+                removeRoleButton
+        );
+
+        sidebar.add(
+                Box.createVerticalStrut(
+                        12
+                )
+        );
+
+        sidebar.add(
+                removeUserButton
+        );
 
         sidebar.add(
                 Box.createVerticalGlue()
         );
 
-        sidebar.add(logoutButton);
+        sidebar.add(
+                logoutButton
+        );
 
         /*
          * RIGHT CONTENT AREA
@@ -205,6 +279,10 @@ public class AdminGUI {
                 )
         );
 
+        /*
+         * TITLE
+         */
+
         JLabel title =
                 new JLabel(
                         "Admin Dashboard"
@@ -218,17 +296,27 @@ public class AdminGUI {
                 )
         );
 
-        title.setForeground(DARK);
+        title.setForeground(
+                DARK
+        );
 
         title.setAlignmentX(
                 Component.LEFT_ALIGNMENT
         );
 
-        contentPanel.add(title);
+        contentPanel.add(
+                title
+        );
 
         contentPanel.add(
-                Box.createVerticalStrut(8)
+                Box.createVerticalStrut(
+                        8
+                )
         );
+
+        /*
+         * WELCOME
+         */
 
         JLabel welcomeLabel =
                 new JLabel(
@@ -244,16 +332,22 @@ public class AdminGUI {
                 )
         );
 
-        welcomeLabel.setForeground(GRAY);
+        welcomeLabel.setForeground(
+                GRAY
+        );
 
         welcomeLabel.setAlignmentX(
                 Component.LEFT_ALIGNMENT
         );
 
-        contentPanel.add(welcomeLabel);
+        contentPanel.add(
+                welcomeLabel
+        );
 
         contentPanel.add(
-                Box.createVerticalStrut(35)
+                Box.createVerticalStrut(
+                        35
+                )
         );
 
         /*
@@ -270,33 +364,36 @@ public class AdminGUI {
                 )
         );
 
-        card.setBackground(Color.WHITE);
+        card.setBackground(
+                Color.WHITE
+        );
 
         card.setBorder(
-                BorderFactory.createCompoundBorder(
+                BorderFactory
+                        .createCompoundBorder(
 
-                        BorderFactory
-                                .createLineBorder(
-                                        new Color(
-                                                220,
-                                                225,
-                                                235
-                                        )
-                                ),
+                                BorderFactory
+                                        .createLineBorder(
+                                                new Color(
+                                                        220,
+                                                        225,
+                                                        235
+                                                )
+                                        ),
 
-                        new EmptyBorder(
-                                30,
-                                35,
-                                30,
-                                35
+                                new EmptyBorder(
+                                        30,
+                                        35,
+                                        30,
+                                        35
+                                )
                         )
-                )
         );
 
         card.setMaximumSize(
                 new Dimension(
                         540,
-                        280
+                        300
                 )
         );
 
@@ -317,22 +414,28 @@ public class AdminGUI {
                 )
         );
 
-        cardTitle.setForeground(DARK);
+        cardTitle.setForeground(
+                DARK
+        );
 
         cardTitle.setAlignmentX(
                 Component.LEFT_ALIGNMENT
         );
 
-        card.add(cardTitle);
+        card.add(
+                cardTitle
+        );
 
         card.add(
-                Box.createVerticalStrut(10)
+                Box.createVerticalStrut(
+                        10
+                )
         );
 
         JLabel description =
                 new JLabel(
                         "<html>"
-                        + "Manage registered users, "
+                        + "Manage registered users, invite new users, "
                         + "assign roles, remove roles, "
                         + "and delete accounts."
                         + "</html>"
@@ -346,16 +449,22 @@ public class AdminGUI {
                 )
         );
 
-        description.setForeground(GRAY);
+        description.setForeground(
+                GRAY
+        );
 
         description.setAlignmentX(
                 Component.LEFT_ALIGNMENT
         );
 
-        card.add(description);
+        card.add(
+                description
+        );
 
         card.add(
-                Box.createVerticalStrut(25)
+                Box.createVerticalStrut(
+                        25
+                )
         );
 
         JLabel statusLabel =
@@ -371,22 +480,29 @@ public class AdminGUI {
                 )
         );
 
-        statusLabel.setForeground(DARK);
+        statusLabel.setForeground(
+                DARK
+        );
 
         statusLabel.setAlignmentX(
                 Component.LEFT_ALIGNMENT
         );
 
-        card.add(statusLabel);
+        card.add(
+                statusLabel
+        );
 
         card.add(
-                Box.createVerticalStrut(12)
+                Box.createVerticalStrut(
+                        12
+                )
         );
 
         JLabel toolsLabel =
                 new JLabel(
                         "<html>"
                         + "• View registered users<br>"
+                        + "• Invite users with one-time codes<br>"
                         + "• Assign additional roles<br>"
                         + "• Remove existing roles<br>"
                         + "• Remove user accounts"
@@ -401,15 +517,21 @@ public class AdminGUI {
                 )
         );
 
-        toolsLabel.setForeground(GRAY);
+        toolsLabel.setForeground(
+                GRAY
+        );
 
         toolsLabel.setAlignmentX(
                 Component.LEFT_ALIGNMENT
         );
 
-        card.add(toolsLabel);
+        card.add(
+                toolsLabel
+        );
 
-        contentPanel.add(card);
+        contentPanel.add(
+                card
+        );
 
         /*
          * ADD MAIN PANELS
@@ -429,32 +551,46 @@ public class AdminGUI {
          * BUTTON ACTIONS
          */
 
-        viewUsersButton.addActionListener(
-                e -> viewUsers()
+        viewUsersButton
+                .addActionListener(
+                        e -> viewUsers()
+                );
+
+        inviteUserButton
+                .addActionListener(
+                        e -> inviteUser()
+                );
+
+        assignRoleButton
+                .addActionListener(
+                        e -> assignRole()
+                );
+
+        removeRoleButton
+                .addActionListener(
+                        e -> removeRole()
+                );
+
+        removeUserButton
+                .addActionListener(
+                        e -> removeUser()
+                );
+
+        logoutButton
+                .addActionListener(
+                        e -> {
+
+                            frame.dispose();
+
+                            LoginGUI.showLogin(
+                                    userManager
+                            );
+                        }
+                );
+
+        frame.setVisible(
+                true
         );
-
-        assignRoleButton.addActionListener(
-                e -> assignRole()
-        );
-
-        removeRoleButton.addActionListener(
-                e -> removeRole()
-        );
-
-        removeUserButton.addActionListener(
-                e -> removeUser()
-        );
-
-        logoutButton.addActionListener(e -> {
-
-            frame.dispose();
-
-            LoginGUI.showLogin(
-                    userManager
-            );
-        });
-
-        frame.setVisible(true);
     }
 
     /*
@@ -465,7 +601,9 @@ public class AdminGUI {
             String text) {
 
         JButton button =
-                new JButton(text);
+                new JButton(
+                        text
+                );
 
         button.setFont(
                 new Font(
@@ -480,26 +618,30 @@ public class AdminGUI {
         );
 
         button.setBackground(
-                new Color(
-                        23,
-                        101,
-                        209
-                )
+                BLUE
         );
 
-        button.setOpaque(true);
+        button.setOpaque(
+                true
+        );
 
         button.setBorder(
-                BorderFactory.createEmptyBorder(
-                        10,
-                        15,
-                        10,
-                        15
-                )
+                BorderFactory
+                        .createEmptyBorder(
+                                10,
+                                15,
+                                10,
+                                15
+                        )
         );
 
-        button.setBorderPainted(false);
-        button.setFocusPainted(false);
+        button.setBorderPainted(
+                false
+        );
+
+        button.setFocusPainted(
+                false
+        );
 
         button.setMaximumSize(
                 new Dimension(
@@ -516,13 +658,554 @@ public class AdminGUI {
     }
 
     /*
+     * INVITE USER
+     */
+
+    private void inviteUser() {
+
+        JFrame inviteFrame =
+                new JFrame(
+                        "Invite User"
+                );
+
+        inviteFrame.setSize(
+                600,
+                520
+        );
+
+        inviteFrame.setLocationRelativeTo(
+                frame
+        );
+
+        inviteFrame.setDefaultCloseOperation(
+                JFrame.DISPOSE_ON_CLOSE
+        );
+
+        inviteFrame.setResizable(
+                false
+        );
+
+        JPanel mainPanel =
+                new JPanel();
+
+        mainPanel.setLayout(
+                new BoxLayout(
+                        mainPanel,
+                        BoxLayout.Y_AXIS
+                )
+        );
+
+        mainPanel.setBackground(
+                BACKGROUND
+        );
+
+        mainPanel.setBorder(
+                new EmptyBorder(
+                        30,
+                        45,
+                        30,
+                        45
+                )
+        );
+
+        inviteFrame.add(
+                mainPanel
+        );
+
+        /*
+         * TITLE
+         */
+
+        JLabel title =
+                new JLabel(
+                        "Invite User"
+                );
+
+        title.setFont(
+                new Font(
+                        "SansSerif",
+                        Font.BOLD,
+                        26
+                )
+        );
+
+        title.setForeground(
+                DARK
+        );
+
+        title.setAlignmentX(
+                Component.LEFT_ALIGNMENT
+        );
+
+        mainPanel.add(
+                title
+        );
+
+        mainPanel.add(
+                Box.createVerticalStrut(
+                        5
+                )
+        );
+
+        JLabel subtitle =
+                new JLabel(
+                        "Choose the roles and deadline for this invitation."
+                );
+
+        subtitle.setFont(
+                new Font(
+                        "SansSerif",
+                        Font.PLAIN,
+                        14
+                )
+        );
+
+        subtitle.setForeground(
+                GRAY
+        );
+
+        subtitle.setAlignmentX(
+                Component.LEFT_ALIGNMENT
+        );
+
+        mainPanel.add(
+                subtitle
+        );
+
+        mainPanel.add(
+                Box.createVerticalStrut(
+                        25
+                )
+        );
+
+        /*
+         * ROLE SELECTION
+         */
+
+        JLabel roleLabel =
+                new JLabel(
+                        "Allowed Roles"
+                );
+
+        roleLabel.setFont(
+                new Font(
+                        "SansSerif",
+                        Font.BOLD,
+                        14
+                )
+        );
+
+        roleLabel.setForeground(
+                DARK
+        );
+
+        roleLabel.setAlignmentX(
+                Component.LEFT_ALIGNMENT
+        );
+
+        mainPanel.add(
+                roleLabel
+        );
+
+        mainPanel.add(
+                Box.createVerticalStrut(
+                        10
+                )
+        );
+
+        JCheckBox adminBox =
+                new JCheckBox(
+                        "Admin"
+                );
+
+        JCheckBox studentBox =
+                new JCheckBox(
+                        "Student"
+                );
+
+        JCheckBox reviewerBox =
+                new JCheckBox(
+                        "Reviewer"
+                );
+
+        adminBox.setBackground(
+                BACKGROUND
+        );
+
+        studentBox.setBackground(
+                BACKGROUND
+        );
+
+        reviewerBox.setBackground(
+                BACKGROUND
+        );
+
+        adminBox.setAlignmentX(
+                Component.LEFT_ALIGNMENT
+        );
+
+        studentBox.setAlignmentX(
+                Component.LEFT_ALIGNMENT
+        );
+
+        reviewerBox.setAlignmentX(
+                Component.LEFT_ALIGNMENT
+        );
+
+        mainPanel.add(
+                adminBox
+        );
+
+        mainPanel.add(
+                studentBox
+        );
+
+        mainPanel.add(
+                reviewerBox
+        );
+
+        mainPanel.add(
+                Box.createVerticalStrut(
+                        25
+                )
+        );
+
+        /*
+         * DEADLINE
+         */
+
+        JLabel deadlineLabel =
+                new JLabel(
+                        "Invitation Deadline"
+                );
+
+        deadlineLabel.setFont(
+                new Font(
+                        "SansSerif",
+                        Font.BOLD,
+                        14
+                )
+        );
+
+        deadlineLabel.setForeground(
+                DARK
+        );
+
+        deadlineLabel.setAlignmentX(
+                Component.LEFT_ALIGNMENT
+        );
+
+        mainPanel.add(
+                deadlineLabel
+        );
+
+        mainPanel.add(
+                Box.createVerticalStrut(
+                        10
+                )
+        );
+
+        java.util.Date tomorrow =
+                new java.util.Date(
+                        System.currentTimeMillis()
+                        + 24L
+                        * 60L
+                        * 60L
+                        * 1000L
+                );
+
+        SpinnerDateModel dateModel =
+                new SpinnerDateModel(
+                        tomorrow,
+                        new java.util.Date(),
+                        null,
+                        java.util.Calendar
+                                .HOUR_OF_DAY
+                );
+
+        JSpinner deadlineSpinner =
+                new JSpinner(
+                        dateModel
+                );
+
+        JSpinner.DateEditor dateEditor =
+                new JSpinner.DateEditor(
+                        deadlineSpinner,
+                        "MM/dd/yyyy hh:mm a"
+                );
+
+        deadlineSpinner.setEditor(
+                dateEditor
+        );
+
+        deadlineSpinner.setMaximumSize(
+                new Dimension(
+                        Integer.MAX_VALUE,
+                        40
+                )
+        );
+
+        deadlineSpinner.setAlignmentX(
+                Component.LEFT_ALIGNMENT
+        );
+
+        mainPanel.add(
+                deadlineSpinner
+        );
+
+        mainPanel.add(
+                Box.createVerticalStrut(
+                        30
+                )
+        );
+
+        /*
+         * BUTTON PANEL
+         */
+
+        JPanel buttonPanel =
+                new JPanel(
+                        new FlowLayout(
+                                FlowLayout.RIGHT
+                        )
+                );
+
+        buttonPanel.setBackground(
+                BACKGROUND
+        );
+
+        buttonPanel.setMaximumSize(
+                new Dimension(
+                        Integer.MAX_VALUE,
+                        50
+                )
+        );
+
+        buttonPanel.setAlignmentX(
+                Component.LEFT_ALIGNMENT
+        );
+
+        JButton cancelButton =
+                new JButton(
+                        "Cancel"
+                );
+
+        JButton generateButton =
+                new JButton(
+                        "Generate Invitation"
+                );
+
+        cancelButton.setPreferredSize(
+                new Dimension(
+                        110,
+                        40
+                )
+        );
+
+        generateButton.setBackground(
+                BLUE
+        );
+
+        generateButton.setForeground(
+                Color.WHITE
+        );
+
+        generateButton.setFocusPainted(
+                false
+        );
+
+        generateButton.setBorderPainted(
+                false
+        );
+
+        generateButton.setPreferredSize(
+                new Dimension(
+                        180,
+                        40
+                )
+        );
+
+        buttonPanel.add(
+                cancelButton
+        );
+
+        buttonPanel.add(
+                generateButton
+        );
+
+        mainPanel.add(
+                buttonPanel
+        );
+
+        /*
+         * CANCEL
+         */
+
+        cancelButton
+                .addActionListener(
+                        e ->
+                                inviteFrame.dispose()
+                );
+
+        /*
+         * GENERATE INVITATION
+         */
+
+        generateButton
+                .addActionListener(
+                        e -> {
+
+                            ArrayList<Role> roles =
+                                    new ArrayList<Role>();
+
+                            if (adminBox
+                                    .isSelected()) {
+
+                                roles.add(
+                                        Role.ADMIN
+                                );
+                            }
+
+                            if (studentBox
+                                    .isSelected()) {
+
+                                roles.add(
+                                        Role.STUDENT
+                                );
+                            }
+
+                            if (reviewerBox
+                                    .isSelected()) {
+
+                                roles.add(
+                                        Role.REVIEWER
+                                );
+                            }
+
+                            /*
+                             * Must choose at least one role
+                             */
+
+                            if (roles.isEmpty()) {
+
+                                JOptionPane
+                                        .showMessageDialog(
+                                                inviteFrame,
+                                                "Please select at least one role."
+                                        );
+
+                                return;
+                            }
+
+                            java.util.Date deadline =
+                                    (java.util.Date)
+                                    deadlineSpinner
+                                            .getValue();
+
+                            /*
+                             * Deadline must be future
+                             */
+
+                            if (deadline.getTime()
+                                    <= System.currentTimeMillis()) {
+
+                                JOptionPane
+                                        .showMessageDialog(
+                                                inviteFrame,
+                                                "The deadline must be in the future."
+                                        );
+
+                                return;
+                            }
+
+                            InvitationManager
+                                    invitationManager =
+                                    new InvitationManager();
+
+                            Invitation invitation =
+                                    invitationManager
+                                            .createInvitation(
+                                                    roles,
+                                                    deadline.getTime()
+                                            );
+
+                            if (invitation == null) {
+
+                                JOptionPane
+                                        .showMessageDialog(
+                                                inviteFrame,
+                                                "Unable to create invitation."
+                                        );
+
+                                return;
+                            }
+
+                            /*
+                             * SUCCESS
+                             */
+
+                            JTextArea codeArea =
+                                    new JTextArea();
+
+                            codeArea.setEditable(
+                                    false
+                            );
+
+                            codeArea.setLineWrap(
+                                    true
+                            );
+
+                            codeArea.setWrapStyleWord(
+                                    true
+                            );
+
+                            codeArea.setFont(
+                                    new Font(
+                                            "SansSerif",
+                                            Font.PLAIN,
+                                            14
+                                    )
+                            );
+
+                            codeArea.setText(
+                                    "Invitation created successfully!\n\n"
+                                    + "One-Time Code: "
+                                    + invitation.getCode()
+                                    + "\n\nRoles: "
+                                    + invitation.getRoles()
+                                    + "\n\nDeadline: "
+                                    + deadline
+                                    + "\n\n"
+                                    + "This code can only be used once."
+                            );
+
+                            JOptionPane
+                                    .showMessageDialog(
+                                            inviteFrame,
+                                            codeArea,
+                                            "Invitation Created",
+                                            JOptionPane
+                                                    .INFORMATION_MESSAGE
+                                    );
+
+                            inviteFrame.dispose();
+                        }
+                );
+
+        inviteFrame.setVisible(
+                true
+        );
+    }
+
+    /*
      * DISPLAY ALL USERS
      */
 
     private void viewUsers() {
 
         ArrayList<User> users =
-                userManager.getUsers();
+                userManager
+                        .getUsers();
 
         StringBuilder message =
                 new StringBuilder();
@@ -557,7 +1240,9 @@ public class AdminGUI {
                         30
                 );
 
-        textArea.setEditable(false);
+        textArea.setEditable(
+                false
+        );
 
         textArea.setFont(
                 new Font(
@@ -567,15 +1252,16 @@ public class AdminGUI {
                 )
         );
 
-        JOptionPane.showMessageDialog(
-                frame,
-                new JScrollPane(
-                        textArea
-                ),
-                "Registered Users",
-                JOptionPane
-                        .INFORMATION_MESSAGE
-        );
+        JOptionPane
+                .showMessageDialog(
+                        frame,
+                        new JScrollPane(
+                                textArea
+                        ),
+                        "Registered Users",
+                        JOptionPane
+                                .INFORMATION_MESSAGE
+                );
     }
 
     /*
@@ -595,16 +1281,17 @@ public class AdminGUI {
 
         Role role =
                 (Role)
-                JOptionPane.showInputDialog(
-                        frame,
-                        "Select a role to assign:",
-                        "Assign Role",
-                        JOptionPane
-                                .QUESTION_MESSAGE,
-                        null,
-                        Role.values(),
-                        Role.STUDENT
-                );
+                JOptionPane
+                        .showInputDialog(
+                                frame,
+                                "Select a role to assign:",
+                                "Assign Role",
+                                JOptionPane
+                                        .QUESTION_MESSAGE,
+                                null,
+                                Role.values(),
+                                Role.STUDENT
+                        );
 
         if (role == null) {
             return;
@@ -617,12 +1304,13 @@ public class AdminGUI {
                                 role
                         );
 
-        JOptionPane.showMessageDialog(
-                frame,
-                success
-                        ? "Role assigned successfully!"
-                        : "Unable to assign role."
-        );
+        JOptionPane
+                .showMessageDialog(
+                        frame,
+                        success
+                                ? "Role assigned successfully!"
+                                : "Unable to assign role."
+                );
     }
 
     /*
@@ -640,15 +1328,21 @@ public class AdminGUI {
             return;
         }
 
-        User selectedUser = null;
+        User selectedUser =
+                null;
 
         for (User user :
-                userManager.getUsers()) {
+                userManager
+                        .getUsers()) {
 
             if (user.getUsername()
-                    .equals(username)) {
+                    .equals(
+                            username
+                    )) {
 
-                selectedUser = user;
+                selectedUser =
+                        user;
+
                 break;
             }
         }
@@ -658,31 +1352,33 @@ public class AdminGUI {
         }
 
         ArrayList<Role> roles =
-                selectedUser.getRoles();
+                selectedUser
+                        .getRoles();
 
         if (roles.isEmpty()) {
 
-            JOptionPane.showMessageDialog(
-                    frame,
-                    "This user has no "
-                    + "assigned roles."
-            );
+            JOptionPane
+                    .showMessageDialog(
+                            frame,
+                            "This user has no assigned roles."
+                    );
 
             return;
         }
 
         Role role =
                 (Role)
-                JOptionPane.showInputDialog(
-                        frame,
-                        "Select a role to remove:",
-                        "Remove Role",
-                        JOptionPane
-                                .QUESTION_MESSAGE,
-                        null,
-                        roles.toArray(),
-                        roles.get(0)
-                );
+                JOptionPane
+                        .showInputDialog(
+                                frame,
+                                "Select a role to remove:",
+                                "Remove Role",
+                                JOptionPane
+                                        .QUESTION_MESSAGE,
+                                null,
+                                roles.toArray(),
+                                roles.get(0)
+                        );
 
         if (role == null) {
             return;
@@ -716,15 +1412,16 @@ public class AdminGUI {
                                 role
                         );
 
-        JOptionPane.showMessageDialog(
-                frame,
-                success
-                        ? "Role removed successfully!"
-                        : "Unable to remove role.\n"
-                        + "You cannot remove "
-                        + "the last role or "
-                        + "the last administrator."
-        );
+        JOptionPane
+                .showMessageDialog(
+                        frame,
+                        success
+                                ? "Role removed successfully!"
+                                : "Unable to remove role.\n"
+                                + "You cannot remove "
+                                + "the last role or "
+                                + "the last administrator."
+                );
     }
 
     /*
@@ -762,20 +1459,22 @@ public class AdminGUI {
         }
 
         boolean success =
-                userManager.removeUser(
-                        admin,
-                        username
-                );
+                userManager
+                        .removeUser(
+                                admin,
+                                username
+                        );
 
-        JOptionPane.showMessageDialog(
-                frame,
-                success
-                        ? "User removed successfully!"
-                        : "Unable to remove user.\n"
-                        + "You cannot remove "
-                        + "your own account "
-                        + "or the last administrator."
-        );
+        JOptionPane
+                .showMessageDialog(
+                        frame,
+                        success
+                                ? "User removed successfully!"
+                                : "Unable to remove user.\n"
+                                + "You cannot remove "
+                                + "your own account "
+                                + "or the last administrator."
+                );
     }
 
     /*
@@ -786,14 +1485,16 @@ public class AdminGUI {
             String title) {
 
         ArrayList<User> users =
-                userManager.getUsers();
+                userManager
+                        .getUsers();
 
         if (users.isEmpty()) {
 
-            JOptionPane.showMessageDialog(
-                    frame,
-                    "No registered users found."
-            );
+            JOptionPane
+                    .showMessageDialog(
+                            frame,
+                            "No registered users found."
+                    );
 
             return null;
         }
@@ -804,8 +1505,8 @@ public class AdminGUI {
                 ];
 
         for (int i = 0;
-             i < users.size();
-             i++) {
+                i < users.size();
+                i++) {
 
             usernames[i] =
                     users.get(i)

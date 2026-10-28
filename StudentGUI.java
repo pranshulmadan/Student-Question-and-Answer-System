@@ -1,14 +1,5 @@
 import java.awt.*;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Base64;
 import java.util.ArrayList;
-import java.util.List;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
@@ -1048,6 +1039,8 @@ public class StudentGUI {
                 new JFrame(
                         "View Questions"
                 );
+        
+        
 
         questionsFrame.setSize(
                 900,
@@ -1393,6 +1386,42 @@ public class StudentGUI {
                 BACKGROUND
         );
 
+        JButton addAnswerButton =
+        new JButton(
+                "Add Answer"
+        );
+
+        addAnswerButton.setFont(
+                new Font(
+                        "SansSerif",
+                        Font.BOLD,
+                        14
+                )
+        );
+
+        addAnswerButton.setBackground(
+                DARK
+        );
+
+        addAnswerButton.setForeground(
+                Color.WHITE
+        );
+
+        addAnswerButton.setFocusPainted(
+                false
+        );
+
+        addAnswerButton.setBorderPainted(
+                false
+        );
+
+        addAnswerButton.setPreferredSize(
+                new Dimension(
+                        130,
+                        38
+                )
+        );
+
         JButton closeButton =
                 new JButton(
                         "Close"
@@ -1419,6 +1448,10 @@ public class StudentGUI {
         bottomPanel.add(
                 closeButton
         );
+        bottomPanel.add(
+                addAnswerButton
+        );
+
 
         mainPanel.add(
                 bottomPanel,
@@ -1569,6 +1602,177 @@ public class StudentGUI {
         questionList.setSelectedIndex(
                 0
         );
+
+
+        addAnswerButton.addActionListener(e -> {
+
+    Question selectedQuestion =
+            questionList
+                    .getSelectedValue();
+
+    if (selectedQuestion == null) {
+
+        JOptionPane.showMessageDialog(
+                questionsFrame,
+                "Please select a question first."
+        );
+
+        return;
+    }
+
+    /*
+     * Do not allow answers after
+     * the question has been resolved.
+     */
+
+    if (selectedQuestion.isResolved()) {
+
+        JOptionPane.showMessageDialog(
+                questionsFrame,
+                "This question has already been resolved."
+        );
+
+        return;
+    }
+
+    /*
+     * Answer input
+     */
+
+    JTextArea answerInput =
+            new JTextArea(
+                    6,
+                    35
+            );
+
+    answerInput.setLineWrap(
+            true
+    );
+
+    answerInput.setWrapStyleWord(
+            true
+    );
+
+    JScrollPane scrollPane =
+            new JScrollPane(
+                    answerInput
+            );
+
+    int choice =
+            JOptionPane.showConfirmDialog(
+                    questionsFrame,
+                    scrollPane,
+                    "Add Potential Answer",
+                    JOptionPane.OK_CANCEL_OPTION,
+                    JOptionPane.PLAIN_MESSAGE
+            );
+
+    if (choice !=
+            JOptionPane.OK_OPTION) {
+
+        return;
+    }
+
+    String description =
+            answerInput
+                    .getText()
+                    .trim();
+
+    if (description.isEmpty()) {
+
+        JOptionPane.showMessageDialog(
+                questionsFrame,
+                "Please enter an answer.",
+                "Missing Answer",
+                JOptionPane.WARNING_MESSAGE
+        );
+
+        return;
+    }
+
+    Answer answer =
+            questionManager
+                    .addAnswer(
+                            selectedQuestion,
+                            description,
+                            user.getUsername()
+                    );
+
+    if (answer == null) {
+
+        JOptionPane.showMessageDialog(
+                questionsFrame,
+                "Unable to add answer.",
+                "Error",
+                JOptionPane.ERROR_MESSAGE
+        );
+
+        return;
+    }
+
+    JOptionPane.showMessageDialog(
+            questionsFrame,
+            "Answer added successfully!"
+    );
+
+    /*
+     * Refresh answer display
+     */
+
+    StringBuilder answers =
+            new StringBuilder();
+
+    int answerNumber = 1;
+
+    for (Answer existingAnswer :
+            selectedQuestion.getAnswers()) {
+
+        if (existingAnswer.getAnswerId()
+                == selectedQuestion
+                        .getAcceptedAnswerId()) {
+
+            answers.append(
+                    "✓ ACCEPTED ANSWER\n"
+            );
+        }
+
+        answers.append(
+                answerNumber
+        );
+
+        answers.append(
+                ". "
+        );
+
+        answers.append(
+                existingAnswer
+                        .getDescription()
+        );
+
+        answers.append(
+                "\n   By: "
+        );
+
+        answers.append(
+                existingAnswer
+                        .getAuthor()
+        );
+
+        answers.append(
+                "\n\n"
+        );
+
+        answerNumber++;
+    }
+
+    answersArea.setText(
+            answers.toString()
+    );
+
+    answersArea.setCaretPosition(
+            0
+    );
+});
 
         questionsFrame.setVisible(
                 true

@@ -8,3 +8,7 @@
 17|12|This answer solved the problem.|AnotherStudent
 18|14|Potential answer.|AnotherStudent
 19|15|This is a potential answer.|Test
+20|19|This is an existing potential answer.|AnotherStudent
+21|20|This answer solved the problem.|AnotherStudent
+22|22|Potential answer.|AnotherStudent
+23|23|This is a potential answer.|Test

@@ -1279,39 +1279,35 @@ public class LoginGUI {
      * OPEN SELECTED ROLE
      */
 
-    private static void openRoleScreen(
-            Role role,
-            User user,
-            UserManager userManager) {
+private static void openRoleScreen(
+        Role role,
+        User user,
+        UserManager userManager) {
 
-        if (role == Role.ADMIN) {
+    if (role == Role.ADMIN) {
 
-            new AdminGUI(
-                    user,
-                    userManager
-            );
+        new AdminGUI(
+                user,
+                userManager
+        );
 
-        } else if (
-                role == Role.STUDENT) {
+    } else if (
+            role == Role.STUDENT) {
 
-            new StudentGUI(
-                    user,
-                    userManager
-            );
+        new StudentGUI(
+                user,
+                userManager
+        );
 
-        } else if (
-                role == Role.REVIEWER) {
+    } else if (
+            role == Role.REVIEWER) {
 
-            JOptionPane.showMessageDialog(
-                    null,
-                    "Reviewer dashboard coming soon."
-            );
-
-            showLogin(
-                    userManager
-            );
-        }
+        new ReviewerGUI(
+                user,
+                userManager
+        );
     }
+}
 
     /*
      * REGISTRATION WINDOW

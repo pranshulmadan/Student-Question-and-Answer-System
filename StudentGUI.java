@@ -57,8 +57,8 @@ public class StudentGUI {
                 );
 
         frame.setSize(
-                900,
-                560
+                1200,
+                760
         );
 
         frame.setDefaultCloseOperation(
@@ -98,8 +98,8 @@ public class StudentGUI {
 
         sidebar.setPreferredSize(
                 new Dimension(
-                        230,
-                        560
+                        280,
+                        760
                 )
         );
 
@@ -304,7 +304,7 @@ public class StudentGUI {
                 new Font(
                         "SansSerif",
                         Font.BOLD,
-                        30
+                        38
                 )
         );
 
@@ -572,7 +572,7 @@ public class StudentGUI {
                 new Font(
                         "SansSerif",
                         Font.BOLD,
-                        14
+                        17
                 )
         );
 
@@ -604,8 +604,8 @@ public class StudentGUI {
 
         button.setMaximumSize(
                 new Dimension(
-                        190,
-                        42
+                        230,
+                        52
                 )
         );
 
@@ -628,8 +628,8 @@ public class StudentGUI {
                 );
 
         askFrame.setSize(
-                600,
-                560
+                800,
+                700
         );
 
         askFrame.setLocationRelativeTo(
@@ -1039,8 +1039,8 @@ public class StudentGUI {
                 );
 
         subjectFrame.setSize(
-                760,
-                560
+                1000,
+                720
         );
 
         subjectFrame.setLocationRelativeTo(
@@ -1199,7 +1199,7 @@ public class StudentGUI {
                     new Font(
                             "SansSerif",
                             Font.PLAIN,
-                            16
+                            19
                     )
             );
 
@@ -1229,10 +1229,10 @@ public class StudentGUI {
                                             ),
 
                                     new EmptyBorder(
+                                            30,
                                             20,
-                                            15,
-                                            20,
-                                            15
+                                            30,
+                                            20
                                     )
                             )
             );
@@ -1492,7 +1492,7 @@ public class StudentGUI {
                 new Font(
                         "SansSerif",
                         Font.PLAIN,
-                        14
+                        17
                 )
         );
 
@@ -1515,7 +1515,7 @@ public class StudentGUI {
                 new Font(
                         "SansSerif",
                         Font.PLAIN,
-                        14
+                        17
                 )
         );
 

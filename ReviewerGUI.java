@@ -367,7 +367,7 @@ public class ReviewerGUI {
         card.setMaximumSize(
                 new Dimension(
                         540,
-                        260
+                        280
                 )
         );
 
@@ -409,9 +409,9 @@ public class ReviewerGUI {
         JLabel description =
                 new JLabel(
                         "<html>"
-                        + "Review potential answers submitted "
-                        + "by students and share your experience "
-                        + "with the class."
+                        + "Browse questions by subject, review "
+                        + "potential answers, and share your "
+                        + "experience with the class."
                         + "</html>"
                 );
 
@@ -444,7 +444,7 @@ public class ReviewerGUI {
         JLabel tools =
                 new JLabel(
                         "<html>"
-                        + "• Browse student questions<br>"
+                        + "• Browse questions by subject<br>"
                         + "• View potential answers<br>"
                         + "• Write reviews for answers<br>"
                         + "• View existing reviews"
@@ -518,8 +518,7 @@ public class ReviewerGUI {
      * BUTTON STYLE
      */
 
-    private JButton
-    createSidebarButton(
+    private JButton createSidebarButton(
             String text) {
 
         JButton button =
@@ -577,15 +576,17 @@ public class ReviewerGUI {
 
     /*
      * REVIEW ANSWERS
+     *
+     * First show subject tiles.
      */
 
     private void reviewAnswers() {
 
-        ArrayList<Question> questions =
+        ArrayList<Question> allQuestions =
                 questionManager
                         .getQuestions();
 
-        if (questions.isEmpty()) {
+        if (allQuestions.isEmpty()) {
 
             JOptionPane
                     .showMessageDialog(
@@ -596,13 +597,355 @@ public class ReviewerGUI {
             return;
         }
 
+        JFrame subjectFrame =
+                new JFrame(
+                        "Choose Subject"
+                );
+
+        subjectFrame.setSize(
+                760,
+                560
+        );
+
+        subjectFrame.setLocationRelativeTo(
+                frame
+        );
+
+        subjectFrame.setDefaultCloseOperation(
+                JFrame.DISPOSE_ON_CLOSE
+        );
+
+        subjectFrame.setResizable(
+                false
+        );
+
+        JPanel mainPanel =
+                new JPanel(
+                        new BorderLayout(
+                                20,
+                                20
+                        )
+                );
+
+        mainPanel.setBackground(
+                BACKGROUND
+        );
+
+        mainPanel.setBorder(
+                new EmptyBorder(
+                        30,
+                        35,
+                        30,
+                        35
+                )
+        );
+
+        subjectFrame.add(
+                mainPanel
+        );
+
+        /*
+         * HEADER
+         */
+
+        JPanel headerPanel =
+                new JPanel();
+
+        headerPanel.setLayout(
+                new BoxLayout(
+                        headerPanel,
+                        BoxLayout.Y_AXIS
+                )
+        );
+
+        headerPanel.setBackground(
+                BACKGROUND
+        );
+
+        JLabel title =
+                new JLabel(
+                        "Choose a Subject"
+                );
+
+        title.setFont(
+                new Font(
+                        "SansSerif",
+                        Font.BOLD,
+                        28
+                )
+        );
+
+        title.setForeground(
+                DARK
+        );
+
+        title.setAlignmentX(
+                Component.LEFT_ALIGNMENT
+        );
+
+        headerPanel.add(
+                title
+        );
+
+        headerPanel.add(
+                Box.createVerticalStrut(
+                        5
+                )
+        );
+
+        JLabel subtitle =
+                new JLabel(
+                        "Select a subject to review its answers."
+                );
+
+        subtitle.setForeground(
+                GRAY
+        );
+
+        subtitle.setAlignmentX(
+                Component.LEFT_ALIGNMENT
+        );
+
+        headerPanel.add(
+                subtitle
+        );
+
+        mainPanel.add(
+                headerPanel,
+                BorderLayout.NORTH
+        );
+
+        /*
+         * SUBJECT TILES
+         */
+
+        JPanel tilesPanel =
+                new JPanel(
+                        new GridLayout(
+                                0,
+                                2,
+                                18,
+                                18
+                        )
+                );
+
+        tilesPanel.setBackground(
+                BACKGROUND
+        );
+
+        for (Subject subject :
+                Subject.values()) {
+
+            ArrayList<Question> subjectQuestions =
+                    questionManager
+                            .getQuestionsBySubject(
+                                    subject
+                            );
+
+            int questionCount =
+                    subjectQuestions.size();
+
+            int answerCount =
+                    countAnswersForSubject(
+                            subject
+                    );
+
+            JButton tile =
+                    new JButton(
+                            "<html><center>"
+                            + "<b>"
+                            + subject
+                            + "</b>"
+                            + "<br><br>"
+                            + questionCount
+                            + (questionCount == 1
+                                    ? " Question"
+                                    : " Questions")
+                            + "<br>"
+                            + answerCount
+                            + (answerCount == 1
+                                    ? " Answer"
+                                    : " Answers")
+                            + "</center></html>"
+                    );
+
+            tile.setFont(
+                    new Font(
+                            "SansSerif",
+                            Font.PLAIN,
+                            16
+                    )
+            );
+
+            tile.setBackground(
+                    Color.WHITE
+            );
+
+            tile.setForeground(
+                    DARK
+            );
+
+            tile.setFocusPainted(
+                    false
+            );
+
+            tile.setBorder(
+                    BorderFactory
+                            .createCompoundBorder(
+
+                                    BorderFactory
+                                            .createLineBorder(
+                                                    new Color(
+                                                            220,
+                                                            225,
+                                                            235
+                                                    )
+                                            ),
+
+                                    new EmptyBorder(
+                                            20,
+                                            15,
+                                            20,
+                                            15
+                                    )
+                            )
+            );
+
+            tile.addActionListener(
+                    e -> {
+
+                        if (questionCount == 0) {
+
+                            JOptionPane
+                                    .showMessageDialog(
+                                            subjectFrame,
+                                            "There are no questions in "
+                                            + subject
+                                            + "."
+                                    );
+
+                            return;
+                        }
+
+                        reviewSubject(
+                                subject
+                        );
+                    }
+            );
+
+            tilesPanel.add(
+                    tile
+            );
+        }
+
+        mainPanel.add(
+                tilesPanel,
+                BorderLayout.CENTER
+        );
+
+        /*
+         * CLOSE
+         */
+
+        JPanel bottomPanel =
+                new JPanel(
+                        new FlowLayout(
+                                FlowLayout.RIGHT
+                        )
+                );
+
+        bottomPanel.setBackground(
+                BACKGROUND
+        );
+
+        JButton closeButton =
+                new JButton(
+                        "Close"
+                );
+
+        closeButton
+                .addActionListener(
+                        e ->
+                                subjectFrame.dispose()
+                );
+
+        bottomPanel.add(
+                closeButton
+        );
+
+        mainPanel.add(
+                bottomPanel,
+                BorderLayout.SOUTH
+        );
+
+        subjectFrame.setVisible(
+                true
+        );
+    }
+
+    /*
+     * COUNT ANSWERS IN SUBJECT
+     */
+
+    private int countAnswersForSubject(
+            Subject subject) {
+
+        int count = 0;
+
+        ArrayList<Question> questions =
+                questionManager
+                        .getQuestionsBySubject(
+                                subject
+                        );
+
+        for (Question question :
+                questions) {
+
+            count +=
+                    question
+                            .getAnswers()
+                            .size();
+        }
+
+        return count;
+    }
+
+    /*
+     * REVIEW A SUBJECT
+     */
+
+    private void reviewSubject(
+            Subject subject) {
+
+        ArrayList<Question> questions =
+                questionManager
+                        .getQuestionsBySubject(
+                                subject
+                        );
+
+        if (questions.isEmpty()) {
+
+            JOptionPane
+                    .showMessageDialog(
+                            frame,
+                            "There are no questions in "
+                            + subject
+                            + "."
+                    );
+
+            return;
+        }
+
         Question selectedQuestion =
                 (Question)
                 JOptionPane
                         .showInputDialog(
                                 frame,
-                                "Select a question:",
-                                "Review Answers",
+                                "Select a "
+                                + subject
+                                + " question:",
+                                subject
+                                + " Questions",
                                 JOptionPane
                                         .QUESTION_MESSAGE,
                                 null,
@@ -611,6 +954,7 @@ public class ReviewerGUI {
                         );
 
         if (selectedQuestion == null) {
+
             return;
         }
 
@@ -644,17 +988,28 @@ public class ReviewerGUI {
                         );
 
         if (selectedAnswer == null) {
+
             return;
         }
 
-        /*
-         * SHOW EXISTING REVIEWS
-         */
+        openReviewWindow(
+                selectedQuestion,
+                selectedAnswer
+        );
+    }
+
+    /*
+     * REVIEW WINDOW
+     */
+
+    private void openReviewWindow(
+            Question question,
+            Answer answer) {
 
         ArrayList<Review> existingReviews =
                 reviewManager
                         .getReviewsForAnswer(
-                                selectedAnswer
+                                answer
                         );
 
         StringBuilder existingText =
@@ -689,19 +1044,59 @@ public class ReviewerGUI {
             }
         }
 
-        JTextArea reviewInput =
+        /*
+         * QUESTION DISPLAY
+         */
+
+        JTextArea questionArea =
                 new JTextArea(
-                        6,
+                        question.getTitle()
+                        + "\n\n"
+                        + question.getDescription(),
+                        5,
                         35
                 );
 
-        reviewInput.setLineWrap(
+        questionArea.setEditable(
+                false
+        );
+
+        questionArea.setLineWrap(
                 true
         );
 
-        reviewInput.setWrapStyleWord(
+        questionArea.setWrapStyleWord(
                 true
         );
+
+        /*
+         * ANSWER DISPLAY
+         */
+
+        JTextArea answerArea =
+                new JTextArea(
+                        answer.getDescription()
+                        + "\n\nBy: "
+                        + answer.getAuthor(),
+                        5,
+                        35
+                );
+
+        answerArea.setEditable(
+                false
+        );
+
+        answerArea.setLineWrap(
+                true
+        );
+
+        answerArea.setWrapStyleWord(
+                true
+        );
+
+        /*
+         * EXISTING REVIEWS
+         */
 
         JTextArea existingArea =
                 new JTextArea(
@@ -722,6 +1117,24 @@ public class ReviewerGUI {
                 true
         );
 
+        /*
+         * NEW REVIEW
+         */
+
+        JTextArea reviewInput =
+                new JTextArea(
+                        6,
+                        35
+                );
+
+        reviewInput.setLineWrap(
+                true
+        );
+
+        reviewInput.setWrapStyleWord(
+                true
+        );
+
         JPanel panel =
                 new JPanel();
 
@@ -732,14 +1145,13 @@ public class ReviewerGUI {
                 )
         );
 
-        JLabel answerLabel =
+        JLabel subjectLabel =
                 new JLabel(
-                        "Answer by "
-                        + selectedAnswer
-                                .getAuthor()
+                        "Subject: "
+                        + question.getSubject()
                 );
 
-        answerLabel.setFont(
+        subjectLabel.setFont(
                 new Font(
                         "SansSerif",
                         Font.BOLD,
@@ -748,33 +1160,37 @@ public class ReviewerGUI {
         );
 
         panel.add(
-                answerLabel
+                subjectLabel
         );
 
         panel.add(
                 Box.createVerticalStrut(
-                        5
+                        10
                 )
         );
 
-        JTextArea answerArea =
-                new JTextArea(
-                        selectedAnswer
-                                .getDescription(),
-                        5,
-                        35
-                );
-
-        answerArea.setEditable(
-                false
+        panel.add(
+                new JLabel(
+                        "Question"
+                )
         );
 
-        answerArea.setLineWrap(
-                true
+        panel.add(
+                new JScrollPane(
+                        questionArea
+                )
         );
 
-        answerArea.setWrapStyleWord(
-                true
+        panel.add(
+                Box.createVerticalStrut(
+                        15
+                )
+        );
+
+        panel.add(
+                new JLabel(
+                        "Potential Answer"
+                )
         );
 
         panel.add(
@@ -856,7 +1272,7 @@ public class ReviewerGUI {
         Review review =
                 reviewManager
                         .addReview(
-                                selectedAnswer,
+                                answer,
                                 description,
                                 reviewer
                                         .getUsername()

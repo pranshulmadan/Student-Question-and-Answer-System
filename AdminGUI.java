@@ -392,8 +392,8 @@ public class AdminGUI {
 
         card.setMaximumSize(
                 new Dimension(
-                        540,
-                        300
+                        860,
+                        440
                 )
         );
 
@@ -530,6 +530,55 @@ public class AdminGUI {
         );
 
         contentPanel.add(
+                Theme.statRow(
+                        frame,
+                        new String[] {
+                                "Total Users",
+                                "Students",
+                                "Reviewers",
+                                "Admins"
+                        },
+                        () -> {
+
+                            int students = 0;
+                            int reviewers = 0;
+                            int admins = 0;
+
+                            java.util.ArrayList<User> users =
+                                    userManager.getUsers();
+
+                            for (User u : users) {
+
+                                if (u.hasRole(Role.STUDENT)) {
+                                    students++;
+                                }
+
+                                if (u.hasRole(Role.REVIEWER)) {
+                                    reviewers++;
+                                }
+
+                                if (u.hasRole(Role.ADMIN)) {
+                                    admins++;
+                                }
+                            }
+
+                            return new int[] {users.size(), students, reviewers, admins};
+                        }
+                )
+        );
+
+        contentPanel.add(
+                Box.createVerticalStrut(
+                        22
+                )
+        );
+
+        Theme.scaleFonts(
+                card,
+                1.35f
+        );
+
+        contentPanel.add(
                 card
         );
 
@@ -588,6 +637,11 @@ public class AdminGUI {
                         }
                 );
 
+        Theme.apply(
+                frame,
+                true
+        );
+
         frame.setVisible(
                 true
         );
@@ -596,6 +650,19 @@ public class AdminGUI {
     /*
      * SIDEBAR BUTTON STYLE
      */
+
+    /*
+     * Drops seconds and milliseconds from a date.
+     */
+    private static java.util.Date truncateToMinute(
+            java.util.Date date) {
+
+        long minute = 60L * 1000L;
+
+        return new java.util.Date(
+                (date.getTime() / minute) * minute
+        );
+    }
 
     private JButton createSidebarButton(
             String text) {
@@ -905,22 +972,33 @@ public class AdminGUI {
                 )
         );
 
+        /*
+         * Default: 24 hours from now, rounded to the whole minute so the
+         * stored deadline matches exactly what the field displays.
+         */
         java.util.Date tomorrow =
-                new java.util.Date(
-                        System.currentTimeMillis()
-                        + 24L
-                        * 60L
-                        * 60L
-                        * 1000L
+                truncateToMinute(
+                        new java.util.Date(
+                                System.currentTimeMillis()
+                                + 24L
+                                * 60L
+                                * 60L
+                                * 1000L
+                        )
                 );
 
+        /*
+         * No minimum on the model: a minimum makes the spinner silently
+         * revert any earlier time. The "must be in the future" check
+         * below reports that case to the admin instead.
+         */
         SpinnerDateModel dateModel =
                 new SpinnerDateModel(
                         tomorrow,
-                        new java.util.Date(),
+                        null,
                         null,
                         java.util.Calendar
-                                .HOUR_OF_DAY
+                                .MINUTE
                 );
 
         JSpinner deadlineSpinner =
@@ -1097,10 +1175,42 @@ public class AdminGUI {
                                 return;
                             }
 
+                            /*
+                             * Commit whatever is typed in the field. Without
+                             * this, text that doesn't parse is silently
+                             * discarded and the old (default) deadline is used.
+                             */
+                            try {
+
+                                deadlineSpinner.commitEdit();
+
+                            } catch (java.text.ParseException parseError) {
+
+                                JOptionPane
+                                        .showMessageDialog(
+                                                inviteFrame,
+                                                "\""
+                                                + dateEditor.getTextField().getText()
+                                                + "\" is not a valid deadline.\n"
+                                                + "Use the format MM/dd/yyyy hh:mm AM/PM, "
+                                                + "for example 11/04/2026 03:30 PM.",
+                                                "Invalid Deadline",
+                                                JOptionPane.ERROR_MESSAGE
+                                        );
+
+                                return;
+                            }
+
+                            /*
+                             * The field shows minutes only, so drop seconds and
+                             * milliseconds: "03:30 PM" expires at 3:30:00 exactly.
+                             */
                             java.util.Date deadline =
-                                    (java.util.Date)
-                                    deadlineSpinner
-                                            .getValue();
+                                    truncateToMinute(
+                                            (java.util.Date)
+                                            deadlineSpinner
+                                                    .getValue()
+                                    );
 
                             /*
                              * Deadline must be future
@@ -1144,45 +1254,157 @@ public class AdminGUI {
                              * SUCCESS
                              */
 
-                            JTextArea codeArea =
-                                    new JTextArea();
+                            JPanel resultPanel =
+                                    new JPanel();
 
-                            codeArea.setEditable(
-                                    false
-                            );
-
-                            codeArea.setLineWrap(
-                                    true
-                            );
-
-                            codeArea.setWrapStyleWord(
-                                    true
-                            );
-
-                            codeArea.setFont(
-                                    new Font(
-                                            "SansSerif",
-                                            Font.PLAIN,
-                                            14
+                            resultPanel.setLayout(
+                                    new BoxLayout(
+                                            resultPanel,
+                                            BoxLayout.Y_AXIS
                                     )
                             );
 
-                            codeArea.setText(
-                                    "Invitation created successfully!\n\n"
-                                    + "One-Time Code: "
-                                    + invitation.getCode()
-                                    + "\n\nRoles: "
-                                    + invitation.getRoles()
-                                    + "\n\nDeadline: "
-                                    + deadline
-                                    + "\n\n"
-                                    + "This code can only be used once."
+                            JLabel successLabel =
+                                    new JLabel(
+                                            "Invitation created successfully!"
+                                    );
+
+                            successLabel.setFont(
+                                    new Font(
+                                            "SansSerif",
+                                            Font.BOLD,
+                                            16
+                                    )
                             );
+
+                            JLabel codeCaption =
+                                    new JLabel(
+                                            "ONE-TIME CODE"
+                                    );
+
+                            codeCaption.setForeground(
+                                    GRAY
+                            );
+
+                            codeCaption.setFont(
+                                    new Font(
+                                            "SansSerif",
+                                            Font.BOLD,
+                                            12
+                                    )
+                            );
+
+                            /*
+                             * Read-only field so the code can be selected
+                             * and copied by hand as well.
+                             */
+                            JTextField codeField =
+                                    new JTextField(
+                                            invitation.getCode()
+                                    );
+
+                            codeField.setEditable(
+                                    false
+                            );
+
+                            codeField.setFont(
+                                    new Font(
+                                            Font.MONOSPACED,
+                                            Font.BOLD,
+                                            24
+                                    )
+                            );
+
+                            codeField.setHorizontalAlignment(
+                                    JTextField.CENTER
+                            );
+
+                            codeField.setMaximumSize(
+                                    new Dimension(
+                                            Integer.MAX_VALUE,
+                                            56
+                                    )
+                            );
+
+                            codeField.setPreferredSize(
+                                    new Dimension(
+                                            340,
+                                            56
+                                    )
+                            );
+
+                            JButton copyButton =
+                                    new JButton(
+                                            "Copy Code"
+                                    );
+
+                            copyButton.setBackground(
+                                    BLUE
+                            );
+
+                            copyButton.addActionListener(
+                                    copyEvent -> {
+
+                                        Toolkit.getDefaultToolkit()
+                                                .getSystemClipboard()
+                                                .setContents(
+                                                        new java.awt.datatransfer
+                                                                .StringSelection(
+                                                                invitation.getCode()
+                                                        ),
+                                                        null
+                                                );
+
+                                        copyButton.setText(
+                                                "Copied!"
+                                        );
+                                    }
+                            );
+
+                            JLabel detailsLabel =
+                                    new JLabel(
+                                            "<html>"
+                                            + "Roles: "
+                                            + invitation.getRoles()
+                                            + "<br>Expires: "
+                                            + new java.text.SimpleDateFormat(
+                                                    "MMM d, yyyy 'at' h:mm a"
+                                            ).format(deadline)
+                                            + "<br><br>This code can only be used once."
+                                            + "</html>"
+                                    );
+
+                            detailsLabel.setForeground(
+                                    GRAY
+                            );
+
+                            for (JComponent part : new JComponent[] {
+                                    successLabel,
+                                    codeCaption,
+                                    codeField,
+                                    copyButton,
+                                    detailsLabel
+                            }) {
+
+                                part.setAlignmentX(
+                                        Component.LEFT_ALIGNMENT
+                                );
+                            }
+
+                            resultPanel.add(successLabel);
+                            resultPanel.add(Box.createVerticalStrut(16));
+                            resultPanel.add(codeCaption);
+                            resultPanel.add(Box.createVerticalStrut(6));
+                            resultPanel.add(codeField);
+                            resultPanel.add(Box.createVerticalStrut(10));
+                            resultPanel.add(copyButton);
+                            resultPanel.add(Box.createVerticalStrut(16));
+                            resultPanel.add(detailsLabel);
 
                             JOptionPane
                                     .showMessageDialog(
                                             inviteFrame,
-                                            codeArea,
+                                            resultPanel,
                                             "Invitation Created",
                                             JOptionPane
                                                     .INFORMATION_MESSAGE
@@ -1191,6 +1413,11 @@ public class AdminGUI {
                             inviteFrame.dispose();
                         }
                 );
+
+        Theme.apply(
+                inviteFrame,
+                false
+        );
 
         inviteFrame.setVisible(
                 true

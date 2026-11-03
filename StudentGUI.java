@@ -400,8 +400,8 @@ public class StudentGUI {
 
         card.setMaximumSize(
                 new Dimension(
-                        540,
-                        300
+                        860,
+                        440
                 )
         );
 
@@ -493,6 +493,58 @@ public class StudentGUI {
         );
 
         contentPanel.add(
+                Theme.statRow(
+                        frame,
+                        new String[] {
+                                "Total Questions",
+                                "Unresolved",
+                                "My Questions",
+                                "My Answers"
+                        },
+                        () -> {
+
+                            int total = 0;
+                            int open = 0;
+                            int mine = 0;
+                            int myAnswers = 0;
+
+                            for (Question q : questionManager.getQuestions()) {
+
+                                total++;
+
+                                if (!q.isResolved()) {
+                                    open++;
+                                }
+
+                                if (q.getAuthor().equals(user.getUsername())) {
+                                    mine++;
+                                }
+
+                                for (Answer a : q.getAnswers()) {
+
+                                    if (a.getAuthor().equals(user.getUsername())) {
+                                        myAnswers++;
+                                    }
+                                }
+                            }
+
+                            return new int[] {total, open, mine, myAnswers};
+                        }
+                )
+        );
+
+        contentPanel.add(
+                Box.createVerticalStrut(
+                        22
+                )
+        );
+
+        Theme.scaleFonts(
+                card,
+                1.35f
+        );
+
+        contentPanel.add(
                 card
         );
 
@@ -550,6 +602,11 @@ public class StudentGUI {
                             );
                         }
                 );
+
+        Theme.apply(
+                frame,
+                true
+        );
 
         frame.setVisible(
                 true
@@ -1007,6 +1064,11 @@ public class StudentGUI {
                 }
         );
 
+        Theme.apply(
+                askFrame,
+                false
+        );
+
         askFrame.setVisible(
                 true
         );
@@ -1302,6 +1364,11 @@ public class StudentGUI {
         mainPanel.add(
                 bottomPanel,
                 BorderLayout.SOUTH
+        );
+
+        Theme.apply(
+                subjectFrame,
+                false
         );
 
         subjectFrame.setVisible(
@@ -1781,6 +1848,11 @@ public class StudentGUI {
                             0
                     );
         }
+
+        Theme.apply(
+                questionsFrame,
+                false
+        );
 
         questionsFrame.setVisible(
                 true
@@ -2657,6 +2729,11 @@ private void addAnswer() {
     );
 
     refreshQuestions.run();
+
+    Theme.apply(
+            answerFrame,
+            false
+    );
 
     answerFrame.setVisible(
             true
@@ -3692,6 +3769,11 @@ private void markQuestionSolved() {
     );
 
     refreshQuestion.run();
+
+    Theme.apply(
+            solvedFrame,
+            false
+    );
 
     solvedFrame.setVisible(
             true

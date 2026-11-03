@@ -39,14 +39,16 @@ public class LoginGUI {
     public static void showLogin(
             UserManager userManager) {
 
+        Theme.install();
+
         JFrame frame =
                 new JFrame(
                         "Student Q&A System"
                 );
 
         frame.setSize(
-                800,
-                520
+                1280,
+                800
         );
 
         frame.setDefaultCloseOperation(
@@ -75,8 +77,19 @@ public class LoginGUI {
                         )
                 );
 
+        Theme.role(
+                mainPanel,
+                "card"
+        );
+
         frame.add(
-                mainPanel
+                Theme.centered(
+                        mainPanel,
+                        new Dimension(
+                                1120,
+                                700
+                        )
+                )
         );
 
         /*
@@ -95,6 +108,11 @@ public class LoginGUI {
 
         leftPanel.setBackground(
                 BLUE
+        );
+
+        Theme.role(
+                leftPanel,
+                "hero"
         );
 
         leftPanel.setBorder(
@@ -116,7 +134,7 @@ public class LoginGUI {
                 new Font(
                         "SansSerif",
                         Font.BOLD,
-                        30
+                        48
                 )
         );
 
@@ -147,7 +165,7 @@ public class LoginGUI {
                 new Font(
                         "SansSerif",
                         Font.PLAIN,
-                        18
+                        24
                 )
         );
 
@@ -245,7 +263,7 @@ public class LoginGUI {
                 new Font(
                         "SansSerif",
                         Font.BOLD,
-                        27
+                        38
                 )
         );
 
@@ -280,7 +298,7 @@ public class LoginGUI {
                 new Font(
                         "SansSerif",
                         Font.PLAIN,
-                        13
+                        16
                 )
         );
 
@@ -315,7 +333,7 @@ public class LoginGUI {
                 new Font(
                         "SansSerif",
                         Font.BOLD,
-                        13
+                        14
                 )
         );
 
@@ -338,15 +356,15 @@ public class LoginGUI {
 
         usernameField.setMaximumSize(
                 new Dimension(
-                        280,
-                        42
+                        380,
+                        50
                 )
         );
 
         usernameField.setPreferredSize(
                 new Dimension(
-                        280,
-                        42
+                        380,
+                        50
                 )
         );
 
@@ -354,12 +372,17 @@ public class LoginGUI {
                 new Font(
                         "SansSerif",
                         Font.PLAIN,
-                        14
+                        16
                 )
         );
 
         usernameField.setHorizontalAlignment(
-                JTextField.CENTER
+                JTextField.LEADING
+        );
+
+        Theme.placeholder(
+                usernameField,
+                "Enter your username"
         );
 
         usernameField.setAlignmentX(
@@ -416,15 +439,15 @@ public class LoginGUI {
 
         passwordField.setMaximumSize(
                 new Dimension(
-                        280,
-                        42
+                        380,
+                        50
                 )
         );
 
         passwordField.setPreferredSize(
                 new Dimension(
-                        280,
-                        42
+                        380,
+                        50
                 )
         );
 
@@ -432,12 +455,17 @@ public class LoginGUI {
                 new Font(
                         "SansSerif",
                         Font.PLAIN,
-                        14
+                        16
                 )
         );
 
         passwordField.setHorizontalAlignment(
-                JTextField.CENTER
+                JTextField.LEADING
+        );
+
+        Theme.placeholder(
+                passwordField,
+                "Enter your password"
         );
 
         passwordField.setAlignmentX(
@@ -505,6 +533,69 @@ public class LoginGUI {
                 showPassword
         );
 
+        JLabel errorLabel =
+                new JLabel(
+                        " "
+                );
+
+        errorLabel.setForeground(
+                new Color(
+                        255,
+                        128,
+                        118
+                )
+        );
+
+        errorLabel.setFont(
+                new Font(
+                        "SansSerif",
+                        Font.BOLD,
+                        14
+                )
+        );
+
+        errorLabel.setAlignmentX(
+                Component.CENTER_ALIGNMENT
+        );
+
+        rightPanel.add(
+                Box.createVerticalStrut(
+                        6
+                )
+        );
+
+        rightPanel.add(
+                errorLabel
+        );
+
+        /*
+         * Clear the error as soon as the user edits either field.
+         */
+        javax.swing.event.DocumentListener clearError =
+                new javax.swing.event.DocumentListener() {
+
+                    public void insertUpdate(javax.swing.event.DocumentEvent e) {
+                        errorLabel.setText(" ");
+                    }
+
+                    public void removeUpdate(javax.swing.event.DocumentEvent e) {
+                        errorLabel.setText(" ");
+                    }
+
+                    public void changedUpdate(javax.swing.event.DocumentEvent e) {
+                    }
+                };
+
+        usernameField.getDocument()
+                .addDocumentListener(
+                        clearError
+                );
+
+        passwordField.getDocument()
+                .addDocumentListener(
+                        clearError
+                );
+
         rightPanel.add(
                 Box.createVerticalStrut(
                         18
@@ -524,7 +615,7 @@ public class LoginGUI {
                 new Font(
                         "SansSerif",
                         Font.BOLD,
-                        14
+                        16
                 )
         );
 
@@ -550,15 +641,15 @@ public class LoginGUI {
 
         loginButton.setMaximumSize(
                 new Dimension(
-                        280,
-                        44
+                        380,
+                        50
                 )
         );
 
         loginButton.setPreferredSize(
                 new Dimension(
-                        280,
-                        44
+                        380,
+                        50
                 )
         );
 
@@ -589,7 +680,7 @@ public class LoginGUI {
                 new Font(
                         "SansSerif",
                         Font.BOLD,
-                        14
+                        16
                 )
         );
 
@@ -615,15 +706,15 @@ public class LoginGUI {
 
         demoButton.setMaximumSize(
                 new Dimension(
-                        280,
-                        44
+                        380,
+                        50
                 )
         );
 
         demoButton.setPreferredSize(
                 new Dimension(
-                        280,
-                        44
+                        380,
+                        50
                 )
         );
 
@@ -706,6 +797,14 @@ public class LoginGUI {
         /*
          * ADD BOTH SIDES
          */
+
+        Theme.centerVertically(
+                leftPanel
+        );
+
+        Theme.centerVertically(
+                rightPanel
+        );
 
         mainPanel.add(
                 leftPanel
@@ -806,13 +905,68 @@ public class LoginGUI {
 
                             if (user == null) {
 
-                                JOptionPane
-                                        .showMessageDialog(
-                                                frame,
-                                                "Invalid username or password.",
-                                                "Login Failed",
-                                                JOptionPane.ERROR_MESSAGE
-                                        );
+                                if (username.isEmpty()) {
+
+                                    errorLabel.setText(
+                                            "Please enter your username."
+                                    );
+
+                                    usernameField.requestFocusInWindow();
+
+                                    return;
+                                }
+
+                                if (password.isEmpty()) {
+
+                                    errorLabel.setText(
+                                            "Please enter your password."
+                                    );
+
+                                    passwordField.requestFocusInWindow();
+
+                                    return;
+                                }
+
+                                /*
+                                 * Same exact-match rule as UserManager.login,
+                                 * so a correct password never shows as wrong.
+                                 */
+                                boolean accountExists = false;
+
+                                for (User existing : userManager.getUsers()) {
+
+                                    if (existing.getUsername()
+                                            .equals(username)) {
+
+                                        accountExists = true;
+                                        break;
+                                    }
+                                }
+
+                                if (accountExists) {
+
+                                    // Clear first: editing a field hides the error.
+                                    passwordField.setText(
+                                            ""
+                                    );
+
+                                    errorLabel.setText(
+                                            "Wrong password. Please try again."
+                                    );
+
+                                    passwordField.requestFocusInWindow();
+
+                                } else {
+
+                                    errorLabel.setText(
+                                            "No account found for \""
+                                            + username
+                                            + "\". Usernames are case-sensitive."
+                                    );
+
+                                    usernameField.selectAll();
+                                    usernameField.requestFocusInWindow();
+                                }
 
                                 return;
                             }
@@ -895,6 +1049,11 @@ public class LoginGUI {
                         loginButton
                 );
 
+        Theme.apply(
+                frame,
+                true
+        );
+
         frame.setVisible(
                 true
         );
@@ -916,7 +1075,7 @@ public class LoginGUI {
                 new Font(
                         "SansSerif",
                         Font.PLAIN,
-                        16
+                        19
                 )
         );
 
@@ -986,8 +1145,19 @@ public class LoginGUI {
                         )
         );
 
+        Theme.role(
+                mainPanel,
+                "card"
+        );
+
         roleFrame.add(
-                mainPanel
+                Theme.centered(
+                        mainPanel,
+                        new Dimension(
+                                620,
+                                600
+                        )
+                )
         );
 
         /*
@@ -1003,7 +1173,7 @@ public class LoginGUI {
                 new Font(
                         "SansSerif",
                         Font.BOLD,
-                        28
+                        36
                 )
         );
 
@@ -1184,6 +1354,11 @@ public class LoginGUI {
                 backButton
         );
 
+        Theme.apply(
+                roleFrame,
+                true
+        );
+
         roleFrame.setVisible(
                 true
         );
@@ -1230,7 +1405,7 @@ public class LoginGUI {
                 new Font(
                         "SansSerif",
                         Font.BOLD,
-                        15
+                        17
                 )
         );
 
@@ -1256,15 +1431,15 @@ public class LoginGUI {
 
         button.setMaximumSize(
                 new Dimension(
-                        320,
-                        52
+                        420,
+                        60
                 )
         );
 
         button.setPreferredSize(
                 new Dimension(
-                        320,
-                        52
+                        420,
+                        60
                 )
         );
 
@@ -1793,6 +1968,9 @@ private static void showRegister(
             .setDefaultButton(
                     createButton
             );
+
+    Theme.apply(dialog, false);
+
 
     dialog.setVisible(
             true

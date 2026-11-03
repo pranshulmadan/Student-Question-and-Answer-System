@@ -366,8 +366,8 @@ public class ReviewerGUI {
 
         card.setMaximumSize(
                 new Dimension(
-                        540,
-                        280
+                        860,
+                        440
                 )
         );
 
@@ -464,6 +464,52 @@ public class ReviewerGUI {
         );
 
         contentPanel.add(
+                Theme.statRow(
+                        frame,
+                        new String[] {
+                                "Questions",
+                                "Potential Answers",
+                                "My Reviews",
+                                "All Reviews"
+                        },
+                        () -> {
+
+                            int questions = 0;
+                            int answers = 0;
+                            int mine = 0;
+
+                            for (Question q : questionManager.getQuestions()) {
+                                questions++;
+                                answers += q.getAnswers().size();
+                            }
+
+                            java.util.ArrayList<Review> all =
+                                    reviewManager.getReviews();
+
+                            for (Review r : all) {
+
+                                if (r.getReviewer().equals(reviewer.getUsername())) {
+                                    mine++;
+                                }
+                            }
+
+                            return new int[] {questions, answers, mine, all.size()};
+                        }
+                )
+        );
+
+        contentPanel.add(
+                Box.createVerticalStrut(
+                        22
+                )
+        );
+
+        Theme.scaleFonts(
+                card,
+                1.35f
+        );
+
+        contentPanel.add(
                 card
         );
 
@@ -508,6 +554,11 @@ public class ReviewerGUI {
                             );
                         }
                 );
+
+        Theme.apply(
+                frame,
+                true
+        );
 
         frame.setVisible(
                 true
@@ -876,6 +927,11 @@ public class ReviewerGUI {
         mainPanel.add(
                 bottomPanel,
                 BorderLayout.SOUTH
+        );
+
+        Theme.apply(
+                subjectFrame,
+                false
         );
 
         subjectFrame.setVisible(

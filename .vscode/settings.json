@@ -5,6 +5,8 @@
         "lib/**/*.jar"
     ],
 
+    "java.debug.settings.vmArgs": "--enable-native-access=ALL-UNNAMED",
+
     "python.testing.unittestArgs": [
         "-v",
         "-s",

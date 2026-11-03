@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 public class QuestionManagerTest {
 
     /*
+     * TEST 1
+     *
      * User Story:
      * A student can ask a question.
      */
@@ -20,7 +22,8 @@ public class QuestionManagerTest {
                 manager.addQuestion(
                         "JUnit Test Question",
                         "This question was created by a JUnit test.",
-                        "Test"
+                        "Test",
+                        Subject.PROGRAMMING
                 );
 
         assertNotNull(
@@ -37,18 +40,58 @@ public class QuestionManagerTest {
                 question.getAuthor()
         );
 
+        assertEquals(
+                Subject.PROGRAMMING,
+                question.getSubject()
+        );
+
         assertFalse(
                 question.isResolved()
         );
     }
 
     /*
+     * TEST 2
+     *
+     * A question created without
+     * a subject should automatically
+     * become Miscellaneous.
+     */
+    @Test
+    public void testQuestionDefaultsToMiscellaneous() {
+
+        QuestionManager manager =
+                new QuestionManager();
+
+        Question question =
+                manager.addQuestion(
+                        "General JUnit Question",
+                        "This question does not specify a subject.",
+                        "Test"
+                );
+
+        assertNotNull(
+                question
+        );
+
+        assertEquals(
+                Subject.MISCELLANEOUS,
+                question.getSubject()
+        );
+    }
+
+    /*
+     * TEST 3
+     *
      * User Story:
      * A student can see related questions
      * before submitting a new question.
+     *
+     * Related question should be found
+     * when it is in the same subject.
      */
     @Test
-    public void testRelatedQuestionsAreFound() {
+    public void testRelatedQuestionsAreFoundInSameSubject() {
 
         QuestionManager manager =
                 new QuestionManager();
@@ -57,7 +100,8 @@ public class QuestionManagerTest {
                 manager.addQuestion(
                         "Recursion JUnit Example",
                         "How does recursion work in Java?",
-                        "Test"
+                        "Test",
+                        Subject.PROGRAMMING
                 );
 
         assertNotNull(
@@ -67,15 +111,123 @@ public class QuestionManagerTest {
         ArrayList<Question> related =
                 manager.findRelatedQuestions(
                         "Help with recursion",
-                        "I do not understand recursion."
+                        "I do not understand recursion.",
+                        Subject.PROGRAMMING
                 );
 
         assertTrue(
-                related.contains(question)
+                related.contains(
+                        question
+                )
         );
     }
 
     /*
+     * TEST 4
+     *
+     * Related questions from a different
+     * subject should not appear in a
+     * subject-specific search.
+     */
+    @Test
+    public void testRelatedQuestionsIgnoreDifferentSubjects() {
+
+        QuestionManager manager =
+                new QuestionManager();
+
+        Question programmingQuestion =
+                manager.addQuestion(
+                        "Recursion Subject Test",
+                        "How does recursion work?",
+                        "Test",
+                        Subject.PROGRAMMING
+                );
+
+        Question mathQuestion =
+                manager.addQuestion(
+                        "Recursion Subject Test",
+                        "How does recursion work?",
+                        "Test",
+                        Subject.DISCRETE_MATH
+                );
+
+        assertNotNull(
+                programmingQuestion
+        );
+
+        assertNotNull(
+                mathQuestion
+        );
+
+        ArrayList<Question> related =
+                manager.findRelatedQuestions(
+                        "Recursion help",
+                        "I need help with recursion.",
+                        Subject.PROGRAMMING
+                );
+
+        assertTrue(
+                related.contains(
+                        programmingQuestion
+                )
+        );
+
+        assertFalse(
+                related.contains(
+                        mathQuestion
+                )
+        );
+    }
+
+    /*
+     * TEST 5
+     *
+     * Questions can be filtered
+     * by subject.
+     */
+    @Test
+    public void testQuestionsCanBeFilteredBySubject() {
+
+        QuestionManager manager =
+                new QuestionManager();
+
+        Question programmingQuestion =
+                manager.addQuestion(
+                        "Programming Filter Test",
+                        "Testing programming filtering.",
+                        "Test",
+                        Subject.PROGRAMMING
+                );
+
+        Question dataStructuresQuestion =
+                manager.addQuestion(
+                        "Data Structures Filter Test",
+                        "Testing data structures filtering.",
+                        "Test",
+                        Subject.DATA_STRUCTURES
+                );
+
+        ArrayList<Question> programmingQuestions =
+                manager.getQuestionsBySubject(
+                        Subject.PROGRAMMING
+                );
+
+        assertTrue(
+                programmingQuestions.contains(
+                        programmingQuestion
+                )
+        );
+
+        assertFalse(
+                programmingQuestions.contains(
+                        dataStructuresQuestion
+                )
+        );
+    }
+
+    /*
+     * TEST 6
+     *
      * User Story:
      * A student can see unresolved questions.
      */
@@ -89,7 +241,8 @@ public class QuestionManagerTest {
                 manager.addQuestion(
                         "Unresolved JUnit Question",
                         "This question should still be unresolved.",
-                        "Test"
+                        "Test",
+                        Subject.SOFTWARE_ENGINEERING
                 );
 
         assertNotNull(
@@ -100,7 +253,9 @@ public class QuestionManagerTest {
                 manager.getUnresolvedQuestions();
 
         assertTrue(
-                unresolved.contains(question)
+                unresolved.contains(
+                        question
+                )
         );
 
         assertFalse(
@@ -109,6 +264,8 @@ public class QuestionManagerTest {
     }
 
     /*
+     * TEST 7
+     *
      * User Story:
      * A student can submit a potential answer.
      */
@@ -122,14 +279,15 @@ public class QuestionManagerTest {
                 manager.addQuestion(
                         "Answer JUnit Question",
                         "This question needs a potential answer.",
-                        "Test"
+                        "Test",
+                        Subject.PROGRAMMING
                 );
 
         Answer answer =
                 manager.addAnswer(
                         question,
                         "This is a potential answer.",
-                        "Test"
+                        "AnotherStudent"
                 );
 
         assertNotNull(
@@ -147,12 +305,81 @@ public class QuestionManagerTest {
                         .get(0)
                         .getDescription()
         );
+
+        assertEquals(
+                "AnotherStudent",
+                question.getAnswers()
+                        .get(0)
+                        .getAuthor()
+        );
     }
 
     /*
-     * The student who asked the question
-     * can choose an answer and mark the
-     * question as solved.
+     * TEST 8
+     *
+     * An unresolved question should
+     * still show its current
+     * potential answers.
+     */
+    @Test
+    public void testUnresolvedQuestionShowsPotentialAnswers() {
+
+        QuestionManager manager =
+                new QuestionManager();
+
+        Question question =
+                manager.addQuestion(
+                        "Unresolved Question With Answers",
+                        "This question should have potential answers.",
+                        "Test",
+                        Subject.DATA_STRUCTURES
+                );
+
+        Answer answer =
+                manager.addAnswer(
+                        question,
+                        "This is an existing potential answer.",
+                        "AnotherStudent"
+                );
+
+        assertNotNull(
+                answer
+        );
+
+        ArrayList<Question> unresolved =
+                manager.getUnresolvedQuestions();
+
+        assertTrue(
+                unresolved.contains(
+                        question
+                )
+        );
+
+        assertFalse(
+                question.getAnswers()
+                        .isEmpty()
+        );
+
+        assertEquals(
+                1,
+                question.getAnswers()
+                        .size()
+        );
+
+        assertEquals(
+                "This is an existing potential answer.",
+                question.getAnswers()
+                        .get(0)
+                        .getDescription()
+        );
+    }
+
+    /*
+     * TEST 9
+     *
+     * The original question author
+     * can select an accepted answer
+     * and resolve the question.
      */
     @Test
     public void testQuestionAuthorCanResolve() {
@@ -164,7 +391,8 @@ public class QuestionManagerTest {
                 manager.addQuestion(
                         "Resolved JUnit Question",
                         "This question will be marked solved.",
-                        "Test"
+                        "Test",
+                        Subject.PROGRAMMING
                 );
 
         Answer answer =
@@ -200,9 +428,10 @@ public class QuestionManagerTest {
     }
 
     /*
-     * A student who did not ask the question
-     * cannot mark another student's question
-     * as solved.
+     * TEST 10
+     *
+     * Another student cannot resolve
+     * someone else's question.
      */
     @Test
     public void testOtherStudentCannotResolve() {
@@ -214,7 +443,8 @@ public class QuestionManagerTest {
                 manager.addQuestion(
                         "Author Permission JUnit Question",
                         "Only Test should be able to resolve this.",
-                        "Test"
+                        "Test",
+                        Subject.PROGRAMMING
                 );
 
         Answer answer =
@@ -243,47 +473,60 @@ public class QuestionManagerTest {
                 question.hasAcceptedAnswer()
         );
     }
+
+    /*
+     * TEST 11
+     *
+     * A question should not be resolved
+     * using an answer that belongs to
+     * another question.
+     */
     @Test
-public void testUnresolvedQuestionShowsPotentialAnswers() {
+    public void testCannotResolveWithAnswerFromDifferentQuestion() {
 
-    QuestionManager manager =
-            new QuestionManager();
+        QuestionManager manager =
+                new QuestionManager();
 
-    Question question =
-            manager.addQuestion(
-                    "Unresolved Question With Answers",
-                    "This question should have potential answers.",
-                    "Test"
-            );
+        Question question1 =
+                manager.addQuestion(
+                        "Question One",
+                        "First question.",
+                        "Test",
+                        Subject.PROGRAMMING
+                );
 
-    Answer answer =
-            manager.addAnswer(
-                    question,
-                    "This is an existing potential answer.",
-                    "AnotherStudent"
-            );
+        Question question2 =
+                manager.addQuestion(
+                        "Question Two",
+                        "Second question.",
+                        "Test",
+                        Subject.PROGRAMMING
+                );
 
-    ArrayList<Question> unresolved =
-            manager.getUnresolvedQuestions();
+        Answer answerForQuestion2 =
+                manager.addAnswer(
+                        question2,
+                        "Answer for question two.",
+                        "AnotherStudent"
+                );
 
-    assertTrue(
-            unresolved.contains(question)
-    );
+        boolean result =
+                manager.resolveQuestion(
+                        question1,
+                        answerForQuestion2,
+                        "Test"
+                );
 
-    assertFalse(
-            question.getAnswers().isEmpty()
-    );
+        assertFalse(
+                result
+        );
 
-    assertEquals(
-            1,
-            question.getAnswers().size()
-    );
+        assertFalse(
+                question1.isResolved()
+        );
 
-    assertEquals(
-            "This is an existing potential answer.",
-            question.getAnswers()
-                    .get(0)
-                    .getDescription()
-    );
-}
+        assertFalse(
+                question1.hasAcceptedAnswer()
+        );
+    }
 }

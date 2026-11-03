@@ -1,25 +1,14 @@
-1|What is 4+4|what is it exactly?|admin|true|10|MISCELLANEOUS
-2|Unresolved JUnit Question|This question should still be unresolved.|Test|false|-1|MISCELLANEOUS
-3|Unresolved Question With Answers|This question should have potential answers.|Test|true|11|MISCELLANEOUS
-4|Resolved JUnit Question|This question will be marked solved.|Test|true|12|MISCELLANEOUS
-5|JUnit Test Question|This question was created by a JUnit test.|Test|false|-1|MISCELLANEOUS
-6|Author Permission JUnit Question|Only Test should be able to resolve this.|Test|false|-1|MISCELLANEOUS
-7|Answer JUnit Question|This question needs a potential answer.|Test|false|-1|MISCELLANEOUS
-8|Recursion JUnit Example|How does recursion work in Java?|Test|false|-1|MISCELLANEOUS
-9|Test question|Testing|Test|true|15|MISCELLANEOUS
-10|Unresolved JUnit Question|This question should still be unresolved.|Test|false|-1|MISCELLANEOUS
-11|Unresolved Question With Answers|This question should have potential answers.|Test|false|-1|MISCELLANEOUS
-12|Resolved JUnit Question|This question will be marked solved.|Test|true|17|MISCELLANEOUS
-13|JUnit Test Question|This question was created by a JUnit test.|Test|false|-1|MISCELLANEOUS
-14|Author Permission JUnit Question|Only Test should be able to resolve this.|Test|false|-1|MISCELLANEOUS
-15|Answer JUnit Question|This question needs a potential answer.|Test|false|-1|MISCELLANEOUS
-16|Recursion JUnit Example|How does recursion work in Java?|Test|false|-1|MISCELLANEOUS
-17|Q1|Are these guys crazy?|Test|false|-1|MISCELLANEOUS
-18|Unresolved JUnit Question|This question should still be unresolved.|Test|false|-1|MISCELLANEOUS
-19|Unresolved Question With Answers|This question should have potential answers.|Test|false|-1|MISCELLANEOUS
-20|Resolved JUnit Question|This question will be marked solved.|Test|true|21|MISCELLANEOUS
-21|JUnit Test Question|This question was created by a JUnit test.|Test|false|-1|MISCELLANEOUS
-22|Author Permission JUnit Question|Only Test should be able to resolve this.|Test|false|-1|MISCELLANEOUS
-23|Answer JUnit Question|This question needs a potential answer.|Test|false|-1|MISCELLANEOUS
-24|Recursion JUnit Example|How does recursion work in Java?|Test|false|-1|MISCELLANEOUS
-25|This is a test.|Testing|Test|false|-1|PROGRAMMING
+1|Unresolved JUnit Question|This question should still be unresolved.|Test|false|-1|SOFTWARE_ENGINEERING
+2|Unresolved Question With Answers|This question should have potential answers.|Test|false|-1|DATA_STRUCTURES
+3|Resolved JUnit Question|This question will be marked solved.|Test|true|2|PROGRAMMING
+4|Question One|First question.|Test|false|-1|PROGRAMMING
+5|Question Two|Second question.|Test|false|-1|PROGRAMMING
+6|Programming Filter Test|Testing programming filtering.|Test|false|-1|PROGRAMMING
+7|Data Structures Filter Test|Testing data structures filtering.|Test|false|-1|DATA_STRUCTURES
+8|JUnit Test Question|This question was created by a JUnit test.|Test|false|-1|PROGRAMMING
+9|Recursion JUnit Example|How does recursion work in Java?|Test|false|-1|PROGRAMMING
+10|Author Permission JUnit Question|Only Test should be able to resolve this.|Test|false|-1|PROGRAMMING
+11|General JUnit Question|This question does not specify a subject.|Test|false|-1|MISCELLANEOUS
+12|Recursion Subject Test|How does recursion work?|Test|false|-1|PROGRAMMING
+13|Recursion Subject Test|How does recursion work?|Test|false|-1|DISCRETE_MATH
+14|Answer JUnit Question|This question needs a potential answer.|Test|false|-1|PROGRAMMING

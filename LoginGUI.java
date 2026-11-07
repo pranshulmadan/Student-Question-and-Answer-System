@@ -354,6 +354,8 @@ public class LoginGUI {
         JTextField usernameField =
                 new JTextField();
 
+        usernameField.setName("usernameField");
+
         usernameField.setMaximumSize(
                 new Dimension(
                         380,
@@ -436,6 +438,8 @@ public class LoginGUI {
 
         JPasswordField passwordField =
                 new JPasswordField();
+
+        passwordField.setName("passwordField");
 
         passwordField.setMaximumSize(
                 new Dimension(
@@ -538,6 +542,8 @@ public class LoginGUI {
                         " "
                 );
 
+        errorLabel.setName("loginErrorLabel");
+
         errorLabel.setForeground(
                 new Color(
                         255,
@@ -610,6 +616,8 @@ public class LoginGUI {
                 new JButton(
                         "LOGIN"
                 );
+
+        loginButton.setName("loginButton");
 
         loginButton.setFont(
                 new Font(

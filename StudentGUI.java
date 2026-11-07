@@ -216,6 +216,14 @@ public class StudentGUI {
                         "Logout"
                 );
 
+        // Names used by AssertJ Swing GUI tests.
+        askQuestionButton.setName("askQuestionButton");
+        viewQuestionsButton.setName("viewQuestionsButton");
+        addAnswerButton.setName("addAnswerButton");
+        unresolvedButton.setName("unresolvedButton");
+        markSolvedButton.setName("markSolvedButton");
+        logoutButton.setName("logoutButton");
+
         sidebar.add(
                 askQuestionButton
         );
@@ -765,6 +773,8 @@ public class StudentGUI {
                 Component.LEFT_ALIGNMENT
         );
 
+        titleField.setName("workflowTitleField");
+
         panel.add(
                 titleField
         );
@@ -822,6 +832,8 @@ public class StudentGUI {
                 Subject.MISCELLANEOUS
         );
 
+        subjectBox.setName("workflowAskSubjectBox");
+
         panel.add(
                 subjectBox
         );
@@ -868,6 +880,8 @@ public class StudentGUI {
         descriptionArea.setWrapStyleWord(
                 true
         );
+
+        descriptionArea.setName("workflowDescriptionArea");
 
         JScrollPane scrollPane =
                 new JScrollPane(
@@ -919,6 +933,8 @@ public class StudentGUI {
         submitButton.setAlignmentX(
                 Component.LEFT_ALIGNMENT
         );
+
+        submitButton.setName("workflowSubmitQuestionButton");
 
         panel.add(
                 submitButton
@@ -2210,6 +2226,8 @@ private void addAnswer() {
             Component.LEFT_ALIGNMENT
     );
 
+    subjectBox.setName("workflowAnswerSubjectBox");
+
     centerPanel.add(
             subjectBox
     );
@@ -2272,6 +2290,8 @@ private void addAnswer() {
     questionBox.setAlignmentX(
             Component.LEFT_ALIGNMENT
     );
+
+    questionBox.setName("workflowAnswerQuestionBox");
 
     centerPanel.add(
             questionBox
@@ -2461,6 +2481,8 @@ private void addAnswer() {
             )
     );
 
+    answerArea.setName("workflowAnswerArea");
+
     JScrollPane answerScroll =
             new JScrollPane(
                     answerArea
@@ -2531,6 +2553,8 @@ private void addAnswer() {
                     16
             )
     );
+
+    submitButton.setName("workflowSubmitAnswerButton");
 
     bottomPanel.add(
             submitButton
@@ -3269,6 +3293,8 @@ private void markQuestionSolved() {
             Component.LEFT_ALIGNMENT
     );
 
+    questionBox.setName("workflowSolvedQuestionBox");
+
     centerPanel.add(
             questionBox
     );
@@ -3373,6 +3399,8 @@ private void markQuestionSolved() {
     answerBox.setAlignmentX(
             Component.LEFT_ALIGNMENT
     );
+
+    answerBox.setName("workflowSolvedAnswerBox");
 
     centerPanel.add(
             answerBox
@@ -3504,6 +3532,8 @@ private void markQuestionSolved() {
                     16
             )
     );
+
+    solvedButton.setName("workflowMarkSolvedButton");
 
     bottomPanel.add(
             solvedButton

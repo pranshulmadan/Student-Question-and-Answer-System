@@ -11,7 +11,7 @@ public class StudentGUI {
     private User user;
     private UserManager userManager;
 
-    private QuestionManager questionManager;
+    private QuestionClient questionManager;
     private ReviewManager reviewManager;
 
     private static final Color BLUE =
@@ -37,7 +37,7 @@ public class StudentGUI {
                 userManager;
 
         this.questionManager =
-                new QuestionManager();
+                new QuestionClient();
 
         this.reviewManager =
                 new ReviewManager();
@@ -988,8 +988,7 @@ public class StudentGUI {
                      */
 
                     ArrayList<Question> related =
-                            questionManager
-                                    .findRelatedQuestions(
+                            findRelatedQuestions(
                                             title,
                                             description,
                                             subject
@@ -1317,19 +1316,6 @@ public class StudentGUI {
 
             tile.addActionListener(
                     e -> {
-
-                        if (count == 0) {
-
-                            JOptionPane
-                                    .showMessageDialog(
-                                            subjectFrame,
-                                            "There are no questions in "
-                                            + subject
-                                            + " yet."
-                                    );
-
-                            return;
-                        }
 
                         viewQuestionsForSubject(
                                 subject
@@ -3810,7 +3796,40 @@ private void markQuestionSolved() {
     );
 }
 
+    /*
+     * FIND RELATED QUESTIONS USING SERVER DATA
+     * Uses the same subject and keyword rules as QuestionManager.
+     */
+    private ArrayList<Question> findRelatedQuestions(
+            String title, String description, Subject subject) {
 
+        ArrayList<Question> related = new ArrayList<Question>();
 
+        if (title == null || description == null) {
+            return related;
+        }
 
+        if (subject == null) {
+            subject = Subject.MISCELLANEOUS;
+        }
+
+        String[] words = (title + " " + description)
+                .toLowerCase().split("\\s+");
+
+        for (Question question :
+                questionManager.getQuestionsBySubject(subject)) {
+
+            String questionText = (question.getTitle() + " "
+                    + question.getDescription()).toLowerCase();
+
+            for (String word : words) {
+                if (word.length() >= 4 && questionText.contains(word)) {
+                    related.add(question);
+                    break;
+                }
+            }
+        }
+
+        return related;
+    }
 }

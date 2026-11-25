@@ -30,6 +30,19 @@ public class InvitationManager {
     }
 
     /*
+     * RELOAD
+     *
+     * Re-read invitations.txt, discarding the in-memory copy.
+     */
+
+    public void reload() {
+
+        invitations.clear();
+
+        loadInvitations();
+    }
+
+    /*
      * CREATE INVITATION
      */
 

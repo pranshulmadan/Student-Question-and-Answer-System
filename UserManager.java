@@ -9,6 +9,9 @@ public class UserManager {
 
     private ArrayList<User> users;
 
+    // True once the list was replaced by the server's (hash-less) copy.
+    private boolean syncedFromServer = false;
+
     private static final String FILE_NAME = "users.txt";
 
     private static final Path FILE_PATH = findProjectFolder()
@@ -301,6 +304,17 @@ public boolean removeRoleFromUser(
     // Save users as readable text
     private void saveUsers() {
 
+        // A server copy has no password hashes; never save it.
+        if (syncedFromServer) {
+
+            System.out.println(
+                    "Users came from the server; not saving to "
+                    + FILE_PATH
+            );
+
+            return;
+        }
+
         try (BufferedWriter writer =
                 Files.newBufferedWriter(FILE_PATH)) {
 
@@ -336,6 +350,54 @@ public boolean removeRoleFromUser(
                     "Error saving users: " + e.getMessage()
             );
         }
+    }
+
+    // Re-read users.txt, discarding the in-memory copy.
+    // Used when another process (e.g. QuestionServer) may have changed it.
+    public void reload() {
+
+        users.clear();
+
+        syncedFromServer = false;
+
+        loadUsers();
+    }
+
+    /*
+     * Replace the in-memory copy with the server's user list.
+     *
+     * The server sends usernames and roles only (no password hashes),
+     * so after this the copy is read-only: it is never written back
+     * to users.txt, or it would wipe everyone's passwords.
+     *
+     * Returns false (keeping the current copy) if the server can't be
+     * reached or rejects the session.
+     */
+    public boolean reloadFromServer(UserClient client) {
+
+        ArrayList<User> serverUsers;
+
+        try {
+
+            serverUsers = client.getUsers();
+
+        } catch (ServerUnavailableException
+                | UserClient.NotAuthorizedException e) {
+
+            System.out.println(
+                    "Could not reload users from server: "
+                    + e.getMessage()
+            );
+
+            return false;
+        }
+
+        users.clear();
+        users.addAll(serverUsers);
+
+        syncedFromServer = true;
+
+        return true;
     }
 
     // Load users from the text file

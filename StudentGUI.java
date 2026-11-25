@@ -12,7 +12,7 @@ public class StudentGUI {
     private UserManager userManager;
 
     private QuestionClient questionManager;
-    private ReviewManager reviewManager;
+    private ReviewClient reviewManager;
 
     private static final Color BLUE =
             new Color(23, 101, 209);
@@ -40,7 +40,9 @@ public class StudentGUI {
                 new QuestionClient();
 
         this.reviewManager =
-                new ReviewManager();
+                new ReviewClient();
+
+        ServerErrorHandler.install();
 
         createGUI();
     }

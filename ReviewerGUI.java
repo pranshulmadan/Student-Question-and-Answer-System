@@ -10,8 +10,8 @@ public class ReviewerGUI {
     private User reviewer;
     private UserManager userManager;
 
-    private QuestionManager questionManager;
-    private ReviewManager reviewManager;
+    private QuestionClient questionManager;
+    private ReviewClient reviewManager;
 
     private static final Color BLUE =
             new Color(
@@ -52,10 +52,12 @@ public class ReviewerGUI {
                 userManager;
 
         this.questionManager =
-                new QuestionManager();
+                new QuestionClient();
 
         this.reviewManager =
-                new ReviewManager();
+                new ReviewClient();
+
+        ServerErrorHandler.install();
 
         createGUI();
     }

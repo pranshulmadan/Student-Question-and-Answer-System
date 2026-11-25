@@ -4,14 +4,17 @@ import java.util.ArrayList;
 
 public class QuestionClient {
 
+    // Change IP to what ever network you are on, if you are on the same network as the server, use the server's local IP address. If you are on a different network, use the server's public IP address.
+    // ReviewClient uses these too.
+    public static final String DEFAULT_HOST = "127.0.0.1";
+    public static final int DEFAULT_PORT = 5000;
+
     private final String host;
     private final int port;
 
-
-    // Change IP to what ever network you are on, if you are on the same network as the server, use the server's local IP address. If you are on a different network, use the server's public IP address.
     public QuestionClient() {
 
-        this("127.0.0.1", 5000);
+        this(DEFAULT_HOST, DEFAULT_PORT);
     }
 
     public QuestionClient(String host, int port) {
@@ -131,8 +134,10 @@ public class QuestionClient {
 
         } catch (IOException e) {
 
-            throw new IllegalStateException(
-                    "Unable to retrieve questions from server.",
+            throw new ServerUnavailableException(
+                    "retrieve questions from server",
+                    host,
+                    port,
                     e
             );
         }
@@ -187,8 +192,10 @@ public class QuestionClient {
 
         } catch (IOException e) {
 
-            throw new IllegalStateException(
-                    "Unable to submit question to server.",
+            throw new ServerUnavailableException(
+                    "submit question to server",
+                    host,
+                    port,
                     e
             );
         }
@@ -245,8 +252,10 @@ public class QuestionClient {
 
         } catch (IOException e) {
 
-            throw new IllegalStateException(
-                    "Unable to submit answer to server.",
+            throw new ServerUnavailableException(
+                    "submit answer to server",
+                    host,
+                    port,
                     e
             );
         }
@@ -303,8 +312,10 @@ public class QuestionClient {
 
         } catch (IOException e) {
 
-            throw new IllegalStateException(
-                    "Unable to resolve question on server.",
+            throw new ServerUnavailableException(
+                    "resolve question on server",
+                    host,
+                    port,
                     e
             );
         }

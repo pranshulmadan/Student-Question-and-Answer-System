@@ -905,53 +905,59 @@ public class LoginGUI {
                                                     .getPassword()
                                     );
 
+                            if (username.isEmpty()) {
+
+                                errorLabel.setText(
+                                        "Please enter your username."
+                                );
+
+                                usernameField.requestFocusInWindow();
+
+                                return;
+                            }
+
+                            if (password.isEmpty()) {
+
+                                errorLabel.setText(
+                                        "Please enter your password."
+                                );
+
+                                passwordField.requestFocusInWindow();
+
+                                return;
+                            }
+
+                            /*
+                             * Usernames and passwords are checked by
+                             * the server, not the local users.txt.
+                             */
+                            UserClient.LoginResult result;
+
+                            try {
+
+                                result =
+                                        new UserClient().login(
+                                                username,
+                                                password
+                                        );
+
+                            } catch (ServerUnavailableException ex) {
+
+                                errorLabel.setText(
+                                        "Can't connect to the server. "
+                                        + "Is QuestionServer running?"
+                                );
+
+                                return;
+                            }
+
                             User user =
-                                    userManager.login(
-                                            username,
-                                            password
-                                    );
+                                    result.user;
 
                             if (user == null) {
 
-                                if (username.isEmpty()) {
-
-                                    errorLabel.setText(
-                                            "Please enter your username."
-                                    );
-
-                                    usernameField.requestFocusInWindow();
-
-                                    return;
-                                }
-
-                                if (password.isEmpty()) {
-
-                                    errorLabel.setText(
-                                            "Please enter your password."
-                                    );
-
-                                    passwordField.requestFocusInWindow();
-
-                                    return;
-                                }
-
-                                /*
-                                 * Same exact-match rule as UserManager.login,
-                                 * so a correct password never shows as wrong.
-                                 */
-                                boolean accountExists = false;
-
-                                for (User existing : userManager.getUsers()) {
-
-                                    if (existing.getUsername()
-                                            .equals(username)) {
-
-                                        accountExists = true;
-                                        break;
-                                    }
-                                }
-
-                                if (accountExists) {
+                                if (result.status
+                                        == UserClient.LoginStatus.WRONG_PASSWORD) {
 
                                     // Clear first: editing a field hides the error.
                                     passwordField.setText(
@@ -1861,80 +1867,58 @@ private static void showRegister(
                                 .getText()
                                 .trim();
 
-                User newUser;
-
                 /*
-                 * INVITED REGISTRATION
+                 * Accounts are created on the server. With an
+                 * invitation code the server checks it, gives the
+                 * account its roles, and uses up the code.
                  */
 
-                if (!invitationCode.isEmpty()) {
+                UserClient.RegisterResult result;
 
-                    InvitationManager invitationManager =
-                            new InvitationManager();
+                try {
 
-                    Invitation invitation =
-                            invitationManager
-                                    .validateInvitation(
+                    result =
+                            new UserClient()
+                                    .register(
+                                            username,
+                                            password,
                                             invitationCode
                                     );
 
-                    /*
-                     * Invalid / expired / used
-                     */
+                } catch (ServerUnavailableException ex) {
 
-                    if (invitation == null) {
+                    JOptionPane.showMessageDialog(
+                            dialog,
+                            "Can't connect to the server.\n"
+                            + "Make sure QuestionServer is running "
+                            + "and try again.",
+                            "Server Unavailable",
+                            JOptionPane.ERROR_MESSAGE
+                    );
 
-                        JOptionPane.showMessageDialog(
-                                dialog,
-                                "The invitation code is invalid, "
-                                + "expired, or already used.",
-                                "Invalid Invitation",
-                                JOptionPane.ERROR_MESSAGE
-                        );
-
-                        return;
-                    }
-
-                    /*
-                     * Register with invitation roles
-                     */
-
-                    newUser =
-                            userManager
-                                    .registerInvitedUser(
-                                            username,
-                                            password,
-                                            invitation.getRoles()
-                                    );
-
-                    /*
-                     * Only mark invitation used
-                     * after account creation succeeds.
-                     */
-
-                    if (newUser != null) {
-
-                        invitationManager
-                                .useInvitation(
-                                        invitationCode
-                                );
-                    }
-
+                    return;
                 }
 
                 /*
-                 * NORMAL REGISTRATION
+                 * Invalid / expired / used
                  */
 
-                else {
+                if (result.status
+                        == UserClient.RegisterStatus.INVALID_INVITATION) {
 
-                    newUser =
-                            userManager
-                                    .registerUser(
-                                            username,
-                                            password
-                                    );
+                    JOptionPane.showMessageDialog(
+                            dialog,
+                            "The invitation code is invalid, "
+                            + "expired, or already used.",
+                            "Invalid Invitation",
+                            JOptionPane.ERROR_MESSAGE
+                    );
+
+                    return;
                 }
+
+                User newUser =
+                        result.user;
 
                 /*
                  * SUCCESS

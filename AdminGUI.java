@@ -10,6 +10,9 @@ public class AdminGUI {
     private User admin;
     private UserManager userManager;
 
+    // All user management (users, roles, invitations) goes through QuestionServer.
+    private UserClient userClient = new UserClient();
+
     private static final Color BLUE =
             new Color(23, 101, 209);
 
@@ -28,6 +31,8 @@ public class AdminGUI {
 
         this.admin = admin;
         this.userManager = userManager;
+
+        ServerErrorHandler.install();
 
         frame = new JFrame(
                 "Student Q&A - Admin Dashboard"
@@ -544,8 +549,11 @@ public class AdminGUI {
                             int reviewers = 0;
                             int admins = 0;
 
+                            // Server list once signed in; local file until then.
                             java.util.ArrayList<User> users =
-                                    userManager.getUsers();
+                                    UserClient.isSignedIn(admin.getUsername())
+                                    ? userClient.getUsers()
+                                    : userManager.getUsers();
 
                             for (User u : users) {
 
@@ -602,32 +610,34 @@ public class AdminGUI {
 
         viewUsersButton
                 .addActionListener(
-                        e -> viewUsers()
+                        e -> withServer(this::viewUsers)
                 );
 
         inviteUserButton
                 .addActionListener(
-                        e -> inviteUser()
+                        e -> withServer(this::inviteUser)
                 );
 
         assignRoleButton
                 .addActionListener(
-                        e -> assignRole()
+                        e -> withServer(this::assignRole)
                 );
 
         removeRoleButton
                 .addActionListener(
-                        e -> removeRole()
+                        e -> withServer(this::removeRole)
                 );
 
         removeUserButton
                 .addActionListener(
-                        e -> removeUser()
+                        e -> withServer(this::removeUser)
                 );
 
         logoutButton
                 .addActionListener(
                         e -> {
+
+                            UserClient.signOut();
 
                             frame.dispose();
 
@@ -1228,16 +1238,32 @@ public class AdminGUI {
                                 return;
                             }
 
-                            InvitationManager
-                                    invitationManager =
-                                    new InvitationManager();
+                            Invitation invitation;
 
-                            Invitation invitation =
-                                    invitationManager
-                                            .createInvitation(
-                                                    roles,
-                                                    deadline.getTime()
-                                            );
+                            try {
+
+                                invitation =
+                                        userClient
+                                                .createInvitation(
+                                                        roles,
+                                                        deadline.getTime()
+                                                );
+
+                            } catch (UserClient.NotAuthorizedException ex) {
+
+                                JOptionPane
+                                        .showMessageDialog(
+                                                inviteFrame,
+                                                "Your server session has ended "
+                                                + "(the server may have restarted).\n"
+                                                + "Close this window and click "
+                                                + "Invite User again.",
+                                                "Server Session Ended",
+                                                JOptionPane.WARNING_MESSAGE
+                                        );
+
+                                return;
+                            }
 
                             if (invitation == null) {
 
@@ -1425,13 +1451,127 @@ public class AdminGUI {
     }
 
     /*
+     * SERVER CONNECTION
+     *
+     * Runs an action that needs the server. Asks for the admin's
+     * password the first time (if the login screen couldn't sign in
+     * to the server already) and handles an expired session.
+     */
+
+    private void withServer(Runnable action) {
+
+        if (!connectToServer()) {
+            return;
+        }
+
+        try {
+
+            action.run();
+
+        } catch (UserClient.NotAuthorizedException e) {
+
+            JOptionPane.showMessageDialog(
+                    frame,
+                    "Your server session has ended "
+                    + "(the server may have restarted, or your "
+                    + "account is no longer an admin).\n"
+                    + "Please try again.",
+                    "Server Session Ended",
+                    JOptionPane.WARNING_MESSAGE
+            );
+        }
+    }
+
+    private boolean connectToServer() {
+
+        if (UserClient.isSignedIn(admin.getUsername())) {
+            return true;
+        }
+
+        JLabel errorLabel =
+                new JLabel(" ");
+
+        errorLabel.setForeground(
+                new Color(200, 40, 40)
+        );
+
+        // Checked by the server; keep asking until it's right or cancelled.
+        while (true) {
+
+            JPasswordField passwordField =
+                    new JPasswordField(20);
+
+            int choice =
+                    JOptionPane.showConfirmDialog(
+                            frame,
+                            new Object[] {
+                                    "Enter your password to connect "
+                                    + "to the server:",
+                                    passwordField,
+                                    errorLabel
+                            },
+                            "Connect to Server",
+                            JOptionPane.OK_CANCEL_OPTION,
+                            JOptionPane.PLAIN_MESSAGE
+                    );
+
+            if (choice != JOptionPane.OK_OPTION) {
+                return false;
+            }
+
+            String entered =
+                    new String(passwordField.getPassword());
+
+            if (entered.isEmpty()) {
+
+                errorLabel.setText(
+                        "Please enter your password."
+                );
+
+                continue;
+            }
+
+            UserClient.LoginResult result =
+                    userClient.login(
+                            admin.getUsername(),
+                            entered
+                    );
+
+            if (result.status
+                    == UserClient.LoginStatus.WRONG_PASSWORD) {
+
+                errorLabel.setText(
+                        "Incorrect password. Please try again."
+                );
+
+                continue;
+            }
+
+            if (UserClient.isSignedIn(admin.getUsername())) {
+                return true;
+            }
+
+            JOptionPane.showMessageDialog(
+                    frame,
+                    result.status == UserClient.LoginStatus.NO_SUCH_USER
+                    ? "This account no longer exists on the server."
+                    : "This account is no longer an admin on the server.",
+                    "Connect to Server",
+                    JOptionPane.ERROR_MESSAGE
+            );
+
+            return false;
+        }
+    }
+
+    /*
      * DISPLAY ALL USERS
      */
 
     private void viewUsers() {
 
         ArrayList<User> users =
-                userManager
+                userClient
                         .getUsers();
 
         StringBuilder message =
@@ -1499,7 +1639,8 @@ public class AdminGUI {
 
         String username =
                 selectUser(
-                        "Assign Role"
+                        "Assign Role",
+                        userClient.getUsers()
                 );
 
         if (username == null) {
@@ -1525,11 +1666,14 @@ public class AdminGUI {
         }
 
         boolean success =
-                userManager
+                userClient
                         .addRoleToUser(
                                 username,
                                 role
                         );
+
+        // Refresh this app's user list from the server.
+        userManager.reloadFromServer(userClient);
 
         JOptionPane
                 .showMessageDialog(
@@ -1546,9 +1690,14 @@ public class AdminGUI {
 
     private void removeRole() {
 
+        ArrayList<User> serverUsers =
+                userClient
+                        .getUsers();
+
         String username =
                 selectUser(
-                        "Remove Role"
+                        "Remove Role",
+                        serverUsers
                 );
 
         if (username == null) {
@@ -1559,8 +1708,7 @@ public class AdminGUI {
                 null;
 
         for (User user :
-                userManager
-                        .getUsers()) {
+                serverUsers) {
 
             if (user.getUsername()
                     .equals(
@@ -1632,12 +1780,14 @@ public class AdminGUI {
         }
 
         boolean success =
-                userManager
+                userClient
                         .removeRoleFromUser(
-                                admin,
                                 username,
                                 role
                         );
+
+        // Refresh this app's user list from the server.
+        userManager.reloadFromServer(userClient);
 
         JOptionPane
                 .showMessageDialog(
@@ -1659,7 +1809,8 @@ public class AdminGUI {
 
         String username =
                 selectUser(
-                        "Remove User"
+                        "Remove User",
+                        userClient.getUsers()
                 );
 
         if (username == null) {
@@ -1686,11 +1837,13 @@ public class AdminGUI {
         }
 
         boolean success =
-                userManager
+                userClient
                         .removeUser(
-                                admin,
                                 username
                         );
+
+        // Refresh this app's user list from the server.
+        userManager.reloadFromServer(userClient);
 
         JOptionPane
                 .showMessageDialog(
@@ -1709,11 +1862,8 @@ public class AdminGUI {
      */
 
     private String selectUser(
-            String title) {
-
-        ArrayList<User> users =
-                userManager
-                        .getUsers();
+            String title,
+            ArrayList<User> users) {
 
         if (users.isEmpty()) {
 
